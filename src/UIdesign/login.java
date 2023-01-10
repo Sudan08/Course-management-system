@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.BoxLayout;
 import javax.swing.SpringLayout;
@@ -21,9 +22,13 @@ import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
+import java.awt.TextField;
 
 public class login {
-
+	
+	private String userName;
+	private String password;
+	
 	private JFrame frame;
 	private JPasswordField passwordField;
 	private JTextField textField;
@@ -43,6 +48,16 @@ public class login {
 			}
 		});
 	}
+	
+
+	public static String toString(char[] a)
+    {
+        // Creating object of String class
+        String string = new String(a);
+ 
+        return string;
+    }
+
 
 	/**
 	 * Create the application.
@@ -107,14 +122,20 @@ public class login {
 		btnNewButton.setBackground(SystemColor.desktop);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			}
+				String userName = (String) textField.getText();
+				if (userName.equals("Sudan")) {
+					
+				}
+		}
 		});
+		
 		btnNewButton.setBounds(481, 382, 130, 44);
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Register");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				password = (String) e.getSource();
 			}
 		});
 		btnNewButton_1.setForeground(SystemColor.desktop);
