@@ -23,6 +23,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import java.awt.TextField;
+import javax.swing.ImageIcon;
+import javax.swing.JList;
+import javax.swing.JComboBox;
 
 public class login {
 	
@@ -78,13 +81,14 @@ public class login {
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(0, 0, 0));
+		panel.setBackground(new Color(255, 255, 255));
 		panel.setBounds(0, 0, 427, 472);
 		frame.getContentPane().add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel lblNewLabel_2 = new JLabel("New label");
-		panel.add(lblNewLabel_2);
+		JLabel Image = new JLabel("New label");
+		Image.setIcon(new ImageIcon("C:\\Users\\sudan\\eclipse-workspace\\CourseManagementSystem\\src\\image\\2.jpg"));
+		panel.add(Image);
 		
 		JLabel lblNewLabel = new JLabel("Welcome to CMS");
 		lblNewLabel.setFont(new Font("Perpetua", Font.PLAIN, 34));
@@ -104,8 +108,14 @@ public class login {
 		JLabel lblLogin = new JLabel("Log in!");
 		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogin.setFont(new Font("Perpetua", Font.PLAIN, 28));
-		lblLogin.setBounds(481, 90, 319, 89);
+		lblLogin.setBounds(481, 64, 319, 51);
 		frame.getContentPane().add(lblLogin);
+		
+		
+		String role[] = {"Student","Teacher","Admin"};
+		JComboBox comboBox = new JComboBox(role);
+		comboBox.setBounds(577, 125, 130, 21);
+		frame.getContentPane().add(comboBox);
 		
 		JLabel lblNewLabel_1 = new JLabel("Username or Email :");
 		lblNewLabel_1.setFont(new Font("Perpetua", Font.PLAIN, 16));
@@ -142,5 +152,7 @@ public class login {
 		btnNewButton_1.setBackground(SystemColor.text);
 		btnNewButton_1.setBounds(670, 382, 130, 44);
 		frame.getContentPane().add(btnNewButton_1);
+		
+	
 	}
 }
