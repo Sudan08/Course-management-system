@@ -22,6 +22,9 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 import java.awt.SystemColor;
+import javax.swing.UIManager;
+import javax.swing.JTable;
+import javax.swing.JMenuBar;
 
 public class Student extends JFrame {
 
@@ -47,27 +50,28 @@ public class Student extends JFrame {
 	 * Create the frame.
 	 */
 	public Student() {
+		setTitle("Student \r\n");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 889, 528);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		
-		JLabel lblNewLabel = new JLabel("Admin ");
-		lblNewLabel.setBounds(444, 0, 82, 35);
-		lblNewLabel.setFont(new Font("Perpetua", Font.PLAIN, 30));
-		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 250, 205));
 		panel.setBounds(0, 0, 150, 496);
 		
 		JButton btnNewButton = new JButton("Course");
+		btnNewButton.setBorder(UIManager.getBorder("ToolTip.border"));
 		btnNewButton.setForeground(Color.WHITE);
-		btnNewButton.setBackground(Color.BLACK);
+		btnNewButton.setBackground(SystemColor.controlShadow);
 		btnNewButton.setFont(new Font("Perpetua", Font.PLAIN, 20));
-		btnNewButton.setBounds(10, 36, 130, 100);
+		btnNewButton.setBounds(10, 89, 130, 47);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -75,32 +79,37 @@ public class Student extends JFrame {
 		panel.setLayout(null);
 		panel.add(btnNewButton);
 		contentPane.setLayout(null);
-		contentPane.add(lblNewLabel);
 		contentPane.add(panel);
 		
 		JButton btnTeacher = new JButton("Teacher");
 		btnTeacher.setForeground(Color.WHITE);
 		btnTeacher.setFont(new Font("Perpetua", Font.PLAIN, 20));
-		btnTeacher.setBackground(Color.BLACK);
-		btnTeacher.setBounds(10, 146, 130, 100);
+		btnTeacher.setBackground(SystemColor.controlShadow);
+		btnTeacher.setBounds(10, 179, 130, 47);
 		panel.add(btnTeacher);
 		
 		JButton btnNewButton_1_1 = new JButton("Student");
 		btnNewButton_1_1.setForeground(Color.WHITE);
 		btnNewButton_1_1.setFont(new Font("Perpetua", Font.PLAIN, 20));
-		btnNewButton_1_1.setBackground(Color.BLACK);
-		btnNewButton_1_1.setBounds(10, 256, 130, 100);
+		btnNewButton_1_1.setBackground(SystemColor.controlShadow);
+		btnNewButton_1_1.setBounds(10, 269, 130, 47);
 		panel.add(btnNewButton_1_1);
 		
 		JButton btnNewButton_1_2 = new JButton("Report");
 		btnNewButton_1_2.setForeground(Color.WHITE);
 		btnNewButton_1_2.setFont(new Font("Perpetua", Font.PLAIN, 20));
-		btnNewButton_1_2.setBackground(Color.BLACK);
-		btnNewButton_1_2.setBounds(10, 366, 130, 100);
+		btnNewButton_1_2.setBackground(SystemColor.controlShadow);
+		btnNewButton_1_2.setBounds(10, 366, 130, 47);
 		panel.add(btnNewButton_1_2);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(150, 37, 725, 459);
+		panel_1.setBounds(150, 0, 725, 496);
 		contentPane.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Student");
+		lblNewLabel.setBounds(325, 10, 96, 35);
+		panel_1.add(lblNewLabel);
+		lblNewLabel.setFont(new Font("Perpetua", Font.PLAIN, 30));
 	}
 }
