@@ -20,12 +20,16 @@ import javax.swing.BoxLayout;
 import javax.swing.SpringLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import java.awt.TextField;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class login {
 	
@@ -34,7 +38,8 @@ public class login {
 	
 	private JFrame frmLogin;
 	private JPasswordField passwordField;
-	private JTextField textField;
+	private JTextField UserTextField;
+	static String comboBoxValue ="";
 
 	/**
 	 * Launch the application.
@@ -101,10 +106,10 @@ public class login {
 		passwordField.setBounds(481, 309, 319, 44);
 		frmLogin.getContentPane().add(passwordField);
 		
-		textField = new JTextField();
-		textField.setBounds(481, 221, 319, 44);
-		frmLogin.getContentPane().add(textField);
-		textField.setColumns(10);
+		UserTextField = new JTextField();
+		UserTextField.setBounds(481, 221, 319, 44);
+		frmLogin.getContentPane().add(UserTextField);
+		UserTextField.setColumns(10);
 		
 		JLabel lblLogin = new JLabel("Log in!");
 		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
@@ -113,10 +118,18 @@ public class login {
 		frmLogin.getContentPane().add(lblLogin);
 		
 		
-		String role[] = {"Student","Teacher","Admin"};
-		JComboBox comboBox = new JComboBox(role);
-		comboBox.setBounds(577, 125, 130, 21);
-		frmLogin.getContentPane().add(comboBox);
+		JComboBox UserComboBox = new JComboBox();
+		UserComboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == 1) {
+					comboBoxValue=(String) e.getItem();
+				}
+				
+			}
+		});
+		UserComboBox.setModel(new DefaultComboBoxModel(new String[] {"Admin", "Student ", "Teacher"}));
+		UserComboBox.setBounds(577, 125, 130, 21);
+		frmLogin.getContentPane().add(UserComboBox);
 		
 		JLabel lblNewLabel_1 = new JLabel("Username or Email :");
 		lblNewLabel_1.setFont(new Font("Perpetua", Font.PLAIN, 16));
@@ -133,9 +146,16 @@ public class login {
 		btnNewButton.setBackground(SystemColor.desktop);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String userName = (String) textField.getText();
-				if (userName.equals("Sudan")) {
-					
+				System.out.println(comboBoxValue);
+				System.out.println(UserTextField.getText());
+				System.out.println(passwordField.getPassword());
+				if (UserTextField.getText().equals("admin") && Arrays.equals(passwordField.getPassword(), new char[] {'a','d','m','i','n'}) && comboBoxValue.equals("Admin")) {
+					System.out.println(comboBoxValue);
+					System.out.println("Logged in");
+					AdminDashboard window = new AdminDashboard(); 
+//					window.getFrmAdminDashboard.setVisible(true);
+				}else {
+					System.out.println("lord");
 				}
 		}
 		});

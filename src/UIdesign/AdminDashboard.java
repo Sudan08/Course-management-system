@@ -17,10 +17,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import java.awt.CardLayout;
 
-public class AdminDashboard {
+public class AdminDashboard{
 
 	private JFrame frmAdminPanel;
+	private CardLayout cl_cardPanel= new CardLayout(0,0);
+	private JPanel cardPanel;
 
 	/**
 	 * Launch the application.
@@ -81,6 +84,7 @@ public class AdminDashboard {
 		btnNewButton_2.setBackground(new Color(191, 180, 143));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				cl_cardPanel.show(cardPanel,"name_219288303900400");
 			}
 		});
 		
@@ -172,7 +176,7 @@ public class AdminDashboard {
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap(64, Short.MAX_VALUE)
+					.addContainerGap(64, Short.MAX_VALUE) 
 					.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
@@ -233,8 +237,51 @@ public class AdminDashboard {
 		);
 		panel_2.setLayout(gl_panel_2);
 		splitPane_2.setDividerLocation(425);
+		
+		cardPanel = new JPanel();
+		splitPane_1.setRightComponent(cardPanel);
+		cardPanel.setLayout(cl_cardPanel);
+		
+		JPanel dashboard = new JPanel();
+		cardPanel.add(dashboard, "name_219236766039800");
+		
+		JLabel lblNewLabel_6 = new JLabel("Dashboard");
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		
+		JButton btnNewButton_4 = new JButton("New button");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Form form = new Form();
+				form.setVisible(true);
+			}
+		});
+		GroupLayout gl_dashboard = new GroupLayout(dashboard);
+		gl_dashboard.setHorizontalGroup(
+			gl_dashboard.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_dashboard.createSequentialGroup()
+					.addGap(380)
+					.addComponent(lblNewLabel_6))
+				.addGroup(Alignment.TRAILING, gl_dashboard.createSequentialGroup()
+					.addContainerGap(421, Short.MAX_VALUE)
+					.addComponent(btnNewButton_4)
+					.addGap(371))
+		);
+		gl_dashboard.setVerticalGroup(
+			gl_dashboard.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_dashboard.createSequentialGroup()
+					.addGap(5)
+					.addComponent(lblNewLabel_6)
+					.addGap(153)
+					.addComponent(btnNewButton_4)
+					.addContainerGap(164, Short.MAX_VALUE))
+		);
+		dashboard.setLayout(gl_dashboard);
+		
+		JPanel teacher = new JPanel();
+		cardPanel.add(teacher, "name_219288303900400");
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
 		frmAdminPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmAdminPanel.setVisible(true);
 	}
 }
