@@ -30,6 +30,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import javax.swing.border.BevelBorder;
 
 public class login {
 	
@@ -107,6 +108,7 @@ public class login {
 		frmLogin.getContentPane().add(passwordField);
 		
 		UserTextField = new JTextField();
+		UserTextField.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 0), new Color(255, 255, 255)));
 		UserTextField.setBounds(481, 221, 319, 44);
 		frmLogin.getContentPane().add(UserTextField);
 		UserTextField.setColumns(10);
@@ -119,6 +121,7 @@ public class login {
 		
 		
 		JComboBox UserComboBox = new JComboBox();
+		UserComboBox.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, new Color(255, 255, 255), new Color(255, 255, 255)));
 		UserComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == 1) {
@@ -128,7 +131,7 @@ public class login {
 			}
 		});
 		UserComboBox.setModel(new DefaultComboBoxModel(new String[] {"Admin", "Student ", "Teacher"}));
-		UserComboBox.setBounds(577, 125, 130, 21);
+		UserComboBox.setBounds(481, 125, 319, 21);
 		frmLogin.getContentPane().add(UserComboBox);
 		
 		JLabel lblNewLabel_1 = new JLabel("Username or Email :");
