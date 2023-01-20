@@ -31,6 +31,10 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.Dimension;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class login {
 	
@@ -41,6 +45,7 @@ public class login {
 	private JPasswordField passwordField;
 	private JTextField UserTextField;
 	static String comboBoxValue ="";
+	private JLabel lblNewLabel_2;
 
 	/**
 	 * Launch the application.
@@ -80,6 +85,7 @@ public class login {
 	 */
 	private void initialize() {
 		frmLogin = new JFrame();
+		frmLogin.getContentPane().setBounds(new Rectangle(500, 500, 500, 500));
 		frmLogin.setTitle("Login");
 		frmLogin.getContentPane().setBackground(new Color(255, 255, 255));
 		frmLogin.getContentPane().setForeground(new Color(255, 255, 255));
@@ -91,11 +97,25 @@ public class login {
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBounds(0, 0, 427, 472);
 		frmLogin.getContentPane().add(panel);
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel Image = new JLabel("New label");
-		Image.setIcon(new ImageIcon("C:\\Users\\sudan\\eclipse-workspace\\CourseManagementSystem\\src\\image\\2.jpg"));
-		panel.add(Image);
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\sudan\\eclipse-workspace\\CourseManagementSystem\\src\\image\\Teacher-rafiki.png"));
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addContainerGap(17, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_3)
+					.addContainerGap())
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(33)
+					.addComponent(lblNewLabel_3)
+					.addContainerGap(39, Short.MAX_VALUE))
+		);
+		panel.setLayout(gl_panel);
 		
 		JLabel lblNewLabel = new JLabel("Welcome to CMS");
 		lblNewLabel.setFont(new Font("Perpetua", Font.PLAIN, 34));
@@ -104,11 +124,12 @@ public class login {
 		frmLogin.getContentPane().add(lblNewLabel);
 		
 		passwordField = new JPasswordField();
+		passwordField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		passwordField.setBounds(481, 309, 319, 44);
 		frmLogin.getContentPane().add(passwordField);
 		
 		UserTextField = new JTextField();
-		UserTextField.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 0), new Color(255, 255, 255)));
+		UserTextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		UserTextField.setBounds(481, 221, 319, 44);
 		frmLogin.getContentPane().add(UserTextField);
 		UserTextField.setColumns(10);
@@ -116,12 +137,13 @@ public class login {
 		JLabel lblLogin = new JLabel("Log in!");
 		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogin.setFont(new Font("Perpetua", Font.PLAIN, 28));
-		lblLogin.setBounds(481, 64, 319, 51);
+		lblLogin.setBounds(481, 51, 319, 51);
 		frmLogin.getContentPane().add(lblLogin);
 		
 		
 		JComboBox UserComboBox = new JComboBox();
-		UserComboBox.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, new Color(255, 255, 255), new Color(255, 255, 255)));
+		UserComboBox.setFont(new Font("Perpetua", Font.PLAIN, 20));
+		UserComboBox.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		UserComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == 1) {
@@ -130,18 +152,18 @@ public class login {
 				
 			}
 		});
-		UserComboBox.setModel(new DefaultComboBoxModel(new String[] {"Admin", "Student ", "Teacher"}));
-		UserComboBox.setBounds(481, 125, 319, 21);
+		UserComboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Admin", "Student ", "Teacher"}));
+		UserComboBox.setBounds(481, 140, 319, 37);
 		frmLogin.getContentPane().add(UserComboBox);
 		
 		JLabel lblNewLabel_1 = new JLabel("Username or Email :");
 		lblNewLabel_1.setFont(new Font("Perpetua", Font.PLAIN, 16));
-		lblNewLabel_1.setBounds(481, 189, 149, 22);
+		lblNewLabel_1.setBounds(481, 198, 149, 22);
 		frmLogin.getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Password:");
 		lblNewLabel_1_1.setFont(new Font("Perpetua", Font.PLAIN, 16));
-		lblNewLabel_1_1.setBounds(481, 275, 149, 22);
+		lblNewLabel_1_1.setBounds(481, 293, 149, 22);
 		frmLogin.getContentPane().add(lblNewLabel_1_1);
 		
 		JButton btnNewButton = new JButton("Sign In");
@@ -152,13 +174,23 @@ public class login {
 				System.out.println(comboBoxValue);
 				System.out.println(UserTextField.getText());
 				System.out.println(passwordField.getPassword());
+				if(comboBoxValue.isEmpty()) {
+					lblNewLabel_2.setVisible(true);
+					return;
+				}
+				if(UserTextField.getText().isEmpty()) {
+					
+					return;
+					
+				}
+				if(passwordField.getPassword().length == 0){
+					
+					return;
+				}
 				if (UserTextField.getText().equals("admin") && Arrays.equals(passwordField.getPassword(), new char[] {'a','d','m','i','n'}) && comboBoxValue.equals("Admin")) {
 					System.out.println(comboBoxValue);
-					System.out.println("Logged in");
 					AdminDashboard window = new AdminDashboard(); 
-//					window.getFrmAdminDashboard.setVisible(true);
 				}else {
-					System.out.println("lord");
 				}
 		}
 		});
@@ -176,6 +208,18 @@ public class login {
 		btnNewButton_1.setBackground(SystemColor.text);
 		btnNewButton_1.setBounds(670, 382, 130, 44);
 		frmLogin.getContentPane().add(btnNewButton_1);
+		
+		lblNewLabel_2 = new JLabel("Must select a user");
+		lblNewLabel_2.setVisible(false);
+		lblNewLabel_2.setForeground(Color.RED);
+		lblNewLabel_2.setFont(new Font("Perpetua", Font.PLAIN, 16));
+		lblNewLabel_2.setBounds(481, 177, 160, 22);
+		frmLogin.getContentPane().add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_1_2 = new JLabel("Select User:");
+		lblNewLabel_1_2.setFont(new Font("Perpetua", Font.PLAIN, 16));
+		lblNewLabel_1_2.setBounds(481, 112, 149, 22);
+		frmLogin.getContentPane().add(lblNewLabel_1_2);
 		
 	
 	}
