@@ -36,7 +36,7 @@ import java.awt.Dimension;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
-public class login {
+public class Login {
 	
 	private String userName;
 	private String password;
@@ -46,6 +46,8 @@ public class login {
 	private JTextField UserTextField;
 	static String comboBoxValue ="";
 	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_4;
+	private JLabel lblNewLabel_4_1;
 
 	/**
 	 * Launch the application.
@@ -54,7 +56,7 @@ public class login {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					login window = new login();
+					Login window = new Login();
 					window.frmLogin.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -76,7 +78,7 @@ public class login {
 	/**
 	 * Create the application.
 	 */
-	public login() {
+	public Login() {
 		initialize();
 	}
 
@@ -177,20 +179,27 @@ public class login {
 				if(comboBoxValue.isEmpty()) {
 					lblNewLabel_2.setVisible(true);
 					return;
+				}else {
+					lblNewLabel_2.setVisible(false);
 				}
 				if(UserTextField.getText().isEmpty()) {
-					
-					return;
-					
+					lblNewLabel_4.setVisible(true);
+					return;	
+				}else {
+					lblNewLabel_4.setVisible(false);
 				}
 				if(passwordField.getPassword().length == 0){
-					
+					lblNewLabel_4_1.setVisible(true);
 					return;
+				}else {
+					lblNewLabel_4_1.setVisible(false);
 				}
 				if (UserTextField.getText().equals("admin") && Arrays.equals(passwordField.getPassword(), new char[] {'a','d','m','i','n'}) && comboBoxValue.equals("Admin")) {
-					System.out.println(comboBoxValue);
-					AdminDashboard window = new AdminDashboard(); 
+					AdminDashboard window = new AdminDashboard();
+					frmLogin.dispose();
 				}else {
+					LoginError error = new LoginError();
+					error.setVisible(true);
 				}
 		}
 		});
@@ -220,6 +229,21 @@ public class login {
 		lblNewLabel_1_2.setFont(new Font("Perpetua", Font.PLAIN, 16));
 		lblNewLabel_1_2.setBounds(481, 112, 149, 22);
 		frmLogin.getContentPane().add(lblNewLabel_1_2);
+		
+		lblNewLabel_4 = new JLabel("Invalid Username");
+		lblNewLabel_4.setVisible(false);
+		lblNewLabel_4.setFont(new Font("Perpetua", Font.PLAIN, 16));
+		lblNewLabel_4.setForeground(new Color(255, 0, 0));
+		lblNewLabel_4.setBounds(481, 275, 110, 13);
+		frmLogin.getContentPane().add(lblNewLabel_4);
+		
+		lblNewLabel_4_1 = new JLabel("Invalid Password");
+		lblNewLabel_4_1.setVisible(false);
+		lblNewLabel_4_1.setForeground(Color.RED);
+		lblNewLabel_4_1.setFont(new Font("Perpetua", Font.PLAIN, 16));
+		lblNewLabel_4_1.setBounds(481, 359, 110, 13);
+		frmLogin.getContentPane().add(lblNewLabel_4_1);
+		frmLogin.setVisible(true);
 		
 	
 	}
