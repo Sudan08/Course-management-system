@@ -154,7 +154,7 @@ public class Login {
 				
 			}
 		});
-		UserComboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Admin", "Student ", "Teacher"}));
+		UserComboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Admin", "Student", "Teacher"}));
 		UserComboBox.setBounds(481, 140, 319, 37);
 		frmLogin.getContentPane().add(UserComboBox);
 		
@@ -173,9 +173,6 @@ public class Login {
 		btnNewButton.setBackground(SystemColor.desktop);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(comboBoxValue);
-				System.out.println(UserTextField.getText());
-				System.out.println(passwordField.getPassword());
 				if(comboBoxValue.isEmpty()) {
 					lblNewLabel_2.setVisible(true);
 					return;
@@ -194,13 +191,34 @@ public class Login {
 				}else {
 					lblNewLabel_4_1.setVisible(false);
 				}
-				if (UserTextField.getText().equals("admin") && Arrays.equals(passwordField.getPassword(), new char[] {'a','d','m','i','n'}) && comboBoxValue.equals("Admin")) {
+				if(comboBoxValue.equals("Admin")) {
+					if (UserTextField.getText().equals("admin") && Arrays.equals(passwordField.getPassword(), new char[] {'a','d','m','i','n'})) {
 					AdminDashboard window = new AdminDashboard();
 					frmLogin.dispose();
-				}else {
-					LoginError error = new LoginError();
-					error.setVisible(true);
+					}else {
+						LoginError error = new LoginError();
+						error.setVisible(true);
+					}
+				} else if (comboBoxValue.equals("Student")) {
+					if (UserTextField.getText().equals("std") && Arrays.equals(passwordField.getPassword(), new char[] {'s','t','d'})) {
+						System.out.println("hello");
+						Student window = new Student();
+						window.setVisible(true);
+						frmLogin.dispose();
+						}else {
+							LoginError error = new LoginError();
+							error.setVisible(true);
+						}
+				} else if (comboBoxValue.equals("Teacher")) {
+					if (UserTextField.getText().equals("tea") && Arrays.equals(passwordField.getPassword(), new char[] {'t','e','a'})) {
+						Teacher window = new Teacher();
+						frmLogin.dispose();
+						}else {
+							LoginError error = new LoginError();
+							error.setVisible(true);
+						}
 				}
+				
 		}
 		});
 		

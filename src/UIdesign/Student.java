@@ -42,6 +42,7 @@ public class Student extends JFrame {
 			public void run() {
 				try {
 					
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -82,6 +83,7 @@ public class Student extends JFrame {
 		splitPane_1.setLeftComponent(panel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("New Announcement : AI report submission deadline tommrow");
+		lblNewLabel_2.setForeground(new Color(0, 128, 0));
 		lblNewLabel_2.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
