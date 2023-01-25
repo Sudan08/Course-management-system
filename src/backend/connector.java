@@ -2,28 +2,33 @@ package backend;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class connector {
 
-	public connector() {
+	private static final Connection connection = getConnection();
+
+	private static Connection getConnection() {
 		try {
-			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/cms","root","");
-			Statement statement = connection.createStatement();
-			String sqlSelectQuery = "SELECT * FROM `landlord`"; 
-			ResultSet select = statement.executeQuery(sqlSelectQuery);
-			select.next();
-			System.out.println(select.getString("Name"));
+			return DriverManager.getConnection("jdbc:mysql://localhost:3307/cms", "root", "");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return connection;
 	}
-	
-	public static void main(String[] args) {
-		new connector();
+
+	public static Statement getStatement() {
+		try {
+			return connection.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 }

@@ -201,7 +201,6 @@ public class Login {
 					}
 				} else if (comboBoxValue.equals("Student")) {
 					if (UserTextField.getText().equals("std") && Arrays.equals(passwordField.getPassword(), new char[] {'s','t','d'})) {
-						System.out.println("hello");
 						Student window = new Student();
 						window.setVisible(true);
 						frmLogin.dispose();
