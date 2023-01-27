@@ -24,6 +24,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.math.BigInteger;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Enumeration;
@@ -35,6 +36,7 @@ import javax.swing.JSlider;
 import javax.swing.ButtonGroup;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.awt.Color;
 
 public class Register extends JFrame {
 
@@ -60,6 +62,7 @@ public class Register extends JFrame {
 	private String Address;
 	private String Level;
 	private String Semester;
+	private int Id;
 	private JDateChooser dateChooser;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
@@ -122,22 +125,19 @@ public class Register extends JFrame {
 		JPanel imagePanel = new JPanel();
 		splitPane.setLeftComponent(imagePanel);
 		
-		JLabel image = new JLabel("");
-		image.setIcon(new ImageIcon("C:\\Users\\sudan\\eclipse-workspace\\CourseManagementSystem\\src\\image\\Hidden person-pana.png"));
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon(Register.class.getResource("/image/Hidden person-pana.png")));
 		GroupLayout gl_imagePanel = new GroupLayout(imagePanel);
 		gl_imagePanel.setHorizontalGroup(
 			gl_imagePanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_imagePanel.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(image)
-					.addContainerGap())
+				.addComponent(lblNewLabel_3, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 449, Short.MAX_VALUE)
 		);
 		gl_imagePanel.setVerticalGroup(
 			gl_imagePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_imagePanel.createSequentialGroup()
-					.addGap(122)
-					.addComponent(image)
-					.addContainerGap(140, Short.MAX_VALUE))
+					.addContainerGap()
+					.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 690, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(12, Short.MAX_VALUE))
 		);
 		imagePanel.setLayout(gl_imagePanel);
 		
@@ -193,69 +193,83 @@ public class Register extends JFrame {
 			}
 		});
 		btnNewButton.setFont(new Font("Perpetua", Font.PLAIN, 25));
+		
+		JLabel lblNewLabel_2 = new JLabel("New label");
+		lblNewLabel_2.setForeground(new Color(255, 0, 0));
 		GroupLayout gl_first = new GroupLayout(first);
 		gl_first.setHorizontalGroup(
 			gl_first.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_first.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_first.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_first.createSequentialGroup()
-							.addGroup(gl_first.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_first.createSequentialGroup()
-									.addGroup(gl_first.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblDob, GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
-										.addComponent(lblName_1_1, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE)
-										.addComponent(AddresstextField, GroupLayout.PREFERRED_SIZE, 375, GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_first.createParallelGroup(Alignment.TRAILING, false)
-											.addComponent(dateChooser, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(PhoneNotextField_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE))
-										.addGroup(gl_first.createParallelGroup(Alignment.TRAILING, false)
-											.addComponent(lblName, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(NametextField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)))
-									.addPreferredGap(ComponentPlacement.RELATED))
-								.addGroup(gl_first.createSequentialGroup()
-									.addGroup(gl_first.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblName_1_2, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
-										.addComponent(EmailtextField, GroupLayout.PREFERRED_SIZE, 375, GroupLayout.PREFERRED_SIZE))
-									.addGap(141)))
-							.addGap(27)
-							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
-							.addGap(41))
-						.addGroup(Alignment.TRAILING, gl_first.createSequentialGroup()
-							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 385, GroupLayout.PREFERRED_SIZE)
-							.addGap(213))
 						.addGroup(gl_first.createSequentialGroup()
-							.addComponent(lblName_1_2_1, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(738, Short.MAX_VALUE))))
+							.addComponent(AddresstextField, GroupLayout.PREFERRED_SIZE, 375, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())
+						.addGroup(gl_first.createParallelGroup(Alignment.LEADING)
+							.addGroup(Alignment.TRAILING, gl_first.createSequentialGroup()
+								.addComponent(lblName_1_2_1, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, 458, Short.MAX_VALUE)
+								.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
+								.addGap(41))
+							.addGroup(Alignment.TRAILING, gl_first.createSequentialGroup()
+								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 530, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap())
+							.addGroup(gl_first.createSequentialGroup()
+								.addComponent(lblDob, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+								.addGap(472))
+							.addGroup(gl_first.createSequentialGroup()
+								.addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+								.addGap(472))
+							.addGroup(gl_first.createSequentialGroup()
+								.addComponent(lblName_1_1, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(648, Short.MAX_VALUE))
+							.addGroup(gl_first.createSequentialGroup()
+								.addComponent(PhoneNotextField_2, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+								.addGap(472))
+							.addGroup(gl_first.createSequentialGroup()
+								.addComponent(lblName_1_2, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(663, Short.MAX_VALUE))
+							.addGroup(gl_first.createSequentialGroup()
+								.addComponent(EmailtextField, GroupLayout.PREFERRED_SIZE, 375, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(472, Short.MAX_VALUE))
+							.addGroup(gl_first.createSequentialGroup()
+								.addComponent(lblName)
+								.addContainerGap(766, Short.MAX_VALUE))
+							.addGroup(gl_first.createSequentialGroup()
+								.addGroup(gl_first.createParallelGroup(Alignment.TRAILING, false)
+									.addComponent(lblNewLabel_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(NametextField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE))
+								.addContainerGap(468, Short.MAX_VALUE)))))
 		);
 		gl_first.setVerticalGroup(
 			gl_first.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_first.createSequentialGroup()
-					.addGap(33)
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(32)
 					.addComponent(lblName, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(NametextField, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblNewLabel_2)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblDob, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblName_1_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-					.addGap(8)
-					.addComponent(PhoneNotextField_2, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblName_1_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(PhoneNotextField_2, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addGap(24)
 					.addComponent(lblName_1_2, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-					.addGap(4)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(EmailtextField, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addGap(22)
+					.addGroup(gl_first.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnNewButton)
+						.addComponent(lblName_1_2_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addComponent(lblName_1_2_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-					.addGap(20)
-					.addGroup(gl_first.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(AddresstextField, GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
-					.addContainerGap(67, Short.MAX_VALUE))
+					.addComponent(AddresstextField, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+					.addGap(41))
 		);
 		first.setLayout(gl_first);
 		
@@ -291,6 +305,7 @@ public class Register extends JFrame {
 		
 		JButton btnNewButton_1 = new JButton("Submit");
 		btnNewButton_1.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				UniID = uniIDtextField.getText().trim();
 				UserName = userNametextField.getText().trim();
@@ -305,7 +320,38 @@ public class Register extends JFrame {
 					if (insertSuccess == 1) {
 						System.out.println("Success");
 					}else {
-						System.out.println("Failure just like me");
+						System.out.println("Failure");
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				String getStudentID = "SELECT `StudentID` FROM `student` ORDER BY StudentID DESC LIMIT 1;";
+				
+				try {
+					ResultSet resultSet = statement.executeQuery(getStudentID);
+					while (resultSet.next()) {
+						Id = resultSet.getInt("StudentID");
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+				
+				String insertQuery2 = "INSERT INTO `studentdetails`(`StudentID`, `Name`, `Phonenumber`, `Emailaddress`, `DOB`, `Address`, `Gender`, `Level`, `Semester`) "
+						+ "VALUES ('"+ Id +"','"+Name+"','"+PhoneNumber+"','"+EmailAddress+"','"+DOB+"','"+Address+"','"+Gender+"','"+Level+"','"+Semester+"')";
+				
+				
+				try {
+					int insertSuccess = statement.executeUpdate(insertQuery2);
+					if(insertSuccess == 1) {
+						System.out.println("Success");
+					}else {
+						System.out.println("Failure");
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block

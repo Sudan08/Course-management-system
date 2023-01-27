@@ -79,7 +79,7 @@ public class AdminDashboard{
 		
 		JButton btnNewButton = new JButton("Home");
 		btnNewButton.setIconTextGap(35);
-		btnNewButton.setIcon(new ImageIcon("C:\\Users\\sudan\\Downloads\\home.png"));
+		btnNewButton.setIcon(new ImageIcon(AdminDashboard.class.getResource("/image/home.png")));
 		btnNewButton.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -93,7 +93,7 @@ public class AdminDashboard{
 		
 		JButton btnNewButton_1 = new JButton("Course");
 		btnNewButton_1.setIconTextGap(35);
-		btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\sudan\\Downloads\\online-learning.png"));
+		btnNewButton_1.setIcon(new ImageIcon(AdminDashboard.class.getResource("/image/online-learning.png")));
 		btnNewButton_1.setForeground(new Color(86, 78, 88));
 		btnNewButton_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		btnNewButton_1.setBackground(new Color(191, 180, 143));
@@ -142,32 +142,30 @@ public class AdminDashboard{
 			}
 		});
 		btnNewButton_1_1.setIconTextGap(35);
-		btnNewButton_1_1.setIcon(new ImageIcon("C:\\Users\\sudan\\Downloads\\training.png"));
+		btnNewButton_1_1.setIcon(new ImageIcon(AdminDashboard.class.getResource("/image/training.png")));
 		btnNewButton_1_1.setForeground(new Color(86, 78, 88));
 		btnNewButton_1_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		btnNewButton_1_1.setBackground(new Color(191, 180, 143));
+		
+		JButton btnNewButton_1_1_1 = new JButton("Student");
+		btnNewButton_1_1_1.setIcon(new ImageIcon("C:\\Users\\sudan\\Downloads\\reading.png"));
+		btnNewButton_1_1_1.setIconTextGap(35);
+		btnNewButton_1_1_1.setForeground(new Color(86, 78, 88));
+		btnNewButton_1_1_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
+		btnNewButton_1_1_1.setBackground(new Color(191, 180, 143));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(btnNewButton_3, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(btnNewButton_2, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(btnNewButton_3, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+						.addComponent(btnNewButton_2, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+						.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+						.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap(39, Short.MAX_VALUE)
 					.addComponent(lblDashboard)
 					.addGap(36))
@@ -179,6 +177,10 @@ public class AdminDashboard{
 					.addGap(76)
 					.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(78, Short.MAX_VALUE))
+				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnNewButton_1_1_1, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
@@ -194,7 +196,9 @@ public class AdminDashboard{
 					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnNewButton_1_1_1, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
 					.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
@@ -452,6 +456,12 @@ public class AdminDashboard{
 		JScrollPane scrollPane_2 = new JScrollPane();
 		
 		JButton btnAddTeachers = new JButton("Add teacher");
+		btnAddTeachers.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Addteacher window = new Addteacher();
+				window.setVisible(true);
+			}
+		});
 		btnAddTeachers.setIcon(new ImageIcon("C:\\Users\\sudan\\Downloads\\add-user.png"));
 		btnAddTeachers.setIconTextGap(15);
 		btnAddTeachers.setForeground(new Color(0, 0, 0));

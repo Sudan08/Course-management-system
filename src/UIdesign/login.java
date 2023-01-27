@@ -29,9 +29,15 @@ import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ItemListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.awt.event.ItemEvent;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
+
+import backend.connector;
+
 import java.awt.Dimension;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -42,12 +48,12 @@ public class Login {
 	private String password;
 	
 	private JFrame frmLogin;
-	private JPasswordField passwordField;
-	private JTextField UserTextField;
+	private static JPasswordField passwordField;
+	private static JTextField UserTextField;
 	static String comboBoxValue ="";
-	private JLabel lblNewLabel_2;
-	private JLabel lblNewLabel_4;
-	private JLabel lblNewLabel_4_1;
+	private static JLabel lblNewLabel_2;
+	private static JLabel lblNewLabel_4;
+	private static JLabel lblNewLabel_4_1;
 
 	/**
 	 * Launch the application.
@@ -73,6 +79,27 @@ public class Login {
  
         return string;
     }
+	
+	public static void validate(JLabel lblNewLabel_22, JLabel lblNewLabel_42, JLabel lblNewLabel_4_12) {
+		if(comboBoxValue.isEmpty()) {
+			lblNewLabel_2.setVisible(true);
+			return;
+		}else {
+			lblNewLabel_2.setVisible(false);
+		}
+		if(UserTextField.getText().isEmpty()) {
+			lblNewLabel_4.setVisible(true);
+			return;	
+		}else {
+			lblNewLabel_4.setVisible(false);
+		}
+		if(passwordField.getPassword().length == 0){
+			lblNewLabel_4_1.setVisible(true);
+			return;
+		}else {
+			lblNewLabel_4_1.setVisible(false);
+		}
+	}
 
 
 	/**
@@ -144,8 +171,9 @@ public class Login {
 		
 		
 		JComboBox UserComboBox = new JComboBox();
+		UserComboBox.setBackground(new Color(255, 255, 255));
 		UserComboBox.setFont(new Font("Perpetua", Font.PLAIN, 20));
-		UserComboBox.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		UserComboBox.setBorder(null);
 		UserComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == 1) {
@@ -154,7 +182,7 @@ public class Login {
 				
 			}
 		});
-		UserComboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Admin", "Student", "Teacher"}));
+		UserComboBox.setModel(new DefaultComboBoxModel(new String[] {"Select A User", "Admin", "Student", "Teacher"}));
 		UserComboBox.setBounds(481, 140, 319, 37);
 		frmLogin.getContentPane().add(UserComboBox);
 		
@@ -173,40 +201,64 @@ public class Login {
 		btnNewButton.setBackground(SystemColor.desktop);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(comboBoxValue.isEmpty()) {
-					lblNewLabel_2.setVisible(true);
-					return;
-				}else {
-					lblNewLabel_2.setVisible(false);
-				}
-				if(UserTextField.getText().isEmpty()) {
-					lblNewLabel_4.setVisible(true);
-					return;	
-				}else {
-					lblNewLabel_4.setVisible(false);
-				}
-				if(passwordField.getPassword().length == 0){
-					lblNewLabel_4_1.setVisible(true);
-					return;
-				}else {
-					lblNewLabel_4_1.setVisible(false);
-				}
+				
+				
+				validate(lblNewLabel_2,lblNewLabel_4,lblNewLabel_4_1);
+ 
 				if(comboBoxValue.equals("Admin")) {
-					if (UserTextField.getText().equals("admin") && Arrays.equals(passwordField.getPassword(), new char[] {'a','d','m','i','n'})) {
-					AdminDashboard window = new AdminDashboard();
-					frmLogin.dispose();
-					}else {
-						LoginError error = new LoginError();
-						error.setVisible(true);
+					userName = UserTextField.getText().trim();
+					password = new String(passwordField.getPassword());
+					Statement statement = connector.getStatement();					
+					String getData = "SELECT `Username`, `Password` FROM `admin` WHERE Username = '"+userName+"' AND Password = '"+password+"';";
+					
+					
+					try {
+						int flag = 0;
+						ResultSet resultSet = statement.executeQuery(getData);
+						while (resultSet.next()) {
+							String db_userName = resultSet.getString("Username").trim();
+							String db_password = resultSet.getString("Password").trim();
+							if (db_userName.equals(userName) && db_password.equals(password)) {
+								AdminDashboard window = new AdminDashboard();
+								frmLogin.dispose();
+								flag = 1;
+							}
+						}
+						if (flag == 0) {
+							System.out.println("User Not Found");
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
+					
+//					String insertQuery = "INSERT INTO `student`(`UniID`, `Username`, `Password`) VALUES ('"+UniID+"','"+UserName+"','"+Password+"')";
 				} else if (comboBoxValue.equals("Student")) {
-					if (UserTextField.getText().equals("std") && Arrays.equals(passwordField.getPassword(), new char[] {'s','t','d'})) {
-						Student window = new Student();
-						window.setVisible(true);
-						frmLogin.dispose();
-						}else {
-							LoginError error = new LoginError();
-							error.setVisible(true);
+						userName = UserTextField.getText().trim();
+						password = new String(passwordField.getPassword());
+						Statement statement = connector.getStatement();					
+						String getData = "SELECT `Username`, `Password` FROM `student` WHERE Username = '"+userName+"' AND Password = '"+password+"';";
+						
+						
+						try {
+							int flag = 0;
+							ResultSet resultSet = statement.executeQuery(getData);
+							while (resultSet.next()) {
+								String db_userName = resultSet.getString("Username").trim();
+								String db_password = resultSet.getString("Password").trim();
+								if (db_userName.equals(userName) && db_password.equals(password)) {
+									Student window = new Student();
+									window.setVisible(true);
+									frmLogin.dispose();
+									flag = 1;
+								}
+							}
+							if (flag == 0) {
+								System.out.println("User Not Found");
+							}
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
 				} else if (comboBoxValue.equals("Teacher")) {
 					if (UserTextField.getText().equals("tea") && Arrays.equals(passwordField.getPassword(), new char[] {'t','e','a'})) {
@@ -227,7 +279,9 @@ public class Login {
 		JButton btnNewButton_1 = new JButton("Register");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				password = (String) e.getSource();
+				Register register = new Register();
+				register.setVisible(true);
+				frmLogin.dispose();
 			}
 		});
 		btnNewButton_1.setForeground(SystemColor.desktop);
@@ -261,6 +315,7 @@ public class Login {
 		lblNewLabel_4_1.setBounds(481, 359, 110, 13);
 		frmLogin.getContentPane().add(lblNewLabel_4_1);
 		frmLogin.setVisible(true);
+		
 		
 	
 	}
