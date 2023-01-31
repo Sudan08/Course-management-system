@@ -14,30 +14,60 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import java.awt.CardLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import backend.CourseQuery;
+import backend.Teacher_data;
+import backend.connector;
+
 import javax.swing.border.EmptyBorder;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.Cursor;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.border.MatteBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
 
 public class AdminDashboard{
-
+	private static ResultSet resultSet;
 	private JFrame frmAdminPanel;
 	private CardLayout cl_cardPanel= new CardLayout(0,0);
 	private JPanel cardPanel;
 	private JTable Logtable;
 	private JTable table_1;
-	private JTable table;
-	private JTable table_2;
+	private JTable TeacherTable;
+	private JTable CourseTable;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	private int selectedRow;
+	private static DefaultTableModel TeacherModal= new DefaultTableModel(
+			new Object[][] {},
+			new String[] {
+				"TeacherID", "Name", "DOB", "PhoneNumber", "Address", "Email Address", "Module", "Qualification", "Position", "Gender"
+			}
+		);
+	
+	
+	private static DefaultTableModel CourseModal= new DefaultTableModel(
+			new Object[][] {},
+			new String[] {
+				"CourseID", "CourseName", "CourseDescription", "NoOfModules", "Status", "Duration"
+			}
+		);
 
 	/**
 	 * Launch the application.
@@ -60,6 +90,64 @@ public class AdminDashboard{
 	 */
 	public AdminDashboard() {
 		initialize();
+	}
+	
+	public static void getCourseData() throws SQLException {
+		Statement statement = connector.getStatement();
+		
+		String getQuery = "SELECT * FROM `course`"; 
+		
+		 resultSet = statement.executeQuery(getQuery);
+		
+		
+		while (resultSet.next()) {
+			int CourseID = resultSet.getInt("CourseID");
+			String CourseName = resultSet.getString("Coursename");
+			String CourseDesc = resultSet.getString("CourseDescription");
+			String NoofModules = resultSet.getString("NoofModules");
+			String Status = resultSet.getString("Status");
+			String Duration = resultSet.getString("Duration");
+			CourseModal.addRow(new Object[] {
+					CourseID,
+					CourseName,
+					CourseDesc,
+					NoofModules,
+					Status,
+					Duration,
+			});
+		}
+	}
+
+		
+
+
+	
+
+
+
+	Teacher_data teacher1;
+	public void getTeacherData() {
+		try {
+			teacher1 = new Teacher_data();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (int i =0; i<teacher1.getCounter();i++ ) {
+			TeacherModal.addRow(new Object[] {
+				teacher1.getDb_id(i),
+				teacher1.getName(i),
+				teacher1.getDOB(i),
+				teacher1.getPhoneNumber(i),
+				teacher1.getAddress(i),
+				teacher1.getEmailAddress(i),
+				teacher1.getModule(i),
+				teacher1.getQualification(i),
+				teacher1.getPosition(i),
+				teacher1.getGender(i),
+		});
+				
+	}
 	}
 
 	/**
@@ -139,6 +227,7 @@ public class AdminDashboard{
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_cardPanel.show(cardPanel,"name_219288303900400");
+				
 			}
 		});
 		btnNewButton_1_1.setIconTextGap(35);
@@ -153,17 +242,22 @@ public class AdminDashboard{
 		btnNewButton_1_1_1.setForeground(new Color(86, 78, 88));
 		btnNewButton_1_1_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		btnNewButton_1_1_1.setBackground(new Color(191, 180, 143));
+		
+		JButton btnNewButton_1_1_2 = new JButton("Module");
+		btnNewButton_1_1_2.setIconTextGap(35);
+		btnNewButton_1_1_2.setForeground(new Color(86, 78, 88));
+		btnNewButton_1_1_2.setFont(new Font("Perpetua", Font.PLAIN, 25));
+		btnNewButton_1_1_2.setBackground(new Color(191, 180, 143));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
+			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addComponent(btnNewButton_3, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
 						.addComponent(btnNewButton_2, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
 						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-						.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-						.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE))
 					.addContainerGap())
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap(39, Short.MAX_VALUE)
@@ -177,10 +271,18 @@ public class AdminDashboard{
 					.addGap(76)
 					.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(78, Short.MAX_VALUE))
-				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(btnNewButton_1_1_1, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnNewButton_1_1_2, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
@@ -194,11 +296,13 @@ public class AdminDashboard{
 					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
+					.addComponent(btnNewButton_1_1_2, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(btnNewButton_1_1_1, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+					.addGap(42)
 					.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
@@ -458,6 +562,7 @@ public class AdminDashboard{
 		JButton btnAddTeachers = new JButton("Add teacher");
 		btnAddTeachers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frmAdminPanel.dispose();
 				Addteacher window = new Addteacher();
 				window.setVisible(true);
 			}
@@ -496,32 +601,122 @@ public class AdminDashboard{
 					.addContainerGap(39, Short.MAX_VALUE))
 		);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"1", "Juja Manandhar ", "9845123768", "Human Computer Interaction", "Module Leader"},
-				{"2", "Raj Shrestha", "9841948371", "Object Oriented Programming", "Module Leader"},
-				{"3", "Sir Issac Newton", "9841957103", "Gravitaion", "Inventer"},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"Teacher ID", "Teacher Name", "Phone Number", "Module ", "Postition"
+		TeacherTable = new JTable();
+		TeacherTable.addMouseListener(new MouseAdapter() {
+			private ResultSet tId;
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Object[] options= {"Update","Delete"};
+				int selecterOption=JOptionPane.showOptionDialog(null, "Do you want to update or delete?", "Update or delete teacher",
+						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
+				selectedRow = TeacherTable.getSelectedRow();
+				if(selecterOption==0) {
+					ArrayList<Object> informations = new ArrayList<>();
+					
+
+					
+					// Opening the form we made
+					Updateteacher form = new Updateteacher();
+					form.setVisible(true);
+//					form.setSelectedRow(Integer.parseInt(TeacherTable.getValueAt(selectedRow,0).toString()));
+		
+					for(int i=1;i<TeacherTable.getColumnCount();i++) {
+						String data =  TeacherTable.getValueAt(selectedRow, i).toString();
+						if(form.getNametf().getText().isEmpty()) {
+							
+							form.getNametf().setText(data);
+							informations.add(form.getNametf());
+							
+						}else if(form.getDOBtextField().getText().isEmpty()) {
+							
+							form.getDOBtextField().setText(data);
+							informations.add(form.getDOBtextField());
+							
+						}else if(form.getPhonetf().getText().isEmpty()) {
+							
+							form.getPhonetf().setText(data);
+							informations.add(form.getPhonetf());
+							
+						}else if(form.getAddresstf().getText().isEmpty()) {
+							form.getAddresstf().setText(data);
+							informations.add(form.getAddresstf());	
+						}
+						else if(form.getEmailtf().getText().isEmpty()) {
+							form.getEmailtf().setText(data);
+							informations.add(form.getEmailtf());
+						}	
+						else if(form.getModuletf().getText().isEmpty()) {
+							form.getModuletf().setText(data);
+							informations.add(form.getModuletf());
+						}
+						else if(form.getQualificationtf().getText().isEmpty()) {
+							form.getQualificationtf().setText(data);
+							informations.add(form.getQualificationtf());
+						}
+						else if(form.getPositiontf().getText().isEmpty()) {
+							form.getPositiontf().setText(data);
+							informations.add(form.getPositiontf());
+					
+					}
+					}
+				}else if (selecterOption==1) {
+					Object[] comfirm= {"Yes","No"};
+					int confirm=JOptionPane.showOptionDialog(null, "Are you sure you want to delete?", "Confirm",
+							JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,comfirm,comfirm[0]);
+					if(confirm ==0) {
+					TeacherModal.removeRow(TeacherTable.getSelectedRow());
+					Statement statement = connector.getStatement();
+					
+					int Id = teacher1.getDb_id(selectedRow);
+					String deleteQuery = "DELETE FROM `teacherdetails` WHERE TeacherDetailsID = '"+Id+"'";
+					String selectQuery1 = "SELECT `TeacherID` FROM `teacherDetails` WHERE TeacherDetailsID = '"+Id+"'";
+					
+					try {
+						tId = statement.executeQuery(selectQuery1);
+						while (tId.next()) {
+							Id = tId.getInt("TeacherID");
+						}
+					} catch (SQLException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					
+					try {
+						int deleteSuccess = statement.executeUpdate(deleteQuery);
+						if (deleteSuccess == 1) {
+							System.out.println("Deleted");
+						}else {
+							System.out.println("Not deleted");
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					String deleteQuery1 = "DELETE FROM `teacher` WHERE TeacherID = '"+Id+"'";
+					int deleteSuccess;
+					try {
+						deleteSuccess = statement.executeUpdate(deleteQuery1);
+						if (deleteSuccess == 1) {
+							System.out.println("Deleted");
+						}else {
+							System.out.println("Not deleted");
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				
+					}
+				}
 			}
-		));
-		table.getColumnModel().getColumn(1).setPreferredWidth(126);
-		table.getColumnModel().getColumn(2).setPreferredWidth(95);
-		scrollPane_2.setViewportView(table);
+		});
+		TeacherTable.setDefaultEditor(Object.class, null);
+		TeacherTable.setModel(TeacherModal);
+		TeacherTable.getColumnModel().getColumn(2).setPreferredWidth(95);
+		TeacherTable.getColumnModel().getColumn(3).setPreferredWidth(124);
+		scrollPane_2.setViewportView(TeacherTable);
+		panel.setLayout(gl_panel);
 		teacher.setLayout(gl_teacher);
 		
 		JPanel courses = new JPanel();
@@ -534,6 +729,43 @@ public class AdminDashboard{
 		JScrollPane scrollPane_3 = new JScrollPane();
 		
 		JButton btnNewButton_2_1 = new JButton("Add Course");
+		btnNewButton_2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CourseForm addCourse = new CourseForm();
+				addCourse.setVisible(true);
+				
+				JButton submit = addCourse.getBtnSubmit();
+				submit.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String Coursename = addCourse.getCoursetf().getText();
+						String CourseDes = addCourse.getCourseDestf().getText();
+						String NoOfModules = addCourse.getNomoduletf().getText();
+						String Status = addCourse.getStatustf().getText();
+						String Duration = addCourse.getDurationtf().getText();
+						
+						Statement statement = connector.getStatement();
+						
+						String createQuery = "INSERT INTO `course`(`CourseName`, `CourseDescription`, `NoofModules`, `Status`, `Duration`) VALUES ('"+Coursename+"','"+CourseDes+"','"+NoOfModules+"','"+Status+"','"+Duration+"')";
+						
+						
+						try {
+							int createSuccess = statement.executeUpdate(createQuery);
+							if (createSuccess == 1) {
+								System.out.println("Success");
+								addCourse.setVisible(false);
+								CourseModal.setRowCount(0);
+								getCourseData();
+							}else {
+								System.out.println("Error");
+							}
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		btnNewButton_2_1.setIcon(new ImageIcon("C:\\Users\\sudan\\Downloads\\plus.png"));
 		btnNewButton_2_1.setIconTextGap(15);
 		btnNewButton_2_1.setForeground(new Color(86, 78, 88));
@@ -567,32 +799,93 @@ public class AdminDashboard{
 					.addContainerGap(44, Short.MAX_VALUE))
 		);
 		
-		table_2 = new JTable();
-		table_2.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"1", "BIT", "3 Years", "8", "Nirmal Thapa", "160"},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"CourseID", "CourseName", "Course Duration", "Modules", "Course Leader", "Credit hour"
+		CourseTable = new JTable();
+		CourseTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Object[] options= {"Update","Delete"};
+				int selecterOption=JOptionPane.showOptionDialog(null, "Do you want to update or delete?", "Update or delete teacher",
+						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
+				int selectedRow1 = CourseTable.getSelectedRow();
+				if (selecterOption == 0) {
+					HashMap<String , String> updateData = new HashMap<>();
+					CourseForm updateForm = new CourseForm();
+					updateForm.setVisible(true);
+					updateForm.setTitle("Update Course Form");
+					
+					for(int i=1;i<CourseTable.getColumnCount();i++) {
+						String data =  CourseTable.getValueAt(selectedRow1, i).toString();
+						if(updateForm.getCoursetf().getText().isEmpty()) {
+							
+							updateForm.getCoursetf().setText(data);
+							
+							
+						}else if(updateForm.getCourseDestf().getText().isEmpty()) {
+							
+							updateForm.getCourseDestf().setText(data);
+							
+							
+						}else if(updateForm.getNomoduletf().getText().isEmpty()) {
+							
+							updateForm.getNomoduletf().setText(data);
+							
+							
+						}else if(updateForm.getStatustf().getText().isEmpty()) {
+							updateForm.getStatustf().setText(data);
+							
+						}
+						else if(updateForm.getDurationtf().getText().isEmpty()) {
+							updateForm.getDurationtf().setText(data);
+							
+						}	
+					}
+					
+					JButton submit = updateForm.getBtnSubmit();
+					submit.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							String CourseID = CourseTable.getValueAt(selectedRow1, 0).toString();
+							updateData.put("CourseID", CourseID);
+							updateData.put("CourseName", updateForm.getCoursetf().getText());
+							updateData.put("CourseDes", updateForm.getCourseDestf().getText());
+							updateData.put("No of modules", updateForm.getNomoduletf().getText());
+							updateData.put("Status", updateForm.getStatustf().getText());
+							updateData.put("Duration", updateForm.getDurationtf().getText());
+							CourseQuery.UpdateQuery(updateData);
+							
+						}
+
+
+					});
+					
+					
+					
+					
+
+					
+				}
+				else if (selecterOption==1) {
+					Object[] comfirm= {"Yes","No"};
+					int confirm=JOptionPane.showOptionDialog(null, "Are you sure you want to delete?", "Confirm",
+							JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,comfirm,comfirm[0]);
+					if(confirm ==0) {
+					HashMap <String,String> deleteData = new HashMap<>();
+					
+					String Id = CourseTable.getValueAt(selectedRow1,0).toString();
+					CourseModal.removeRow(CourseTable.getSelectedRow());
+					deleteData.put("ID",Id);
+					CourseQuery.DeleteQuery(deleteData);
+				
+					}
+				}
 			}
-		));
-		table_2.getColumnModel().getColumn(2).setPreferredWidth(107);
-		table_2.getColumnModel().getColumn(4).setPreferredWidth(99);
-		scrollPane_3.setViewportView(table_2);
+			
+		});
+		CourseTable.setEnabled(true);
+		TeacherTable.setDefaultEditor(Object.class, null);
+		CourseTable.setModel(CourseModal);
+		CourseTable.getColumnModel().getColumn(2).setPreferredWidth(107);
+		CourseTable.getColumnModel().getColumn(4).setPreferredWidth(99);
+		scrollPane_3.setViewportView(CourseTable);
 		courses.setLayout(gl_courses);
 		
 		JPanel setting = new JPanel();
@@ -699,9 +992,38 @@ public class AdminDashboard{
 					.addGap(66))
 		);
 		setting.setLayout(gl_setting);
+		
+		JPanel Module = new JPanel();
+		cardPanel.add(Module, "name_745223977780800");
+		
+		JLabel lblNewLabel_11 = new JLabel("Module");
+		lblNewLabel_11.setFont(new Font("Perpetua", Font.PLAIN, 30));
+		GroupLayout gl_Module = new GroupLayout(Module);
+		gl_Module.setHorizontalGroup(
+			gl_Module.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_Module.createSequentialGroup()
+					.addContainerGap(423, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_11, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
+					.addGap(484))
+		);
+		gl_Module.setVerticalGroup(
+			gl_Module.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Module.createSequentialGroup()
+					.addGap(21)
+					.addComponent(lblNewLabel_11)
+					.addContainerGap(391, Short.MAX_VALUE))
+		);
+		Module.setLayout(gl_Module);
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
 		frmAdminPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAdminPanel.setVisible(true);
+		getTeacherData();
+		try {
+			getCourseData();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 }

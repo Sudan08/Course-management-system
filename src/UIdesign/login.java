@@ -128,21 +128,17 @@ public class Login {
 		frmLogin.getContentPane().add(panel);
 		
 		JLabel lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\sudan\\eclipse-workspace\\CourseManagementSystem\\src\\image\\Teacher-rafiki.png"));
+		lblNewLabel_3.setIcon(new ImageIcon(Login.class.getResource("/image/Hidden person-pana.png")));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-					.addContainerGap(17, Short.MAX_VALUE)
-					.addComponent(lblNewLabel_3)
-					.addContainerGap())
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 427, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(33)
-					.addComponent(lblNewLabel_3)
-					.addContainerGap(39, Short.MAX_VALUE))
+				.addComponent(lblNewLabel_3, GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
 		);
 		panel.setLayout(gl_panel);
 		
@@ -261,14 +257,33 @@ public class Login {
 							e1.printStackTrace();
 						}
 				} else if (comboBoxValue.equals("Teacher")) {
-					if (UserTextField.getText().equals("tea") && Arrays.equals(passwordField.getPassword(), new char[] {'t','e','a'})) {
-						Teacher window = new Teacher();
-						frmLogin.dispose();
-						}else {
-							LoginError error = new LoginError();
-							error.setVisible(true);
+					userName = UserTextField.getText().trim();
+					password = new String(passwordField.getPassword());
+					Statement statement = connector.getStatement();					
+					String getData = "SELECT `Username`, `Password` FROM `teacher` WHERE Username = '"+userName+"' AND Password = '"+password+"';";
+					
+					
+					try {
+						int flag = 0;
+						ResultSet resultSet = statement.executeQuery(getData);
+						while (resultSet.next()) {
+							String db_userName = resultSet.getString("Username").trim();
+							String db_password = resultSet.getString("Password").trim();
+							if (db_userName.equals(userName) && db_password.equals(password)) {
+								Student window = new Student();
+								window.setVisible(true);
+								frmLogin.dispose();
+								flag = 1;
+							}
 						}
-				}
+						if (flag == 0) {
+							System.out.println("User Not Found");
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
 				
 		}
 		});

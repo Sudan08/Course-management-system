@@ -257,4 +257,5 @@ public class Teacher {
 		panel.setLayout(gl_panel);
 		frame.setVisible(true);
 	}
+
 }
