@@ -59,14 +59,13 @@ public static ResultSet SelectQuery() {
 }
 public static void UpdateMarksQuery(HashMap<String, String> updateData) {
 	
-	
-	String insertQuery = "UPDATE `stdsubmission` SET `SubmissionID`='[value-1]',`AssignmentID`='[value-2]',`Module`='[value-3]',`StudentID`='[value-4]',`UniID`='[value-5]',`StudentName`='[value-6]',`Question`='[value-7]',`Answer`='[value-8]',`Marks`='[value-9]',`Published`='[value-10]' WHERE 1";
+	String insertQuery = "UPDATE `stdsubmission` SET `Marks`='"+updateData.get("Marks")+"' WHERE StudentID = '"+updateData.get("StudentID")+"'";
 	
 	
 	try {
 		int insertSuccess = statement.executeUpdate(insertQuery);
 		if(insertSuccess == 1) {
-			System.out.println("Inserted");
+			System.out.println("Updated");
 		}else {
 			System.out.println("No insert");
 		}
@@ -76,4 +75,20 @@ public static void UpdateMarksQuery(HashMap<String, String> updateData) {
 		e.printStackTrace();
 	}
 }	
+	public static void PublishQuery(String ID) {
+		String insertQuery = "UPDATE `stdsubmission` SET `Published`='true' WHERE StudentID = '"+ID+"'";
+		
+		try {
+			int insertSuccess = statement.executeUpdate(insertQuery);
+			if(insertSuccess == 1) {
+				System.out.println("Updated");
+			}else {
+				System.out.println("No insert");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 
 import backend.CourseQuery;
 import backend.ModuleQuery;
+import backend.SubmissionQuery;
 import backend.TeacherQuery;
 
 import backend.connector;
@@ -60,6 +61,13 @@ public class AdminDashboard{
 			new Object[][] {},
 			new String[] {
 				"TeacherID", "Name", "DOB", "PhoneNumber", "Address", "Email Address", "Course", "Qualification", "Position", "Gender"
+			}
+		);
+
+	private static DefaultTableModel StudentModal= new DefaultTableModel(
+			new Object[][] {},
+			new String[] {
+					"SubmissionID", "AssignmentID", "Module", "StudentID" , "UniID" , "StudentName" ,"Question", "Answer" , "Marks","Status","Published"
 			}
 		);
 	
@@ -151,9 +159,44 @@ public class AdminDashboard{
 		
 		
 	}
+	
+	public static void getSubmssionData() throws SQLException{
+		ResultSet resultSet = SubmissionQuery.SelectQuery();
+		
+		
+		while (resultSet.next()) {
+			int SubmissionID = resultSet.getInt("SubmissionID");
+			int AssignmentID = resultSet.getInt("AssignmentID");
+			String Module = resultSet.getString("Module");
+			int StudentID = resultSet.getInt("StudentID");
+			int UniID = resultSet.getInt("UniID");
+			String StudentName = resultSet.getString("StudentName");
+			String Question = resultSet.getString("Question");
+			String Answer = resultSet.getString("Answer");
+			String Marks = resultSet.getString("Marks");
+			String Status = resultSet.getString("Status");
+			String Published = resultSet.getString("Published");
+			StudentModal.addRow(new Object[] {
+					SubmissionID,
+					AssignmentID,
+					Module,
+					StudentID,
+					UniID,
+					StudentName,
+					Question,
+					Answer,
+					Marks,
+					Status,
+					Published,
+			});
+		}
+		
+		
+	}
 		
 
 	private JTable ModuleTable;
+	private JTable Studenttable;
 	public static void getTeacherData() {
 		resultSet = TeacherQuery.SelectQuery();
 		
@@ -203,10 +246,11 @@ public class AdminDashboard{
 		frmAdminPanel.setContentPane(splitPane);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(242, 239, 233));
+		panel.setBackground(new Color(255, 255, 255));
 		splitPane.setLeftComponent(panel);
 		
 		JButton btnNewButton = new JButton("Home");
+		btnNewButton.setBorder(null);
 		btnNewButton.setIconTextGap(35);
 		btnNewButton.setIcon(new ImageIcon(AdminDashboard.class.getResource("/image/home.png")));
 		btnNewButton.setFont(new Font("Perpetua", Font.PLAIN, 25));
@@ -218,14 +262,15 @@ public class AdminDashboard{
 		btnNewButton.setFocusCycleRoot(true);
 		btnNewButton.setSelectedIcon(new ImageIcon("C:\\Users\\sudan\\Downloads\\home.png"));
 		btnNewButton.setForeground(new Color(86, 78, 88));
-		btnNewButton.setBackground(new Color(208, 252, 179));
+		btnNewButton.setBackground(new Color(255, 255, 255));
 		
 		JButton btnNewButton_1 = new JButton("Course");
+		btnNewButton_1.setBorder(null);
 		btnNewButton_1.setIconTextGap(35);
 		btnNewButton_1.setIcon(new ImageIcon(AdminDashboard.class.getResource("/image/online-learning.png")));
 		btnNewButton_1.setForeground(new Color(86, 78, 88));
 		btnNewButton_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
-		btnNewButton_1.setBackground(new Color(191, 180, 143));
+		btnNewButton_1.setBackground(new Color(255, 255, 255));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_cardPanel.show(cardPanel,"name_654837823487100");
@@ -234,7 +279,7 @@ public class AdminDashboard{
 		
 		JButton btnNewButton_2 = new JButton("Setting ");
 		btnNewButton_2.setIconTextGap(35);
-		btnNewButton_2.setIcon(new ImageIcon("C:\\Users\\sudan\\Downloads\\gear.png"));
+		btnNewButton_2.setIcon(new ImageIcon(AdminDashboard.class.getResource("/image/gear.png")));
 		btnNewButton_2.setForeground(new Color(86, 78, 88));
 		btnNewButton_2.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		btnNewButton_2.setBackground(new Color(191, 180, 143));
@@ -278,6 +323,19 @@ public class AdminDashboard{
 		btnNewButton_1_1.setBackground(new Color(191, 180, 143));
 		
 		JButton btnNewButton_1_1_1 = new JButton("Student");
+		btnNewButton_1_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl_cardPanel.show(cardPanel,"name_1777422482600");
+				StudentModal.setRowCount(0);
+				try {
+					getSubmssionData();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		btnNewButton_1_1_1.setIcon(new ImageIcon("C:\\Users\\sudan\\Downloads\\reading.png"));
 		btnNewButton_1_1_1.setIconTextGap(35);
 		btnNewButton_1_1_1.setForeground(new Color(86, 78, 88));
@@ -285,6 +343,7 @@ public class AdminDashboard{
 		btnNewButton_1_1_1.setBackground(new Color(191, 180, 143));
 		
 		JButton btnNewButton_1_1_2 = new JButton("Module");
+		btnNewButton_1_1_2.setIcon(new ImageIcon(AdminDashboard.class.getResource("/image/plus.png")));
 		btnNewButton_1_1_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_cardPanel.show(cardPanel,"name_745223977780800");
@@ -366,7 +425,7 @@ public class AdminDashboard{
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new EmptyBorder(0, 0, 0, 0));
-		panel_1.setBackground(new Color(242, 239, 233));
+		panel_1.setBackground(new Color(255, 255, 255));
 		splitPane_2.setLeftComponent(panel_1);
 		
 		JLabel lblNewLabel_1 = new JLabel("Students");
@@ -381,9 +440,9 @@ public class AdminDashboard{
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap(64, Short.MAX_VALUE) 
+					.addContainerGap(78, Short.MAX_VALUE)
 					.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(18)
 					.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
@@ -392,19 +451,19 @@ public class AdminDashboard{
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblNewLabel_1)
-							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGap(19)
-							.addComponent(lblNewLabel_5)))
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel_1)
+						.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+					.addContainerGap(23, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_5)
+					.addGap(18))
 		);
 		panel_1.setLayout(gl_panel_1);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(242, 239, 233));
+		panel_2.setBackground(new Color(255, 255, 255));
 		splitPane_2.setRightComponent(panel_2);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Teachers");
@@ -450,7 +509,7 @@ public class AdminDashboard{
 		cardPanel.setLayout(cl_cardPanel);
 		
 		JPanel dashboard = new JPanel();
-		dashboard.setBackground(new Color(242, 239, 233));
+		dashboard.setBackground(new Color(255, 255, 255));
 		cardPanel.add(dashboard, "name_219236766039800");
 		
 		JLabel lblNewLabel_6 = new JLabel("Dashboard");
@@ -478,7 +537,7 @@ public class AdminDashboard{
 		);
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBackground(new Color(242, 239, 233));
+		panel_3.setBackground(new Color(255, 255, 255));
 		panel_3.setBorder(null);
 		splitPane_3.setLeftComponent(panel_3);
 		
@@ -507,6 +566,7 @@ public class AdminDashboard{
 		);
 		
 		Logtable = new JTable();
+		Logtable.setBackground(new Color(255, 255, 255));
 		Logtable.setModel(new DefaultTableModel(
 			new Object[][] {
 				{"12:45 AM", "Juja Logged in"},
@@ -537,7 +597,7 @@ public class AdminDashboard{
 		panel_3.setLayout(gl_panel_3);
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBackground(new Color(242, 239, 233));
+		panel_4.setBackground(new Color(255, 255, 255));
 		splitPane_3.setRightComponent(panel_4);
 		
 		JLabel lblNewLabel_7_1 = new JLabel("Feedbacks");
@@ -918,21 +978,7 @@ public class AdminDashboard{
 							}
 							
 						}
-
-
 					});
-					
-					
-
-					
-					
-					
-
-					
-					
-					
-					
-
 					
 				}
 				else if (selecterOption==1) {
@@ -969,10 +1015,6 @@ public class AdminDashboard{
 		JButton btnNewButton_4 = new JButton("Delete Database");
 		btnNewButton_4.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		btnNewButton_4.setBackground(new Color(230, 57, 70));
-		
-		JButton btnNewButton_4_1 = new JButton("Publish Report");
-		btnNewButton_4_1.setBackground(new Color(208, 252, 179));
-		btnNewButton_4_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JLabel lblNewLabel_10 = new JLabel("UserName:");
 		lblNewLabel_10.setFont(new Font("Perpetua", Font.PLAIN, 22));
@@ -1023,8 +1065,7 @@ public class AdminDashboard{
 						.addGroup(gl_setting.createSequentialGroup()
 							.addGroup(gl_setting.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(lblNewLabel_10_1_1)
-								.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-								.addComponent(btnNewButton_4_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
 							.addGap(18)
 							.addComponent(btnNewButton_5_1, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
 							.addGap(357)
@@ -1057,9 +1098,7 @@ public class AdminDashboard{
 							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
 						.addComponent(btnNewButton_5_1, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
 					.addGap(40)
-					.addGroup(gl_setting.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNewButton_4_1, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton_4, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
+					.addComponent(btnNewButton_4, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
 					.addGap(66))
 		);
 		setting.setLayout(gl_setting);
@@ -1243,6 +1282,63 @@ public class AdminDashboard{
 		scrollPane_4.setViewportView(ModuleTable);
 		ModuleTable.setModel(ModuleModal);
 		Module.setLayout(gl_Module);
+		
+		JPanel Student = new JPanel();
+		cardPanel.add(Student, "name_1777422482600");
+		
+		JLabel lblNewLabel_12 = new JLabel("Student Data");
+		lblNewLabel_12.setFont(new Font("Perpetua", Font.PLAIN, 30));
+		
+		JScrollPane scrollPane_5 = new JScrollPane();
+		GroupLayout gl_Student = new GroupLayout(Student);
+		gl_Student.setHorizontalGroup(
+			gl_Student.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Student.createSequentialGroup()
+					.addGroup(gl_Student.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Student.createSequentialGroup()
+							.addGap(400)
+							.addComponent(lblNewLabel_12, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_Student.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(scrollPane_5, GroupLayout.DEFAULT_SIZE, 991, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_Student.setVerticalGroup(
+			gl_Student.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Student.createSequentialGroup()
+					.addGap(27)
+					.addComponent(lblNewLabel_12, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane_5, GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		
+		Studenttable = new JTable();
+		Studenttable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Object[] Action= {"Publish Marks","UpdateStudent","DeleteStudent","Cancel"};
+				int selectedAction=JOptionPane.showOptionDialog(null, "Are you sure you want to delete?", "Confirm",
+						JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,Action,Action[0]);
+				int selectedRow = Studenttable.getSelectedRow();
+				String StudentID = null;
+				if (selectedAction == 0) {
+					StudentID = Studenttable.getValueAt(selectedRow, 3).toString().trim();
+					SubmissionQuery.PublishQuery(StudentID);
+					StudentModal.setRowCount(0);
+					try {
+						getSubmssionData();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
+			}
+		});
+		Studenttable.setModel(StudentModal);
+		scrollPane_5.setViewportView(Studenttable);
+		Student.setLayout(gl_Student);
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
 		frmAdminPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

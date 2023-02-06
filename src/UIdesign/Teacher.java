@@ -333,15 +333,24 @@ public class Teacher {
 					submitbutton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							String smarks = marks.getMarkstf().getText().trim();
-							String StdId = SubmissionTable.getValueAt(selectedRow, 4).toString();
+							String StdId = SubmissionTable.getValueAt(selectedRow,3).toString();
 							updateData.put("Marks",smarks);
 							updateData.put("StudentID",StdId);
 							SubmissionQuery.UpdateMarksQuery(updateData);
+							SubmissionModal.setRowCount(0);
+							marks.setVisible(false);
+							try {
+								getSubmssionData();
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						}
 					});
 					JButton cancelbtn = marks.getBtnCancel();
 					cancelbtn.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
+							marks.setVisible(false);
 						}
 					});
 				}
@@ -426,8 +435,8 @@ public class Teacher {
 		AssignmentTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Object[] options= {"Update","Delete"};
-				int selecterOption=JOptionPane.showOptionDialog(null, "Do you want to update or delete?", "Update or delete teacher",
+				Object[] options= {"Update"};
+				int selecterOption=JOptionPane.showOptionDialog(null, "Do you want to update Marks?", "Update Marks",
 						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
 				int selectedRow = AssignmentTable.getSelectedRow();
 			}

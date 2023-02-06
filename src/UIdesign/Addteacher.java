@@ -36,7 +36,6 @@ public class Addteacher extends JFrame {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField UserNameTextField;
 	private JTextField CpasswordTextField;

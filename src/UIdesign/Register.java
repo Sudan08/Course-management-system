@@ -18,7 +18,6 @@ import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.components.JSpinField;
 
-import backend.Register_backend;
 import backend.connector;
 
 import javax.swing.JButton;
@@ -475,7 +474,7 @@ public class Register extends JFrame {
 					AbstractButton button = buttons.nextElement();
 
 					if (button.isSelected()) {
-						Gender = button.getText().trim(); // female
+						Gender = button.getText().trim(); 
 					}
 				}
 				
@@ -483,7 +482,7 @@ public class Register extends JFrame {
 					AbstractButton button = buttons.nextElement();
 
 					if (button.isSelected()) {
-						Level = button.getText().trim(); // female
+						Level = button.getText().trim(); 
 					}
 				}
 				
