@@ -29,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import backend.CourseQuery;
 import backend.ModuleQuery;
 import backend.TeacherQuery;
-import backend.Teacher_data;
+
 import backend.connector;
 
 import javax.swing.border.EmptyBorder;
@@ -866,6 +866,7 @@ public class AdminDashboard{
 						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
 				int selectedRow1 = CourseTable.getSelectedRow();
 				if (selecterOption == 0) {
+					HashMap <String, String> updateData = new HashMap<>();
 					CourseForm updateForm = new CourseForm();
 					updateForm.setVisible(true);
 					updateForm.setTitle("Update Course Form");
@@ -896,6 +897,30 @@ public class AdminDashboard{
 						}	
 			
 					}
+					JButton submit = updateForm.getBtnSubmit();
+					submit.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							String CourseID = CourseTable.getValueAt(selectedRow1, 0).toString();
+							updateData.put("CourseID", CourseID);
+							updateData.put("CourseName", updateForm.getCoursetf().getText());
+							updateData.put("CourseDes", updateForm.getCourseDestf().getText());
+							updateData.put("No of modules", updateForm.getNomoduletf().getText());
+							updateData.put("Status", updateForm.getStatustf().getText());
+							updateData.put("Duration", updateForm.getDurationtf().getText());
+							CourseQuery.UpdateQuery(updateData);
+							CourseModal.setRowCount(0);
+							updateForm.setVisible(false);
+							try {
+								getCourseData();
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							
+						}
+
+
+					});
 					
 					
 
