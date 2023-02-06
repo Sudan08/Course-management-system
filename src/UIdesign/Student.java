@@ -75,7 +75,7 @@ public class Student {
 		);
 	
 	private JTable ResultTable;
-	private JTable AssignmentTable;
+	private JTable SubTable;
 
 	/**
 	 * Launch the application.
@@ -237,46 +237,98 @@ public class Student {
 		);
 		panel_3.setLayout(gl_panel_3);
 		
-		JPanel panel_4 = new JPanel();
-		splitPane_1.setRightComponent(panel_4);
-		panel_4.setLayout(new CardLayout(0, 0));
+		JPanel CardLayout = new JPanel();
+		splitPane_1.setRightComponent(CardLayout);
+		CardLayout.setLayout(new CardLayout(0, 0));
 		
 		JPanel AssignmentSubmission = new JPanel();
-		panel_4.add(AssignmentSubmission, "name_4213068297000");
+		CardLayout.add(AssignmentSubmission, "name_4213068297000");
 		
 		JScrollPane scrollPane = new JScrollPane();
-		
-		JLabel lblNewLabel_1 = new JLabel("Submission Table");
-		lblNewLabel_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		GroupLayout gl_AssignmentSubmission = new GroupLayout(AssignmentSubmission);
 		gl_AssignmentSubmission.setHorizontalGroup(
 			gl_AssignmentSubmission.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_AssignmentSubmission.createSequentialGroup()
-					.addGroup(gl_AssignmentSubmission.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_AssignmentSubmission.createSequentialGroup()
-							.addGap(304)
-							.addComponent(lblNewLabel_1))
-						.addGroup(gl_AssignmentSubmission.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE)))
-					.addContainerGap())
+					.addGap(173)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 313, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(313, Short.MAX_VALUE))
 		);
 		gl_AssignmentSubmission.setVerticalGroup(
 			gl_AssignmentSubmission.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_AssignmentSubmission.createSequentialGroup()
-					.addGap(13)
-					.addComponent(lblNewLabel_1)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
-					.addContainerGap())
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 266, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(160, Short.MAX_VALUE))
 		);
 		
-		AssignmentTable = new JTable();
-		scrollPane.setViewportView(AssignmentTable);
-		AssignmentSubmission.setLayout(gl_AssignmentSubmission);
+		SubTable = new JTable();
+		SubTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Object[] options= {"Submit","Cancel"};
+				int selecterOption=JOptionPane.showOptionDialog(null, "Do you want to update or delete?", "Update or delete teacher",
+						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
+				int selectedRow = SubTable.getSelectedRow();
+				if (selecterOption == 0) {
+					String ID = SubTable.getValueAt(selectedRow, 0).toString();
+					ResultSet resultSet = SubmissionQuery.getQuestion(ID);
+					String question = null;
+					String marks = null;
+					
+					try {
+						while (resultSet.next()) {
+							question = resultSet.getString("Question");
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					SubmissionForm.setQuestion(question);
+					SubmissionForm form = new SubmissionForm();
+					form.setVisible(true);
+					JButton submitbtn = form.getSubmitbtn();
+					submitbtn.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							HashMap<String, String> submitData = new HashMap<>();
+							String StudentName = "";
+							ResultSet result = StudentQuery.getStudentName(StudentID);
+							try {
+								while (result.next()) {
+									StudentName = result.getString("Name");
+								}
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							String Answer = form.getAnswertf().getText();
+							submitData.put("Question",SubTable.getValueAt(selectedRow,1).toString());
+							submitData.put("AssignmentID", SubTable.getValueAt(selectedRow,0).toString() );
+							submitData.put("Module", SubTable.getValueAt(selectedRow,2).toString() );
+							submitData.put("StudentID", StudentID);
+							submitData.put("UniID", UniID);
+							submitData.put("StudentName", StudentName);
+							submitData.put("Answer", Answer);
+							submitData.put("Marks", marks);
+							
+							SubmissionQuery.InsertQuery(submitData);
+						}
+					});
+					
+					
+					
+					
+				}
+			}
+		});
+		SubTable.setModel(SubmissionModel);
+		scrollPane.setViewportView(SubTable);
+		
+		JLabel lblNewLabel_1 = new JLabel("Submission Table");
+		scrollPane.setColumnHeaderView(lblNewLabel_1);
+		lblNewLabel_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JPanel Result = new JPanel();
-		panel_4.add(Result, "name_4274684947099");
+		CardLayout.add(Result, "name_4274684947099");
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		
