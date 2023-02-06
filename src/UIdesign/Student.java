@@ -33,6 +33,10 @@ import java.math.BigDecimal;
 public class Student {
 	private String StudentID;
 	private String UniID;
+	public void setStudentID(String studentID) {
+		StudentID = studentID;
+	}
+
 	public String getStudentID() {
 		return StudentID;
 	}
@@ -43,10 +47,6 @@ public class Student {
 
 	public void setUniID(String uniID) {
 		UniID = uniID;
-	}
-
-	public void setStudentID(String studentID) {
-		StudentID = studentID;
 	}
 
 	public int getStudentName() {

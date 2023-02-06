@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 
 import backend.CourseQuery;
 import backend.ModuleQuery;
+import backend.TeacherQuery;
 import backend.Teacher_data;
 import backend.connector;
 
@@ -58,7 +59,7 @@ public class AdminDashboard{
 	private static DefaultTableModel TeacherModal= new DefaultTableModel(
 			new Object[][] {},
 			new String[] {
-				"TeacherID", "Name", "DOB", "PhoneNumber", "Address", "Email Address", "Module", "Qualification", "Position", "Gender"
+				"TeacherID", "Name", "DOB", "PhoneNumber", "Address", "Email Address", "Course", "Qualification", "Position", "Gender"
 			}
 		);
 	
@@ -152,35 +153,42 @@ public class AdminDashboard{
 	}
 		
 
-
-	
-
-
-
-	Teacher_data teacher1;
 	private JTable ModuleTable;
-	public void getTeacherData() {
+	public static void getTeacherData() {
+		resultSet = TeacherQuery.SelectQuery();
+		
 		try {
-			teacher1 = new Teacher_data();
-		} catch (SQLException e1) {
+			while (resultSet.next()) {
+				int TeacherID = resultSet.getInt("TeacherID");
+				String Name = resultSet.getString("Name");
+				String DOB = resultSet.getString("DOB");
+				String PhoneNumber = resultSet.getString("PhoneNumber");
+				String Address = resultSet.getString("Address");
+				String EmailAddress = resultSet.getString("EmailAddress");
+				String Course = resultSet.getString("Course");
+				String Qualification = resultSet.getString("Qualification");
+				String Position = resultSet.getString("Position");
+				String Gender = resultSet.getString("Gender");
+				TeacherModal.addRow(new Object[] {
+						TeacherID,
+						Name,
+						DOB,
+						PhoneNumber,
+						Address,
+						EmailAddress,
+						Course,
+						Qualification,
+						Position,
+						Gender,
+				});
+			}
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
-		for (int i =0; i<teacher1.getCounter();i++ ) {
-			TeacherModal.addRow(new Object[] {
-				teacher1.getDb_id(i),
-				teacher1.getName(i),
-				teacher1.getDOB(i),
-				teacher1.getPhoneNumber(i),
-				teacher1.getAddress(i),
-				teacher1.getEmailAddress(i),
-				teacher1.getModule(i),
-				teacher1.getQualification(i),
-				teacher1.getPosition(i),
-				teacher1.getGender(i),
-		});
+		
 				
-	}
+
 	}
 
 	/**
@@ -652,76 +660,88 @@ public class AdminDashboard{
 						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
 				selectedRow = TeacherTable.getSelectedRow();
 				if(selecterOption==0) {
-					ArrayList<Object> informations = new ArrayList<>();
-					
-
-					
-					// Opening the form we made
-					Updateteacher form = new Updateteacher();
-					form.setVisible(true);
-//					form.setSelectedRow(Integer.parseInt(TeacherTable.getValueAt(selectedRow,0).toString()));
-		
+					HashMap<String , String> updateData = new HashMap<>();
+					TeacherForm form = new TeacherForm();
+					form.setVisible(true);		
 					for(int i=1;i<TeacherTable.getColumnCount();i++) {
 						String data =  TeacherTable.getValueAt(selectedRow, i).toString();
 						if(form.getNametf().getText().isEmpty()) {
-							
 							form.getNametf().setText(data);
-							informations.add(form.getNametf());
 							
 						}else if(form.getDOBtextField().getText().isEmpty()) {
 							
 							form.getDOBtextField().setText(data);
-							informations.add(form.getDOBtextField());
 							
 						}else if(form.getPhonetf().getText().isEmpty()) {
 							
 							form.getPhonetf().setText(data);
-							informations.add(form.getPhonetf());
 							
 						}else if(form.getAddresstf().getText().isEmpty()) {
 							form.getAddresstf().setText(data);
-							informations.add(form.getAddresstf());	
 						}
 						else if(form.getEmailtf().getText().isEmpty()) {
 							form.getEmailtf().setText(data);
-							informations.add(form.getEmailtf());
 						}	
-						else if(form.getModuletf().getText().isEmpty()) {
-							form.getModuletf().setText(data);
-							informations.add(form.getModuletf());
+						else if(form.getCoursetf().getText().isEmpty()) {
+							form.getCoursetf().setText(data);
 						}
 						else if(form.getQualificationtf().getText().isEmpty()) {
 							form.getQualificationtf().setText(data);
-							informations.add(form.getQualificationtf());
 						}
 						else if(form.getPositiontf().getText().isEmpty()) {
 							form.getPositiontf().setText(data);
-							informations.add(form.getPositiontf());
 					
 					}
+						else if(form.getGendertf().getText().isEmpty()) {
+							form.getGendertf().setText(data);
+					
+					}
+						JButton updatebtn = form.getUpdate();
+						updatebtn.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								String TeacherId = TeacherTable.getValueAt(selectedRow,0).toString();
+								updateData.put("TeacherId",TeacherId);
+								updateData.put("Name", form.getNametf().getText());
+								updateData.put("DOB", form.getDOBtextField().getText());
+								updateData.put("PhoneNumber", form.getPhonetf().getText());
+								updateData.put("Address", form.getAddresstf().getText());
+								updateData.put("EmailAddress", form.getEmailtf().getText());
+								updateData.put("Course", form.getCoursetf().getText());
+								updateData.put("Qualification", form.getQualificationtf().getText());
+								updateData.put("Position", form.getPositiontf().getText());
+								updateData.put("Gender", form.getGendertf().getText());
+								TeacherModal.setRowCount(0);
+								TeacherQuery.UpdateQuery(updateData);
+								form.setVisible(false);
+								getTeacherData();
+							}
+						});
+						
 					}
 				}else if (selecterOption==1) {
 					Object[] comfirm= {"Yes","No"};
 					int confirm=JOptionPane.showOptionDialog(null, "Are you sure you want to delete?", "Confirm",
 							JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,comfirm,comfirm[0]);
 					if(confirm ==0) {
-					TeacherModal.removeRow(TeacherTable.getSelectedRow());
-					Statement statement = connector.getStatement();
 					
-					int Id = teacher1.getDb_id(selectedRow);
-					String deleteQuery = "DELETE FROM `teacherdetails` WHERE TeacherDetailsID = '"+Id+"'";
-					String selectQuery1 = "SELECT `TeacherID` FROM `teacherDetails` WHERE TeacherDetailsID = '"+Id+"'";
+					Statement statement = connector.getStatement();
+			
+					String Id = null;
+					String TeacherId = TeacherTable.getValueAt(selectedRow,0).toString();
+					
+					
+					String selectQuery1 = "SELECT `TeacherDetailsID` FROM `teacherDetails` WHERE TeacherID = '"+TeacherId+"'";
 					
 					try {
 						tId = statement.executeQuery(selectQuery1);
 						while (tId.next()) {
-							Id = tId.getInt("TeacherID");
+							Id = tId.getString("TeacherDetailsID");
 						}
 					} catch (SQLException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
 					}
-					
+					String deleteQuery = "DELETE FROM `teacherdetails` WHERE TeacherDetailsID = '"+Id+"';";
 					try {
 						int deleteSuccess = statement.executeUpdate(deleteQuery);
 						if (deleteSuccess == 1) {
@@ -733,7 +753,8 @@ public class AdminDashboard{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					String deleteQuery1 = "DELETE FROM `teacher` WHERE TeacherID = '"+Id+"'";
+					System.out.println();
+					String deleteQuery1 = "DELETE FROM `teacher` WHERE TeacherID = '"+TeacherId+"'";
 					int deleteSuccess;
 					try {
 						deleteSuccess = statement.executeUpdate(deleteQuery1);
@@ -746,6 +767,7 @@ public class AdminDashboard{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					TeacherModal.removeRow(TeacherTable.getSelectedRow());
 				
 					}
 				}
@@ -844,7 +866,6 @@ public class AdminDashboard{
 						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
 				int selectedRow1 = CourseTable.getSelectedRow();
 				if (selecterOption == 0) {
-					HashMap<String , String> updateData = new HashMap<>();
 					CourseForm updateForm = new CourseForm();
 					updateForm.setVisible(true);
 					updateForm.setTitle("Update Course Form");
@@ -854,8 +875,7 @@ public class AdminDashboard{
 						if(updateForm.getCoursetf().getText().isEmpty()) {
 							
 							updateForm.getCoursetf().setText(data);
-							
-							
+											
 						}else if(updateForm.getCourseDestf().getText().isEmpty()) {
 							
 							updateForm.getCourseDestf().setText(data);
@@ -874,33 +894,15 @@ public class AdminDashboard{
 							updateForm.getDurationtf().setText(data);
 							
 						}	
+			
 					}
 					
-					JButton submit = updateForm.getBtnSubmit();
-					submit.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							String CourseID = CourseTable.getValueAt(selectedRow1, 0).toString();
-							updateData.put("CourseID", CourseID);
-							updateData.put("CourseName", updateForm.getCoursetf().getText());
-							updateData.put("CourseDes", updateForm.getCourseDestf().getText());
-							updateData.put("No of modules", updateForm.getNomoduletf().getText());
-							updateData.put("Status", updateForm.getStatustf().getText());
-							updateData.put("Duration", updateForm.getDurationtf().getText());
-							CourseModal.setRowCount(0);
-							CourseQuery.UpdateQuery(updateData);
-							
-							try {
-								getCourseData();
-							} catch (SQLException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							updateForm.setVisible(false);
-							
-						}
+					
 
+					
+					
+					
 
-					});
 					
 					
 					
@@ -914,7 +916,6 @@ public class AdminDashboard{
 							JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,comfirm,comfirm[0]);
 					if(confirm ==0) {
 					HashMap <String,String> deleteData = new HashMap<>();
-					
 					String Id = CourseTable.getValueAt(selectedRow1,0).toString();
 					CourseModal.removeRow(CourseTable.getSelectedRow());
 					deleteData.put("ID",Id);
@@ -1070,6 +1071,8 @@ public class AdminDashboard{
 						addData.put("Level", Level);
 						addData.put("Semester", Semester);
 						addData.put("CreditHour", CreditHour);
+						
+						
 						
 						
 						ModuleModal.setRowCount(0);

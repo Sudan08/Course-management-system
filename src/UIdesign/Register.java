@@ -361,8 +361,7 @@ public class Register extends JFrame {
 				UserName = userNametextField.getText().trim();
 				Password = passwordTextField.getText().trim();
 				
-				Register_backend submit= new Register_backend();
-				submit.insert();
+				
 			}
 		});
 		btnNewButton_1.setFont(new Font("Perpetua", Font.PLAIN, 25));

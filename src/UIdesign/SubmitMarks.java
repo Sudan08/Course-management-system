@@ -13,6 +13,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class SubmitMarks extends JDialog {
 
@@ -27,6 +29,8 @@ public class SubmitMarks extends JDialog {
 	public static String assignmentAnswer;
 	private JLabel Question;
 	private JLabel Answer;
+	private JButton btnSubmit;
+	private JButton btnCancel;
 	
 	public static void setQuestion(String question) {
 		assignmentQuestion = question;
@@ -74,10 +78,14 @@ public class SubmitMarks extends JDialog {
 		markstf = new JTextField();
 		markstf.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Submit");
-		btnNewButton.setFont(new Font("Perpetua", Font.PLAIN, 25));
+		btnSubmit = new JButton("Submit");
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnSubmit.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
-		JButton btnCancel = new JButton("Cancel");
+		btnCancel = new JButton("Cancel");
 		btnCancel.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JLabel lblMarks = new JLabel("Marks:");
@@ -103,7 +111,7 @@ public class SubmitMarks extends JDialog {
 								.addComponent(Answer, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1052, Short.MAX_VALUE)
 								.addGroup(gl_contentPanel.createSequentialGroup()
 									.addPreferredGap(ComponentPlacement.RELATED, 784, Short.MAX_VALUE)
-									.addComponent(btnNewButton)
+									.addComponent(btnSubmit)
 									.addGap(32)
 									.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)))
 							.addGap(44))
@@ -136,10 +144,18 @@ public class SubmitMarks extends JDialog {
 					.addPreferredGap(ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton))
+						.addComponent(btnSubmit))
 					.addGap(24))
 		);
 		contentPanel.setLayout(gl_contentPanel);
+	}
+
+	public JButton getBtnSubmit() {
+		return btnSubmit;
+	}
+
+	public JButton getBtnCancel() {
+		return btnCancel;
 	}
 
 

@@ -21,7 +21,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.awt.event.ActionEvent;
 
-public class Updateteacher extends JDialog {
+public class TeacherForm extends JDialog {
 	private int selectedRow ;
 	public void setSelectedRow(int selectedRow) {
 		this.selectedRow = selectedRow;
@@ -50,8 +50,8 @@ public class Updateteacher extends JDialog {
 		return emailtf;
 	}
 
-	public JTextField getModuletf() {
-		return moduletf;
+	public JTextField getCoursetf() {
+		return Coursetf;
 	}
 
 	public JTextField getQualificationtf() {
@@ -69,12 +69,13 @@ public class Updateteacher extends JDialog {
 
 	private JTextField textField_3;
 	private JTextField emailtf;
-	private JTextField moduletf;
+	private JTextField Coursetf;
 	private JTextField qualificationtf;
 	private JTextField positiontf;
 	private JButton update;
 	private JLabel DOB;
 	private JTextField DOBtextField;
+	private JTextField Gendertf;
 
 	/**
 	 * Launch the application.
@@ -83,7 +84,7 @@ public class Updateteacher extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Updateteacher frame = new Updateteacher();
+					TeacherForm frame = new TeacherForm();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -95,8 +96,8 @@ public class Updateteacher extends JDialog {
 	/**
 	 * Create the frame.
 	 */
-	public Updateteacher() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public TeacherForm() {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1065, 544);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -128,14 +129,14 @@ public class Updateteacher extends JDialog {
 		
 		JLabel lblEmailaddress = new JLabel("EmailAddress");
 		
-		JLabel lblModule = new JLabel("Module");
+		JLabel Courselbl = new JLabel("Course");
 		
 		JLabel lblQualification = new JLabel("Qualification");
 		
 		JLabel lblPosition = new JLabel("Position");
 		
-		moduletf = new JTextField();
-		moduletf.setColumns(10);
+		Coursetf = new JTextField();
+		Coursetf.setColumns(10);
 		
 		qualificationtf = new JTextField();
 		qualificationtf.setColumns(10);
@@ -144,38 +145,16 @@ public class Updateteacher extends JDialog {
 		positiontf.setColumns(10);
 		
 		update = new JButton("Update");
-		update.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Statement statement = connector.getStatement();
-				
-				String Name = Nametf.getText();
-				String DOB = DOBtextField.getText();
-				int PhoneNumber = Integer.parseInt(phonetf.getText());
-				String Address = addresstf.getText();
-				String EmailAddress = emailtf.getText();
-				String Module = moduletf.getText();
-				String Qualification = qualificationtf.getText();
-				String Postition = positiontf.getText();
-				String updateQuery = "UPDATE `teacherdetails` SET `Name`='"+Name+"',`DOB`='"+DOB+"',`Phonenumber`='"+PhoneNumber+"',`Address`='"+Address+"',`EmailAddress`='"+EmailAddress+"',`Module`='"+Module+"',`Qualification`='"+Qualification+"',`Position`='"+Postition+"' WHERE TeacherDetailsID = '"+selectedRow+"'";
-				try {
-					int updateSuccess = statement.executeUpdate(updateQuery);
-					if(updateSuccess == 1) {
-						System.out.println("updated");
-					}else {
-						System.out.println("no updated");
-					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-			}
-		});
 		
 		DOB = new JLabel("DOB");
 		
 		DOBtextField = new JTextField();
 		DOBtextField.setColumns(10);
+		
+		JLabel lblGender = new JLabel("Gender");
+		
+		Gendertf = new JTextField();
+		Gendertf.setColumns(10);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -186,9 +165,9 @@ public class Updateteacher extends JDialog {
 							.addGap(47)
 							.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblModule, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+							.addComponent(Courselbl, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
-							.addComponent(moduletf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(Coursetf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblQualification, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
@@ -216,8 +195,13 @@ public class Updateteacher extends JDialog {
 							.addGap(47)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(DOBtextField, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
-								.addComponent(Nametf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addGap(266))
+								.addComponent(Nametf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblGender, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(Gendertf, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(266, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -247,8 +231,8 @@ public class Updateteacher extends JDialog {
 						.addComponent(emailtf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblModule)
-						.addComponent(moduletf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(Courselbl)
+						.addComponent(Coursetf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblQualification)
@@ -258,7 +242,11 @@ public class Updateteacher extends JDialog {
 						.addComponent(lblPosition)
 						.addComponent(positiontf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(update))
-					.addGap(48)
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblGender)
+						.addComponent(Gendertf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(15)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(334)
@@ -268,6 +256,10 @@ public class Updateteacher extends JDialog {
 							.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 		);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	public JTextField getGendertf() {
+		return Gendertf;
 	}
 
 	public JTextField getDOBtextField() {

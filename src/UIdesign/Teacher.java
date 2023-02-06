@@ -326,8 +326,24 @@ public class Teacher {
 				SubmitMarks.setQuestion(Question);
 				SubmitMarks.setAnswer(Answer);
 				if (selecterOption == 0) {
+					HashMap <String, String> updateData= new HashMap<>();
 					SubmitMarks marks = new SubmitMarks();
 					marks.setVisible(true);
+					JButton submitbutton = marks.getBtnSubmit();
+					submitbutton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							String smarks = marks.getMarkstf().getText().trim();
+							String StdId = SubmissionTable.getValueAt(selectedRow, 4).toString();
+							updateData.put("Marks",smarks);
+							updateData.put("StudentID",StdId);
+							SubmissionQuery.UpdateMarksQuery(updateData);
+						}
+					});
+					JButton cancelbtn = marks.getBtnCancel();
+					cancelbtn.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+						}
+					});
 				}
 			}
 		});
