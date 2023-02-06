@@ -9,21 +9,50 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JSplitPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import backend.AssignmentQuery;
+import backend.ModuleQuery;
+import backend.SubmissionQuery;
+
 import java.awt.Color;
+import java.awt.CardLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Teacher {
 
 	private JFrame frame;
-	private JTable table;
+	private JTable SubmissionTable;
+	private JTable AssignmentTable;
+	private CardLayout cl_CardPanel= new CardLayout(0,0);
+	private JPanel cardPanel;
+	
+	private static DefaultTableModel AssignmentModel= new DefaultTableModel(
+			new Object[][] {},
+			new String[] {
+				"AssignmentID", "Question", "Module"
+			}
+		);
+	
+	private static DefaultTableModel SubmissionModal= new DefaultTableModel(
+			new Object[][] {},
+			new String[] {
+				"SubmissionID", "AssignmentID", "Module", "StudentID" , "UniID" , "StudentName" ,"Question", "Answer" , "Marks"
+			}
+		);
 
 	/**
 	 * Launch the application.
@@ -46,6 +75,54 @@ public class Teacher {
 	 */
 	public Teacher() {
 		initialize();
+	}
+	
+	public static void getAssignemntData() throws SQLException{
+		ResultSet resultSet = AssignmentQuery.SelectQuery();
+		
+		
+		while (resultSet.next()) {
+			int AssignmentID = resultSet.getInt("AssignmentID");
+			String Question = resultSet.getString("Question");
+			String Module = resultSet.getString("Module");
+			AssignmentModel.addRow(new Object[] {
+					AssignmentID,
+					Question,
+					Module,
+			});
+		}
+		
+		
+	}
+	
+	public static void getSubmssionData() throws SQLException{
+		ResultSet resultSet = SubmissionQuery.SelectQuery();
+		
+		
+		while (resultSet.next()) {
+			int SubmissionID = resultSet.getInt("SubmissionID");
+			int AssignmentID = resultSet.getInt("AssignmentID");
+			String Module = resultSet.getString("Module");
+			int StudentID = resultSet.getInt("StudentID");
+			int UniID = resultSet.getInt("UniID");
+			String StudentName = resultSet.getString("StudentName");
+			String Question = resultSet.getString("Question");
+			String Answer = resultSet.getString("Answer");
+			String Marks = resultSet.getString("Marks");
+			SubmissionModal.addRow(new Object[] {
+					SubmissionID,
+					AssignmentID,
+					Module,
+					StudentID,
+					UniID,
+					StudentName,
+					Question,
+					Answer,
+					Marks,
+			});
+		}
+		
+		
 	}
 
 	/**
@@ -85,17 +162,20 @@ public class Teacher {
 		btnSetting.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JButton btnHome = new JButton("Home");
+		btnHome.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl_CardPanel.show(cardPanel,"name_774669064080200");
+			}
+		});
 		btnHome.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		 
 		JButton btnSetting_1_1 = new JButton("Assignment");
 		btnSetting_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				cl_CardPanel.show(cardPanel,"name_774932147097300");
 			}
 		});
 		btnSetting_1_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
-		
-		JButton btnSetting_1_2 = new JButton("Setting");
-		btnSetting_1_2.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JButton btnLogout = new JButton("LogOut");
 		btnLogout.setForeground(new Color(255, 255, 255));
@@ -122,9 +202,6 @@ public class Teacher {
 							.addComponent(btnSetting_1_1, GroupLayout.PREFERRED_SIZE, 229, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(btnSetting_1_2, GroupLayout.PREFERRED_SIZE, 229, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addContainerGap()
 							.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 229, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
@@ -139,9 +216,7 @@ public class Teacher {
 					.addComponent(btnHome, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(btnSetting_1_1, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(btnSetting_1_2, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 242, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 307, Short.MAX_VALUE)
 					.addComponent(btnSetting, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
@@ -204,58 +279,166 @@ public class Teacher {
 		);
 		panel_3.setLayout(gl_panel_3);
 		
-		JPanel panel_4 = new JPanel();
-		splitPane_1.setRightComponent(panel_4);
+		cardPanel = new JPanel();
+		splitPane_1.setRightComponent(cardPanel);
+		cardPanel.setLayout(cl_CardPanel);
+		
+		JPanel Home = new JPanel();
+		cardPanel.add(Home, "name_774669064080200");
 		
 		JLabel lblNewLabel_2 = new JLabel("Student Submission Log");
 		lblNewLabel_2.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
-		gl_panel_4.setHorizontalGroup(
-			gl_panel_4.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_4.createSequentialGroup()
+		GroupLayout gl_Home = new GroupLayout(Home);
+		gl_Home.setHorizontalGroup(
+			gl_Home.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Home.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 1052, Short.MAX_VALUE)
-						.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 280, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
+					.addGroup(gl_Home.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Home.createSequentialGroup()
+							.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 273, GroupLayout.PREFERRED_SIZE)
+							.addGap(425))
+						.addGroup(Alignment.TRAILING, gl_Home.createSequentialGroup()
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 1052, Short.MAX_VALUE)
+							.addContainerGap())))
 		);
-		gl_panel_4.setVerticalGroup(
-			gl_panel_4.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_4.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+		gl_Home.setVerticalGroup(
+			gl_Home.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Home.createSequentialGroup()
+					.addGap(42)
+					.addComponent(lblNewLabel_2)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
-					.addContainerGap())
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+					.addGap(14))
 		);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"1:00PM", "OOP", "Sudan Shakya", "2226422", "true"},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"Time", "Module", "StudentName", "StudentID", "isSubmitted"
+		SubmissionTable = new JTable();
+		SubmissionTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Object[] options= {"Submit Marks","Cancel"};
+				int selecterOption=JOptionPane.showOptionDialog(null, "Do you want to Submit Marks?", "Submit Marks.",
+						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
+				int selectedRow = SubmissionTable.getSelectedRow();
+				String Question =  SubmissionTable.getValueAt(selectedRow,6).toString();
+				String Answer = SubmissionTable.getValueAt(selectedRow,7).toString();
+				SubmitMarks.setQuestion(Question);
+				SubmitMarks.setAnswer(Answer);
+				if (selecterOption == 0) {
+					SubmitMarks marks = new SubmitMarks();
+					marks.setVisible(true);
+				}
 			}
-		));
-		scrollPane.setViewportView(table);
-		panel_4.setLayout(gl_panel_4);
+		});
+		SubmissionTable.setModel(SubmissionModal);
+		scrollPane.setViewportView(SubmissionTable);
+		Home.setLayout(gl_Home);
+		
+		JPanel Assignment = new JPanel();
+		cardPanel.add(Assignment, "name_774932147097300");
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		
+		JLabel lblNewLabel_2_1 = new JLabel("Assignment");
+		lblNewLabel_2_1.setFont(new Font("Perpetua", Font.PLAIN, 30));
+		
+		JButton btnNewButton = new JButton("Add Assignment");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AssignmentForm form = new AssignmentForm();
+				form.setVisible(true);
+				JButton submit = form.getBtnNewButton();
+				submit.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String Question = form.getQuestiontf().getText();
+						String Module = form.getModuletf().getText();
+						
+						HashMap<String,String> addData = new HashMap<>();
+						
+						
+						addData.put("Question",Question);
+						addData.put("Module",Module);						
+						AssignmentQuery.InsertQuery(addData);
+						
+						
+						AssignmentModel.setRowCount(0);
+						form.setVisible(false);
+						try {
+							getAssignemntData();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					
+					
+					}});
+				}
+			}
+		);
+		btnNewButton.setFont(new Font("Perpetua", Font.PLAIN, 25));
+		GroupLayout gl_Assignment = new GroupLayout(Assignment);
+		gl_Assignment.setHorizontalGroup(
+			gl_Assignment.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Assignment.createSequentialGroup()
+					.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Assignment.createSequentialGroup()
+							.addGap(416)
+							.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_Assignment.createSequentialGroup()
+							.addGap(20)
+							.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 1025, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_Assignment.createSequentialGroup()
+							.addGap(436)
+							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(27, Short.MAX_VALUE))
+		);
+		gl_Assignment.setVerticalGroup(
+			gl_Assignment.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Assignment.createSequentialGroup()
+					.addGap(25)
+					.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+					.addGap(34)
+					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 379, GroupLayout.PREFERRED_SIZE)
+					.addGap(40)
+					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(43, Short.MAX_VALUE))
+		);
+		
+		AssignmentTable = new JTable();
+		AssignmentTable.setModel(AssignmentModel);
+		AssignmentTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Object[] options= {"Update","Delete"};
+				int selecterOption=JOptionPane.showOptionDialog(null, "Do you want to update or delete?", "Update or delete teacher",
+						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
+				int selectedRow = AssignmentTable.getSelectedRow();
+			}
+		});
+		scrollPane_1.setViewportView(AssignmentTable);
+		Assignment.setLayout(gl_Assignment);
 		splitPane_1.setDividerLocation(125);
 		panel_2.setLayout(gl_panel_2);
 		splitPane.setDividerLocation(250);
 		panel.setLayout(gl_panel);
 		frame.setVisible(true);
+		try {
+			getAssignemntData();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			getSubmssionData();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	
 	}
 
-}
+};
+
+
+			

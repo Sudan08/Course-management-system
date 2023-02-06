@@ -22,16 +22,21 @@ import backend.connector;
 
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
+<<<<<<< Updated upstream
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Enumeration;
+=======
+import java.sql.Statement;
+>>>>>>> Stashed changes
 import java.awt.event.ActionEvent;
 import javax.swing.ButtonGroup;
 
 public class Addteacher extends JFrame {
 
 	private JPanel contentPane;
+<<<<<<< Updated upstream
 	private JTextField UserNameTextField;
 	private JTextField CpasswordTextField;
 	private JTextField passwordTextField;
@@ -58,6 +63,23 @@ public class Addteacher extends JFrame {
 	protected String ConfirmPassword;
 	protected int Id;
 	static Addteacher frame = new Addteacher();
+=======
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField nametextField;
+	private JTextField PhonetextField_4;
+	private JTextField EmailtextField_5;
+	private JTextField textField_6;
+	private JTextField textField_7;
+	private JTextField textField_8;
+	private JTextField textField_9;
+	private CardLayout cl_cardPanel= new CardLayout(0,0);
+	protected String name;
+	protected String DOB;
+	protected Object PhoneNumber;
+	protected Object EmailAddress ;
+>>>>>>> Stashed changes
 
 	/**
 	 * Launch the application.
@@ -153,6 +175,7 @@ public class Addteacher extends JFrame {
 		JButton btnNewButton = new JButton("Procced");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< Updated upstream
 				for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
 					AbstractButton button = buttons.nextElement();
 
@@ -212,6 +235,11 @@ public class Addteacher extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+=======
+				
+				Statement statement = connector.getStatement();
+//				String insertQuery = "INSERT INTO `student`(`UniID`, `Username`, `Password`) VALUES ('"+UniID+"','\"+UserName+\"','\"+Password+\"')";
+>>>>>>> Stashed changes
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 25));
@@ -311,8 +339,13 @@ public class Addteacher extends JFrame {
 		JLabel lblNewLabel_2_3 = new JLabel("Name:");
 		lblNewLabel_2_3.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
+<<<<<<< Updated upstream
 		NameTextField = new JTextField();
 		NameTextField.setColumns(10);
+=======
+		nametextField = new JTextField();
+		nametextField.setColumns(10);
+>>>>>>> Stashed changes
 		
 		JLabel lblNewLabel_2_3_1 = new JLabel("DateOfBirth :");
 		lblNewLabel_2_3_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
@@ -322,22 +355,39 @@ public class Addteacher extends JFrame {
 		JLabel lblNewLabel_2_3_2 = new JLabel("PhoneNumber:");
 		lblNewLabel_2_3_2.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
+<<<<<<< Updated upstream
 		PhoneNumberTextField = new JTextField();
 		PhoneNumberTextField.setColumns(10);
+=======
+		PhonetextField_4 = new JTextField();
+		PhonetextField_4.setColumns(10);
+>>>>>>> Stashed changes
 		
 		JLabel lblNewLabel_2_3_2_1 = new JLabel("EmailAddress:");
 		lblNewLabel_2_3_2_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
+<<<<<<< Updated upstream
 		EmailTextField = new JTextField();
 		EmailTextField.setColumns(10);
+=======
+		EmailtextField_5 = new JTextField();
+		EmailtextField_5.setColumns(10);
+>>>>>>> Stashed changes
 		
 		JButton btnNewButton_1 = new JButton("Next");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< Updated upstream
 				Name = NameTextField.getText();
 				DOB = (dateChooser.getDate()).toString().trim();
 				Phonenumber = PhoneNumberTextField.getText().trim();
 				EmailAddress = EmailTextField.getText();
+=======
+//				name = nametextField.getText().trim();
+//				DOB = (dateChooser.getDate()).toString().trim();
+//				PhoneNumber = 
+//				EmailAddress =x
+>>>>>>> Stashed changes
 				cl_cardPanel.show(panel_1,"name_411912748962900");
 			}
 		});	
@@ -357,11 +407,19 @@ public class Addteacher extends JFrame {
 								.addGroup(gl_First.createParallelGroup(Alignment.LEADING, false)
 									.addComponent(lblNewLabel_1_1)
 									.addComponent(lblNewLabel_2_3, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
+<<<<<<< Updated upstream
 									.addComponent(NameTextField, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
 									.addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 								.addComponent(PhoneNumberTextField, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblNewLabel_2_3_2_1, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
 								.addComponent(EmailTextField, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE))
+=======
+									.addComponent(nametextField, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+									.addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addComponent(PhonetextField_4, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNewLabel_2_3_2_1, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
+								.addComponent(EmailtextField_5, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE))
+>>>>>>> Stashed changes
 							.addContainerGap(264, Short.MAX_VALUE))
 						.addGroup(gl_First.createSequentialGroup()
 							.addComponent(lblNewLabel_2_3_1, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
@@ -375,7 +433,11 @@ public class Addteacher extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblNewLabel_2_3, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
+<<<<<<< Updated upstream
 					.addComponent(NameTextField, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+=======
+					.addComponent(nametextField, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+>>>>>>> Stashed changes
 					.addGap(18)
 					.addComponent(lblNewLabel_2_3_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 					.addGap(28)
@@ -385,11 +447,19 @@ public class Addteacher extends JFrame {
 						.addComponent(lblNewLabel_2_3_2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
+<<<<<<< Updated upstream
 					.addComponent(PhoneNumberTextField, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
 					.addGap(36)
 					.addComponent(lblNewLabel_2_3_2_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(EmailTextField, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+=======
+					.addComponent(PhonetextField_4, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+					.addGap(36)
+					.addComponent(lblNewLabel_2_3_2_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(EmailtextField_5, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+>>>>>>> Stashed changes
 					.addContainerGap(85, Short.MAX_VALUE))
 		);
 		First.setLayout(gl_First);

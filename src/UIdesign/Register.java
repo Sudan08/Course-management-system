@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.components.JSpinField;
 
+import backend.Register_backend;
 import backend.connector;
 
 import javax.swing.JButton;
@@ -66,6 +67,56 @@ public class Register extends JFrame {
 	private JDateChooser dateChooser;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
+	
+	public String getUniID() {
+		return UniID;
+	}
+
+	public String getUserName() {
+		return UserName;
+	}
+
+	public String getPassword() {
+		return Password;
+	}
+
+	public String getName() {
+		return Name;
+	}
+
+	public String getPhoneNumber() {
+		return PhoneNumber;
+	}
+
+	public String getEmailAddress() {
+		return EmailAddress;
+	}
+
+	public String getGender() {
+		return Gender;
+	}
+
+	public String getDOB() {
+		return DOB;
+	}
+
+	public String getAddress() {
+		return Address;
+	}
+
+	public String getLevel() {
+		return Level;
+	}
+
+	public String getSemester() {
+		return Semester;
+	}
+
+	public int getId() {
+		return Id;
+	}
+
+
 	
 
 
@@ -188,7 +239,6 @@ public class Register extends JFrame {
 				PhoneNumber = PhoneNotextField_2.getText().trim();
 				Address = AddresstextField.getText().trim();
 				EmailAddress = EmailtextField.getText().trim();
-				
 				cl_cardPanel.show(panel_2,"name_247153338358800");
 			}
 		});
@@ -311,53 +361,8 @@ public class Register extends JFrame {
 				UserName = userNametextField.getText().trim();
 				Password = passwordTextField.getText().trim();
 				
-				Statement statement = connector.getStatement();
-				
-				String insertQuery = "INSERT INTO `student`(`UniID`, `Username`, `Password`) VALUES ('"+UniID+"','"+UserName+"','"+Password+"')";
-				
-				try {
-					int insertSuccess = statement.executeUpdate(insertQuery);
-					if (insertSuccess == 1) {
-						System.out.println("Success");
-					}else {
-						System.out.println("Failure");
-					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				String getStudentID = "SELECT `StudentID` FROM `student` ORDER BY StudentID DESC LIMIT 1;";
-				
-				try {
-					ResultSet resultSet = statement.executeQuery(getStudentID);
-					while (resultSet.next()) {
-						Id = resultSet.getInt("StudentID");
-					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				
-				
-				
-				String insertQuery2 = "INSERT INTO `studentdetails`(`StudentID`, `Name`, `Phonenumber`, `Emailaddress`, `DOB`, `Address`, `Gender`, `Level`, `Semester`) "
-						+ "VALUES ('"+ Id +"','"+Name+"','"+PhoneNumber+"','"+EmailAddress+"','"+DOB+"','"+Address+"','"+Gender+"','"+Level+"','"+Semester+"')";
-				
-				
-				try {
-					int insertSuccess = statement.executeUpdate(insertQuery2);
-					if(insertSuccess == 1) {
-						System.out.println("Success");
-					}else {
-						System.out.println("Failure");
-					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
+				Register_backend submit= new Register_backend();
+				submit.insert();
 			}
 		});
 		btnNewButton_1.setFont(new Font("Perpetua", Font.PLAIN, 25));

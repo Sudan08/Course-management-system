@@ -14,12 +14,14 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.awt.event.ActionEvent;
 
-public class Updateteacher extends JFrame {
+public class Updateteacher extends JDialog {
 	private int selectedRow ;
 	public void setSelectedRow(int selectedRow) {
 		this.selectedRow = selectedRow;

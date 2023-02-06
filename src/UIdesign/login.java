@@ -29,6 +29,7 @@ import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ItemListener;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -196,6 +197,10 @@ public class Login {
 		btnNewButton.setForeground(SystemColor.text);
 		btnNewButton.setBackground(SystemColor.desktop);
 		btnNewButton.addActionListener(new ActionListener() {
+			private String db_userName;
+			private String db_password;
+			private String uniID;
+
 			public void actionPerformed(ActionEvent e) {
 				
 				
@@ -233,29 +238,37 @@ public class Login {
 						userName = UserTextField.getText().trim();
 						password = new String(passwordField.getPassword());
 						Statement statement = connector.getStatement();					
-						String getData = "SELECT `Username`, `Password` FROM `student` WHERE Username = '"+userName+"' AND Password = '"+password+"';";
+						String getData = "SELECT `Username`, `Password` , `UniID` , `StudentID` FROM `student` WHERE Username = '"+userName+"' AND Password = '"+password+"';";
 						
 						
 						try {
 							int flag = 0;
 							ResultSet resultSet = statement.executeQuery(getData);
 							while (resultSet.next()) {
-								String db_userName = resultSet.getString("Username").trim();
-								String db_password = resultSet.getString("Password").trim();
+								db_userName = resultSet.getString("Username").trim();
+								db_password = resultSet.getString("Password").trim();
+								uniID = resultSet.getBigDecimal("UniID").toString();
+								String StudentID = resultSet.getBigDecimal("StudentID").toString();
 								if (db_userName.equals(userName) && db_password.equals(password)) {
 									Student window = new Student();
-									window.setVisible(true);
+									window.setStudentID(StudentID);
+									window.setUniID(uniID);
 									frmLogin.dispose();
 									flag = 1;
 								}
+								if (flag == 0 ) {
+									System.out.println("no login");
+								}
 							}
-							if (flag == 0) {
-								System.out.println("User Not Found");
-							}
+							
+							
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+						
+						
+						
 				} else if (comboBoxValue.equals("Teacher")) {
 					userName = UserTextField.getText().trim();
 					password = new String(passwordField.getPassword());
@@ -270,8 +283,7 @@ public class Login {
 							String db_userName = resultSet.getString("Username").trim();
 							String db_password = resultSet.getString("Password").trim();
 							if (db_userName.equals(userName) && db_password.equals(password)) {
-								Student window = new Student();
-								window.setVisible(true);
+								Teacher window = new Teacher();
 								frmLogin.dispose();
 								flag = 1;
 							}

@@ -27,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import backend.CourseQuery;
+import backend.ModuleQuery;
 import backend.Teacher_data;
 import backend.connector;
 
@@ -68,6 +69,13 @@ public class AdminDashboard{
 				"CourseID", "CourseName", "CourseDescription", "NoOfModules", "Status", "Duration"
 			}
 		);
+	
+	private static DefaultTableModel ModuleModal= new DefaultTableModel(
+			new Object[][] {},
+			new String[] {
+				"ModuleID", "CourseID", "ModuleName", "ModuleLeader", "Level", "Semester","CreditHour"
+			}
+		);
 
 	/**
 	 * Launch the application.
@@ -93,11 +101,10 @@ public class AdminDashboard{
 	}
 	
 	public static void getCourseData() throws SQLException {
-		Statement statement = connector.getStatement();
 		
-		String getQuery = "SELECT * FROM `course`"; 
 		
-		 resultSet = statement.executeQuery(getQuery);
+		
+		 resultSet = CourseQuery.SelectQuery();
 		
 		
 		while (resultSet.next()) {
@@ -118,6 +125,31 @@ public class AdminDashboard{
 		}
 	}
 
+	
+	public static void getModuleData() throws SQLException{
+		resultSet = ModuleQuery.SelectQuery();
+		
+		while (resultSet.next()) {
+			int ModuleID = resultSet.getInt("ModuleID");
+			int CourseID = resultSet.getInt("CourseID");
+			String ModuleName = resultSet.getString("ModuleName");
+			String ModuleLeader = resultSet.getString("Module Leader");
+			String Level = resultSet.getString("Level");
+			String Semester = resultSet.getString("Semester");
+			String Credithour = resultSet.getString("Credithour");
+			ModuleModal.addRow(new Object[] {
+					ModuleID,
+					CourseID,
+					ModuleName,
+					ModuleLeader,
+					Level,
+					Semester,
+					Credithour,
+			});
+		}
+		
+		
+	}
 		
 
 
@@ -126,6 +158,7 @@ public class AdminDashboard{
 
 
 	Teacher_data teacher1;
+	private JTable ModuleTable;
 	public void getTeacherData() {
 		try {
 			teacher1 = new Teacher_data();
@@ -244,6 +277,11 @@ public class AdminDashboard{
 		btnNewButton_1_1_1.setBackground(new Color(191, 180, 143));
 		
 		JButton btnNewButton_1_1_2 = new JButton("Module");
+		btnNewButton_1_1_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl_cardPanel.show(cardPanel,"name_745223977780800");
+			}
+		});
 		btnNewButton_1_1_2.setIconTextGap(35);
 		btnNewButton_1_1_2.setForeground(new Color(86, 78, 88));
 		btnNewButton_1_1_2.setFont(new Font("Perpetua", Font.PLAIN, 25));
@@ -563,8 +601,10 @@ public class AdminDashboard{
 		btnAddTeachers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmAdminPanel.dispose();
+				TeacherModal.setRowCount(0);
 				Addteacher window = new Addteacher();
 				window.setVisible(true);
+				
 			}
 		});
 		btnAddTeachers.setIcon(new ImageIcon("C:\\Users\\sudan\\Downloads\\add-user.png"));
@@ -737,31 +777,27 @@ public class AdminDashboard{
 				JButton submit = addCourse.getBtnSubmit();
 				submit.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						HashMap<String,String> addData = new HashMap<>();
 						String Coursename = addCourse.getCoursetf().getText();
 						String CourseDes = addCourse.getCourseDestf().getText();
 						String NoOfModules = addCourse.getNomoduletf().getText();
 						String Status = addCourse.getStatustf().getText();
 						String Duration = addCourse.getDurationtf().getText();
 						
-						Statement statement = connector.getStatement();
-						
-						String createQuery = "INSERT INTO `course`(`CourseName`, `CourseDescription`, `NoofModules`, `Status`, `Duration`) VALUES ('"+Coursename+"','"+CourseDes+"','"+NoOfModules+"','"+Status+"','"+Duration+"')";
-						
-						
+						addData.put("Coursename", Coursename);
+						addData.put("CourseDes", CourseDes);
+						addData.put("NoOfModules", NoOfModules);
+						addData.put("Status", Status);
+						addData.put("Duration", Duration);
+						CourseModal.setRowCount(0);
+						CourseQuery.InsertQuery(addData);
 						try {
-							int createSuccess = statement.executeUpdate(createQuery);
-							if (createSuccess == 1) {
-								System.out.println("Success");
-								addCourse.setVisible(false);
-								CourseModal.setRowCount(0);
-								getCourseData();
-							}else {
-								System.out.println("Error");
-							}
+							getCourseData();
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+						addCourse.setVisible(false);
 					}
 				});
 			}
@@ -850,7 +886,16 @@ public class AdminDashboard{
 							updateData.put("No of modules", updateForm.getNomoduletf().getText());
 							updateData.put("Status", updateForm.getStatustf().getText());
 							updateData.put("Duration", updateForm.getDurationtf().getText());
+							CourseModal.setRowCount(0);
 							CourseQuery.UpdateQuery(updateData);
+							
+							try {
+								getCourseData();
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							updateForm.setVisible(false);
 							
 						}
 
@@ -998,21 +1043,177 @@ public class AdminDashboard{
 		
 		JLabel lblNewLabel_11 = new JLabel("Module");
 		lblNewLabel_11.setFont(new Font("Perpetua", Font.PLAIN, 30));
+		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		
+		JButton btnNewButton_2_1_1 = new JButton("Add Module");
+		btnNewButton_2_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HashMap<String,String> addData = new HashMap<>();
+				ModuleForm insertForm = new ModuleForm();
+				insertForm.setVisible(true);
+				
+				JButton submit = insertForm.getSubmit();
+				submit.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String CourseID = insertForm.getCourseIDtextField().getText();
+						String ModuleName = insertForm.getModuletf().getText();
+						String ModuleLeader = insertForm.getModuleLeadertf().getText();
+						String Level = insertForm.getLeveltf().getText();
+						String Semester =insertForm.getSemestertf().getText();
+						String CreditHour = insertForm.getCreditHouttf().getText();
+						
+						
+						addData.put("CourseID", CourseID);
+						addData.put("ModuleName", ModuleName);
+						addData.put("ModuleLeader", ModuleLeader);
+						addData.put("Level", Level);
+						addData.put("Semester", Semester);
+						addData.put("CreditHour", CreditHour);
+						
+						
+						ModuleModal.setRowCount(0);
+						ModuleQuery.InsertQuery(addData);
+						try {
+							getModuleData();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+						
+					}
+				});
+			}
+		});
+		btnNewButton_2_1_1.setIconTextGap(15);
+		btnNewButton_2_1_1.setForeground(new Color(86, 78, 88));
+		btnNewButton_2_1_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
+		btnNewButton_2_1_1.setBackground(new Color(208, 252, 179));
 		GroupLayout gl_Module = new GroupLayout(Module);
 		gl_Module.setHorizontalGroup(
-			gl_Module.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_Module.createSequentialGroup()
-					.addContainerGap(423, Short.MAX_VALUE)
-					.addComponent(lblNewLabel_11, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
-					.addGap(484))
+			gl_Module.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_Module.createSequentialGroup()
+					.addGroup(gl_Module.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Module.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(scrollPane_4, GroupLayout.DEFAULT_SIZE, 991, Short.MAX_VALUE))
+						.addGroup(gl_Module.createSequentialGroup()
+							.addGap(415)
+							.addComponent(lblNewLabel_11, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
+				.addGroup(gl_Module.createSequentialGroup()
+					.addContainerGap(401, Short.MAX_VALUE)
+					.addComponent(btnNewButton_2_1_1, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
+					.addGap(390))
 		);
 		gl_Module.setVerticalGroup(
 			gl_Module.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_Module.createSequentialGroup()
-					.addGap(21)
+					.addGap(17)
 					.addComponent(lblNewLabel_11)
-					.addContainerGap(391, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(scrollPane_4, GroupLayout.PREFERRED_SIZE, 290, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btnNewButton_2_1_1, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(33, Short.MAX_VALUE))
 		);
+		
+		ModuleTable = new JTable();
+		ModuleTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Object[] options= {"Update","Delete"};
+				int selecterOption=JOptionPane.showOptionDialog(null, "Do you want to update or delete?", "Update or delete teacher",
+						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
+				int selectedRow1 = ModuleTable.getSelectedRow();
+				if (selecterOption == 0) {
+					HashMap<String , String> updateData = new HashMap<>();
+					ModuleForm updateForm = new ModuleForm();
+					updateForm.setVisible(true);
+					updateForm.setTitle("Update Module Form");
+					
+					for(int i=1;i<ModuleTable.getColumnCount();i++) {
+						String data =  ModuleTable.getValueAt(selectedRow1, i).toString();
+						if(updateForm.getCourseIDtextField().getText().isEmpty()) {
+							
+							updateForm.getCourseIDtextField().setText(data);
+							
+							
+						}else if(updateForm.getModuletf().getText().isEmpty()) {
+							
+							updateForm.getModuletf().setText(data);
+							
+							
+						}else if(updateForm.getModuleLeadertf().getText().isEmpty()) {
+							
+							updateForm.getModuleLeadertf().setText(data);
+							
+							
+						}else if(updateForm.getLeveltf().getText().isEmpty()) {
+							updateForm.getLeveltf().setText(data);
+							
+						}
+						else if(updateForm.getSemestertf().getText().isEmpty()) {
+							updateForm.getSemestertf().setText(data);
+							
+						}
+						else if(updateForm.getCreditHouttf().getText().isEmpty()) {
+							updateForm.getCreditHouttf().setText(data);
+							
+						}	
+					}
+					
+					JButton submit = updateForm.getSubmit();
+					submit.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							String ModuleID = ModuleTable.getValueAt(selectedRow1, 0).toString();
+							updateData.put("ModuleID", ModuleID);
+							updateData.put("CourseID", updateForm.getCourseIDtextField().getText());
+							updateData.put("ModuleName", updateForm.getModuletf().getText());
+							updateData.put("ModuleLeader", updateForm.getModuleLeadertf().getText());
+							updateData.put("Level", updateForm.getLeveltf().getText());
+							updateData.put("Semester", updateForm.getSemestertf().getText());
+							updateData.put("CreditHour", updateForm.getCreditHouttf().getText());
+							ModuleModal.setRowCount(0);
+							ModuleQuery.UpdateQuery(updateData);
+							try {
+								getModuleData();
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							updateForm.setVisible(false);
+							
+						}
+
+
+					});
+					
+					
+					
+					
+
+					
+				}
+				else if (selecterOption==1) {
+					Object[] comfirm= {"Yes","No"};
+					int confirm=JOptionPane.showOptionDialog(null, "Are you sure you want to delete?", "Confirm",
+							JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,comfirm,comfirm[0]);
+					if(confirm ==0) {
+					HashMap <String,String> deleteData = new HashMap<>();
+					
+					String Id = ModuleTable.getValueAt(selectedRow1,0).toString();
+					ModuleModal.removeRow(ModuleTable.getSelectedRow());
+					deleteData.put("ID",Id);
+					ModuleQuery.DeleteQuery(deleteData);
+				
+					}
+				}
+			}
+		});
+		scrollPane_4.setViewportView(ModuleTable);
+		ModuleTable.setModel(ModuleModal);
 		Module.setLayout(gl_Module);
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
@@ -1021,6 +1222,13 @@ public class AdminDashboard{
 		getTeacherData();
 		try {
 			getCourseData();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			getModuleData();
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

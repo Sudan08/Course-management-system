@@ -10,6 +10,39 @@ import UIdesign.CourseForm;
 public class CourseQuery {
 	static Statement statement = connector.getStatement(); 
 	
+	public static void InsertQuery(HashMap<String , String> insertData) {
+		
+		String insertQuery = "INSERT INTO `course`(`CourseName`, `CourseDescription`, `NoofModules`, `Status`, `Duration`)"+
+		" VALUES ('"+insertData.get("Coursename")+"','"+insertData.get("CourseDes")+"','"+insertData.get("NoOfModules")+"','"+insertData.get("Status")+"','"+insertData.get("Duration")+"')";
+		
+		
+		try {
+			int insertSuccess = statement.executeUpdate(insertQuery);
+			if(insertSuccess == 1) {
+				System.out.println("Inserted");
+			}else {
+				System.out.println("No insert");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static ResultSet SelectQuery() {
+		String getQuery = "SELECT * FROM `course`"; 
+		
+		ResultSet resultSet = null;
+		try {
+			resultSet = statement.executeQuery(getQuery);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		 
+		return resultSet;
+	}
 	
 	public static void UpdateQuery(HashMap<String , String> updateData) {
 		
