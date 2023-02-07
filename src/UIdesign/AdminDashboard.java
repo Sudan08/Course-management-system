@@ -813,7 +813,7 @@ public class AdminDashboard{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					System.out.println();
+		
 					String deleteQuery1 = "DELETE FROM `teacher` WHERE TeacherID = '"+TeacherId+"'";
 					int deleteSuccess;
 					try {

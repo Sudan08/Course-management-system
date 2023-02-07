@@ -333,9 +333,11 @@ public class Teacher {
 					submitbutton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							String smarks = marks.getMarkstf().getText().trim();
+							String AssignmentID = SubmissionTable.getValueAt(selectedRow, 1).toString();
 							String StdId = SubmissionTable.getValueAt(selectedRow,3).toString();
 							updateData.put("Marks",smarks);
 							updateData.put("StudentID",StdId);
+							updateData.put("AssignmentID",AssignmentID);
 							SubmissionQuery.UpdateMarksQuery(updateData);
 							SubmissionModal.setRowCount(0);
 							marks.setVisible(false);

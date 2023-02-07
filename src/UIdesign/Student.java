@@ -8,10 +8,12 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JSplitPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 
 import backend.AssignmentQuery;
+import backend.ReportQuery;
 import backend.StudentQuery;
 import backend.SubmissionQuery;
 
@@ -30,9 +32,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.awt.CardLayout;
+import java.awt.Component;
 
 public class Student {
 	private String StudentID;
+	
+	private CardLayout cl_cardPanel= new CardLayout(0,0);
+	private JPanel cardPanel;
 	private String UniID;
 	public void setStudentID(String studentID) {
 		StudentID = studentID;
@@ -73,8 +79,6 @@ public class Student {
 				"AssignmentID", "Question", "Module"
 			}
 		);
-	
-	private JTable ResultTable;
 	private JTable SubTable;
 
 	/**
@@ -151,52 +155,18 @@ public class Student {
 		JPanel panel_1 = new JPanel();
 		splitPane.setLeftComponent(panel_1);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton Homebtn = new JButton("Home");
+		Homebtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				cl_cardPanel.show(cardPanel,"name_4213068297000");
 			}
 		});
 		
 		JButton btnNewButton_1 = new JButton("New button");
-		
 		JLabel lblNewLabel = new JLabel("Student");
 		lblNewLabel.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
-		JButton btnResult = new JButton("Result");
 		
-		JButton btnNewButton_2_1 = new JButton("New button");
-		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(75)
-					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
-					.addGap(78))
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(46)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnNewButton_2_1, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnResult, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(62, Short.MAX_VALUE))
-		);
-		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(49)
-					.addComponent(lblNewLabel)
-					.addGap(46)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(btnResult, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(btnNewButton_2_1, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
-					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		panel_1.setLayout(gl_panel_1);
 		
 		JPanel panel_2 = new JPanel();
 		splitPane.setRightComponent(panel_2);
@@ -237,27 +207,29 @@ public class Student {
 		);
 		panel_3.setLayout(gl_panel_3);
 		
-		JPanel CardLayout = new JPanel();
-		splitPane_1.setRightComponent(CardLayout);
-		CardLayout.setLayout(new CardLayout(0, 0));
+		cardPanel = new JPanel();
+		splitPane_1.setRightComponent(cardPanel);
+		cardPanel.setLayout(cl_cardPanel);
 		
 		JPanel AssignmentSubmission = new JPanel();
-		CardLayout.add(AssignmentSubmission, "name_4213068297000");
+		cardPanel.add(AssignmentSubmission, "name_4213068297000");
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		GroupLayout gl_AssignmentSubmission = new GroupLayout(AssignmentSubmission);
 		gl_AssignmentSubmission.setHorizontalGroup(
 			gl_AssignmentSubmission.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_AssignmentSubmission.createSequentialGroup()
-					.addGap(173)
+					.addContainerGap()
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 313, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(313, Short.MAX_VALUE))
+					.addContainerGap(174, Short.MAX_VALUE))
 		);
 		gl_AssignmentSubmission.setVerticalGroup(
-			gl_AssignmentSubmission.createParallelGroup(Alignment.LEADING)
+			gl_AssignmentSubmission.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_AssignmentSubmission.createSequentialGroup()
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 266, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(160, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
+					.addGap(763))
 		);
 		
 		SubTable = new JTable();
@@ -269,10 +241,23 @@ public class Student {
 						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
 				int selectedRow = SubTable.getSelectedRow();
 				if (selecterOption == 0) {
+//					String AssignmentID = SubTable.getValueAt(selectedRow,0).toString().trim();
+//					HashMap<String, String> checkdata = new HashMap <> ();
+//					checkdata.put("AssignmentID",AssignmentID);
+//					checkdata.put("StudentID", StudentID);
+//					ResultSet resultSet= SubmissionQuery.CheckQuery(checkdata);
+//					while (subData.next()) {
+//						String Db_AssignmentID = subData.getString("AssignmentID");
+//						String Db_StudentID = subData.getString("Question");
+//					
+//					}
+					
+					
+					
 					String ID = SubTable.getValueAt(selectedRow, 0).toString();
 					ResultSet resultSet = SubmissionQuery.getQuestion(ID);
-					String question = null;
-					String marks = null;
+					String question = "";
+					String marks = "";
 					
 					try {
 						while (resultSet.next()) {
@@ -323,43 +308,147 @@ public class Student {
 		SubTable.setModel(SubmissionModel);
 		scrollPane.setViewportView(SubTable);
 		
-		JLabel lblNewLabel_1 = new JLabel("Submission Table");
-		scrollPane.setColumnHeaderView(lblNewLabel_1);
-		lblNewLabel_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
-		
 		JPanel Result = new JPanel();
-		CardLayout.add(Result, "name_4274684947099");
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
+		cardPanel.add(Result, "name_4274684947099");
 		
 		JLabel lblNewLabel_2 = new JLabel("Result ");
 		lblNewLabel_2.setFont(new Font("Perpetua", Font.PLAIN, 30));
+		
+		JButton btnNewButton = new JButton("OOP");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[] options= {"View Report"};
+				int selecterOption=JOptionPane.showOptionDialog(null, "Do you want to View Marks?", "View marks",
+						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
+				if (selecterOption == 0) {
+					String Module = "OOP";
+					HashMap <String , String > viewData = new HashMap <>();
+					viewData.put("StudentID",StudentID);
+					viewData.put("Module",Module);
+					ResultSet reportData = ReportQuery.SelectQuery(viewData);
+					int assignmentCounter = 0;
+					int overallMarks = 0;
+					String overallStatus = "passed";
+					String Name = null;
+					String Published ="false";
+					try {
+						while (reportData.next()) {
+							Name = reportData.getString("StudentName").trim();
+							int Marks = reportData.getInt("Marks");
+							String Status = reportData.getString("Status").trim();
+							Published = reportData.getString("Published").trim();
+							assignmentCounter += 1;
+							if (Published.equals("true")) {
+								overallMarks += Marks;	
+								if (Status == "failed") {
+									overallStatus = "failed";
+								}
+							} else {
+								Published = "false";
+							}
+							
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					if (StudentID != null) {
+						overallMarks = overallMarks / assignmentCounter;
+					}
+					
+					ReportForm.setMarks(overallMarks);
+					ReportForm.setStudentIDlb(StudentID);
+					ReportForm.setModulelb(Module);
+					ReportForm.setStatus(overallStatus);
+					ReportForm.setS_Name(Name);
+					if (Published.equals("true")) {
+						ReportForm report = new ReportForm();
+						report.setVisible(true);
+					}else {
+						NotPublished window = new NotPublished();
+						window.setVisible(true);
+					}
+					
+					
+				}
+			}
+		});
+		
+		JButton btnConceptAnTechnology = new JButton("Concept an Technology of AI");
+		btnConceptAnTechnology.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
+		JButton btnNmc = new JButton("NMC");
 		GroupLayout gl_Result = new GroupLayout(Result);
 		gl_Result.setHorizontalGroup(
 			gl_Result.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_Result.createSequentialGroup()
-					.addGroup(gl_Result.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_Result.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 774, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_Result.createSequentialGroup()
-							.addGap(349)
-							.addComponent(lblNewLabel_2)))
-					.addContainerGap(15, Short.MAX_VALUE))
+					.addGap(22)
+					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE)
+					.addGap(45)
+					.addComponent(btnConceptAnTechnology, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+					.addComponent(btnNmc, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE)
+					.addGap(32))
+				.addGroup(gl_Result.createSequentialGroup()
+					.addGap(349)
+					.addComponent(lblNewLabel_2)
+					.addContainerGap(373, Short.MAX_VALUE))
 		);
 		gl_Result.setVerticalGroup(
 			gl_Result.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_Result.createSequentialGroup()
 					.addGap(12)
 					.addComponent(lblNewLabel_2)
+					.addGap(92)
+					.addGroup(gl_Result.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnConceptAnTechnology, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnNmc, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(120, Short.MAX_VALUE))
+		);
+		JButton btnResult = new JButton("Result");
+		btnResult.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl_cardPanel.show(cardPanel,"name_4274684947099");
+			}
+		});
+		
+		JButton btnNewButton_2_1 = new JButton("New button");
+		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(75)
+					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+					.addGap(78))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(46)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnNewButton_2_1, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnResult, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
+						.addComponent(Homebtn, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(62, Short.MAX_VALUE))
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(49)
+					.addComponent(lblNewLabel)
+					.addGap(46)
+					.addComponent(Homebtn, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+					.addComponent(btnResult, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btnNewButton_2_1, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
+					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
-		
-		ResultTable = new JTable();
-		ResultTable.setModel(ResultModel);
-		scrollPane_1.setViewportView(ResultTable);
+		panel_1.setLayout(gl_panel_1);
 		Result.setLayout(gl_Result);
 		splitPane_1.setDividerLocation(100);
 		panel_2.setLayout(gl_panel_2);

@@ -27,7 +27,7 @@ public class SubmissionQuery {
 public static void InsertQuery(HashMap<String , String> data) {
 	
 		
-		String insertQuery = "INSERT INTO `stdsubmission`(`AssignmentID`, `Module`,`StudentID`,`UniID`, `StudentName`,`Question`,`Answer` ,`Marks`,`Published`) VALUES ('"+data.get("AssignmentID")+"','"+data.get("Module")+"','"+data.get("StudentID")+"','"+data.get("UniID")+"','"+data.get("StudentName")+"','"+data.get("Question")+"','"+data.get("Answer")+"','"+data.get("Marks")+"','false')";
+		String insertQuery = "INSERT INTO `stdsubmission`(`AssignmentID`, `Module`,`StudentID`,`UniID`, `StudentName`,`Question`,`Answer` ,`Marks`,`Published`,`Status`) VALUES ('"+data.get("AssignmentID")+"','"+data.get("Module")+"','"+data.get("StudentID")+"','"+data.get("UniID")+"','"+data.get("StudentName")+"','"+data.get("Question")+"','"+data.get("Answer")+"','"+data.get("Marks")+"','false','failed')";
 		
 		
 		try {
@@ -58,8 +58,13 @@ public static ResultSet SelectQuery() {
 	return resultSet;
 }
 public static void UpdateMarksQuery(HashMap<String, String> updateData) {
+	int Marks = Integer.parseInt(updateData.get("Marks"));
+	String Status = "failed";
+	if (Marks >= 40) {
+		Status = "passed";
+	}
 	
-	String insertQuery = "UPDATE `stdsubmission` SET `Marks`='"+updateData.get("Marks")+"' WHERE StudentID = '"+updateData.get("StudentID")+"'";
+	String insertQuery = "UPDATE `stdsubmission` SET `Marks`='"+Marks+"' , `Status`='"+Status+"' WHERE StudentID = '"+updateData.get("StudentID")+"' AND AssignmentID = '"+updateData.get("AssignmentID")+"'";
 	
 	
 	try {
@@ -90,5 +95,18 @@ public static void UpdateMarksQuery(HashMap<String, String> updateData) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public static ResultSet CheckQuery(HashMap<String, String> data) {
+		String getQuery = "SELECT * FROM `stdsubmission` WHERE StudentID = '"+data.get("StudentID")+"' AND AssignmentID = '"+data.get("AssigmentID")+"'";
+		
+		ResultSet resultSet = null;
+		try {
+			resultSet = statement.executeQuery(getQuery);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		 
+		return resultSet;
 	}
 }
