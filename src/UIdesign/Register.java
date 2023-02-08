@@ -376,8 +376,56 @@ public class Register extends JFrame {
 				UniID = uniIDtextField.getText().trim();
 				UserName = userNametextField.getText().trim();
 				Password = passwordTextField.getText().trim();
+
+				Statement statement = connector.getStatement();
+				
+				String insertQuery = "INSERT INTO `student`(`UniID`, `Username`, `Password`) VALUES ('"+UniID+"','"+UserName+"','"+Password+"')";
+				
+				try {
+					int insertSuccess = statement.executeUpdate(insertQuery);
+					if (insertSuccess == 1) {
+						System.out.println("Success");
+					}else {
+						System.out.println("Failure");
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				String getStudentID = "SELECT `StudentID` FROM `student` ORDER BY StudentID DESC LIMIT 1;";
+				
+				try {
+					ResultSet resultSet = statement.executeQuery(getStudentID);
+					while (resultSet.next()) {
+						Id = resultSet.getInt("StudentID");
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+				
+				String insertQuery2 = "INSERT INTO `studentdetails`(`StudentID`, `Name`, `Phonenumber`, `Emailaddress`, `DOB`, `Address`, `Gender`, `Level`, `Semester`) "
+						+ "VALUES ('"+ Id +"','"+Name+"','"+PhoneNumber+"','"+EmailAddress+"','"+DOB+"','"+Address+"','"+Gender+"','"+Level+"','"+Semester+"')";
+				
+				
+				try {
+					int insertSuccess = statement.executeUpdate(insertQuery2);
+					if(insertSuccess == 1) {
+						System.out.println("Success");
+					}else {
+						System.out.println("Failure");
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				frame.setVisible(false);
+				Login login = new Login();
 			}
 		});
 		btnNewButton_1.setFont(new Font("Perpetua", Font.PLAIN, 25));

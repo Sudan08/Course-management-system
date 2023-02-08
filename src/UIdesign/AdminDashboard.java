@@ -77,7 +77,7 @@ public class AdminDashboard{
 	private static DefaultTableModel StudentModal= new DefaultTableModel(
 			new Object[][] {},
 			new String[] {
-					"StudentDetailsID", "StudentID", "Name", "Phonenumber" , "Emailaddress" , "DOB" ,"Address", "Gender" , "Level","Semester","Course"
+					"StudentDetailsID", "StudentID", "Name", "Phonenumber" , "Emailaddress" , "DOB" ,"Address", "Gender" , "Level","Semester",
 			}
 		);
 	
@@ -162,7 +162,6 @@ public class AdminDashboard{
 			String Gender = resultSet.getString("Gender");
 			String Level = resultSet.getString("Level");
 			String Semester = resultSet.getString("Semester");
-			String Course = resultSet.getString("Course");
 			StudentModal.addRow(new Object[] {
 					StudentDetails,
 					StudentID,
@@ -174,7 +173,6 @@ public class AdminDashboard{
 					Gender,
 					Level,
 					Semester,
-					Course,
 			});
 		}
 	}
