@@ -30,6 +30,8 @@ import java.util.Enumeration;
 
 import java.awt.event.ActionEvent;
 import javax.swing.ButtonGroup;
+import java.awt.Color;
+import javax.swing.border.MatteBorder;
 
 public class Addteacher extends JFrame {
 
@@ -107,6 +109,7 @@ public class Addteacher extends JFrame {
 		);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(0, 0, 0));
 		splitPane.setLeftComponent(panel);
 		
 		JLabel lblNewLabel = new JLabel("");
@@ -132,6 +135,7 @@ public class Addteacher extends JFrame {
 		panel_1.setLayout(cl_cardPanel);
 		
 		JPanel First = new JPanel();
+		First.setBackground(new Color(255, 255, 255));
 		panel_1.add(First, "name_411082232382600");
 		
 		JLabel lblNewLabel_1 = new JLabel("Add Teacher");
@@ -141,21 +145,26 @@ public class Addteacher extends JFrame {
 		lblNewLabel_2.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		UserNameTextField = new JTextField();
+		UserNameTextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		UserNameTextField.setColumns(10);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("ConfirmPassword");
 		lblNewLabel_2_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		CpasswordTextField = new JTextField();
+		CpasswordTextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		CpasswordTextField.setColumns(10);
 		
 		JLabel lblNewLabel_2_2 = new JLabel("Password");
 		lblNewLabel_2_2.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		passwordTextField = new JTextField();
+		passwordTextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		passwordTextField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Procced");
+		btnNewButton.setBackground(new Color(0, 0, 0));
+		btnNewButton.setForeground(new Color(255, 255, 255));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -226,15 +235,19 @@ public class Addteacher extends JFrame {
 		lblNewLabel_2_4.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Male");
+		rdbtnNewRadioButton.setBackground(new Color(255, 255, 255));
 		buttonGroup.add(rdbtnNewRadioButton);
 		
 		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Female");
+		rdbtnNewRadioButton_1.setBackground(new Color(255, 255, 255));
 		buttonGroup.add(rdbtnNewRadioButton_1);
 		
 		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Other");
+		rdbtnNewRadioButton_2.setBackground(new Color(255, 255, 255));
 		buttonGroup.add(rdbtnNewRadioButton_2);
 		
 		JPanel Third1 = new JPanel();
+		Third1.setBackground(new Color(255, 255, 255));
 		panel_1.add(Third1, "name_411358559619900");
 		
 		GroupLayout gl_Third1 = new GroupLayout(Third1);
@@ -319,6 +332,7 @@ public class Addteacher extends JFrame {
 		
 
 		NameTextField = new JTextField();
+		NameTextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		NameTextField.setColumns(10);
 
 		
@@ -326,12 +340,15 @@ public class Addteacher extends JFrame {
 		lblNewLabel_2_3_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.getCalendarButton().setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		dateChooser.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		
 		JLabel lblNewLabel_2_3_2 = new JLabel("PhoneNumber:");
 		lblNewLabel_2_3_2.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 
 		PhoneNumberTextField = new JTextField();
+		PhoneNumberTextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		PhoneNumberTextField.setColumns(10);
 
 		
@@ -340,10 +357,13 @@ public class Addteacher extends JFrame {
 		
 
 		EmailTextField = new JTextField();
+		EmailTextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		EmailTextField.setColumns(10);
 
 		
 		JButton btnNewButton_1 = new JButton("Next");
+		btnNewButton_1.setForeground(new Color(255, 255, 255));
+		btnNewButton_1.setBackground(new Color(0, 0, 0));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -414,6 +434,7 @@ public class Addteacher extends JFrame {
 		First.setLayout(gl_First);
 		
 		JPanel Second = new JPanel();
+		Second.setBackground(new Color(255, 255, 255));
 		panel_1.add(Second, "name_411912748962900");
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Add Teacher");
@@ -423,27 +444,33 @@ public class Addteacher extends JFrame {
 		lblNewLabel_2_3_3.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		addressTextField = new JTextField();
+		addressTextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		addressTextField.setColumns(10);
 		
 		JLabel lblNewLabel_2_3_3_1 = new JLabel("Module Taught");
 		lblNewLabel_2_3_3_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		ModuleTextField = new JTextField();
+		ModuleTextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		ModuleTextField.setColumns(10);
 		
 		JLabel lblNewLabel_2_3_3_1_1 = new JLabel("Qualification:");
 		lblNewLabel_2_3_3_1_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		QualificationTextField = new JTextField();
+		QualificationTextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		QualificationTextField.setColumns(10);
 		
 		JLabel lblNewLabel_2_3_3_1_1_1 = new JLabel("Position:");
 		lblNewLabel_2_3_3_1_1_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		positionTextField = new JTextField();
+		positionTextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		positionTextField.setColumns(10);
 		
 		JButton btnNewButton_1_1 = new JButton("Next");
+		btnNewButton_1_1.setBackground(new Color(0, 0, 0));
+		btnNewButton_1_1.setForeground(new Color(255, 255, 255));
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Address = addressTextField.getText();

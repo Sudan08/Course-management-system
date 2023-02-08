@@ -13,6 +13,9 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ReportForm extends JDialog {
 
@@ -44,6 +47,7 @@ public class ReportForm extends JDialog {
 	public ReportForm() {
 		setBounds(100, 100, 1022, 617);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(new Color(255, 255, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
@@ -52,29 +56,45 @@ public class ReportForm extends JDialog {
 		
 		
 		JLabel lblNewLabel_1 = new JLabel("Module:");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel Modulelb = new JLabel(S_Modulelb);
+		Modulelb.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Name:");
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel Name = new JLabel(S_Name);
+		Name.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("StudentID");
+		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel StudentIDlb = new JLabel(S_StudentIDlb);
+		StudentIDlb.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Overall Marks");
+		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel Marks = new JLabel(Integer.toString(S_Marks));
+		Marks.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel lblNewLabel_1_2_1 = new JLabel("Status");
+		lblNewLabel_1_2_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel Status = new JLabel(S_Status);
+		Status.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		btnNewButton = new JButton("Cancel");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton.setBackground(new Color(0, 0, 0));
+		btnNewButton.setForeground(new Color(255, 255, 255));
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPanel.createSequentialGroup()
@@ -97,14 +117,14 @@ public class ReportForm extends JDialog {
 									.addComponent(StudentIDlb, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_contentPanel.createSequentialGroup()
 									.addComponent(lblNewLabel_1_2, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGap(18)
 									.addComponent(Marks, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_contentPanel.createSequentialGroup()
 									.addComponent(lblNewLabel_1_2_1, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(Status, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)))))
-					.addContainerGap(471, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
+					.addContainerGap(478, Short.MAX_VALUE))
+				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addContainerGap(784, Short.MAX_VALUE)
 					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
 					.addGap(87))
@@ -127,7 +147,7 @@ public class ReportForm extends JDialog {
 						.addComponent(Modulelb, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_1_2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 						.addComponent(Marks, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)

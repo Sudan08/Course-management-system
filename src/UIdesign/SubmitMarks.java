@@ -15,6 +15,8 @@ import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.border.MatteBorder;
 
 public class SubmitMarks extends JDialog {
 
@@ -62,6 +64,7 @@ public class SubmitMarks extends JDialog {
 	public SubmitMarks() {
 		setBounds(100, 100, 1192, 694);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(new Color(255, 255, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		{
@@ -76,9 +79,12 @@ public class SubmitMarks extends JDialog {
 		lblAnswer.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
 		markstf = new JTextField();
+		markstf.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		markstf.setColumns(10);
 		
 		btnSubmit = new JButton("Submit");
+		btnSubmit.setForeground(new Color(255, 255, 255));
+		btnSubmit.setBackground(new Color(0, 0, 0));
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -86,6 +92,8 @@ public class SubmitMarks extends JDialog {
 		btnSubmit.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		btnCancel = new JButton("Cancel");
+		btnCancel.setForeground(new Color(255, 255, 255));
+		btnCancel.setBackground(new Color(0, 0, 0));
 		btnCancel.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JLabel lblMarks = new JLabel("Marks:");

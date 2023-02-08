@@ -5,15 +5,19 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 import javax.swing.JPanel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,6 +32,7 @@ import javax.swing.table.DefaultTableModel;
 
 import backend.CourseQuery;
 import backend.ModuleQuery;
+import backend.StudentQuery;
 import backend.SubmissionQuery;
 import backend.TeacherQuery;
 
@@ -54,8 +59,6 @@ public class AdminDashboard{
 	private JTable table_1;
 	private JTable TeacherTable;
 	private JTable CourseTable;
-	private JTextField textField_1;
-	private JTextField textField_2;
 	private int selectedRow;
 	private static DefaultTableModel TeacherModal= new DefaultTableModel(
 			new Object[][] {},
@@ -64,10 +67,17 @@ public class AdminDashboard{
 			}
 		);
 
-	private static DefaultTableModel StudentModal= new DefaultTableModel(
+	private static DefaultTableModel SubmissionModal= new DefaultTableModel(
 			new Object[][] {},
 			new String[] {
 					"SubmissionID", "AssignmentID", "Module", "StudentID" , "UniID" , "StudentName" ,"Question", "Answer" , "Marks","Status","Published"
+			}
+		);
+	
+	private static DefaultTableModel StudentModal= new DefaultTableModel(
+			new Object[][] {},
+			new String[] {
+					"StudentDetailsID", "StudentID", "Name", "Phonenumber" , "Emailaddress" , "DOB" ,"Address", "Gender" , "Level","Semester","Course"
 			}
 		);
 	
@@ -133,6 +143,41 @@ public class AdminDashboard{
 			});
 		}
 	}
+	
+	public static void getStudentData() throws SQLException {
+		
+		
+		
+		 resultSet = StudentQuery.selectQuery();
+		
+		
+		while (resultSet.next()) {
+			String StudentDetails = resultSet.getString("StudentDetailsId");
+			String StudentID = resultSet.getString("StudentID");
+			String Name = resultSet.getString("Name");
+			String Phonenumber = resultSet.getString("Phonenumber");
+			String Emailaddress = resultSet.getString("Emailaddress");
+			String DOB = resultSet.getString("DOB");
+			String Address = resultSet.getString("Address");
+			String Gender = resultSet.getString("Gender");
+			String Level = resultSet.getString("Level");
+			String Semester = resultSet.getString("Semester");
+			String Course = resultSet.getString("Course");
+			StudentModal.addRow(new Object[] {
+					StudentDetails,
+					StudentID,
+					Name,
+					Phonenumber,
+					Emailaddress,
+					DOB,
+					Address,
+					Gender,
+					Level,
+					Semester,
+					Course,
+			});
+		}
+	}
 
 	
 	public static void getModuleData() throws SQLException{
@@ -176,7 +221,7 @@ public class AdminDashboard{
 			String Marks = resultSet.getString("Marks");
 			String Status = resultSet.getString("Status");
 			String Published = resultSet.getString("Published");
-			StudentModal.addRow(new Object[] {
+			SubmissionModal.addRow(new Object[] {
 					SubmissionID,
 					AssignmentID,
 					Module,
@@ -193,16 +238,11 @@ public class AdminDashboard{
 		
 		
 	}
-		
-
-	private JTable ModuleTable;
-	private JTable Studenttable;
-	public static void getTeacherData() {
+	public static void getTeacherData() throws SQLException {
 		resultSet = TeacherQuery.SelectQuery();
-		
-		try {
+			
 			while (resultSet.next()) {
-				int TeacherID = resultSet.getInt("TeacherID");
+				String TeacherID = resultSet.getString("TeacherID");
 				String Name = resultSet.getString("Name");
 				String DOB = resultSet.getString("DOB");
 				String PhoneNumber = resultSet.getString("PhoneNumber");
@@ -225,14 +265,16 @@ public class AdminDashboard{
 						Gender,
 				});
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 				
+;
+		
 
-	}
+	private JTable ModuleTable;
+	private JTable Studenttable;
+	private JTable StudentTable;
+	
 
 	/**
 	 * Initialize the contents of the frame.
@@ -261,14 +303,14 @@ public class AdminDashboard{
 		});
 		btnNewButton.setFocusCycleRoot(true);
 		btnNewButton.setSelectedIcon(new ImageIcon("C:\\Users\\sudan\\Downloads\\home.png"));
-		btnNewButton.setForeground(new Color(86, 78, 88));
+		btnNewButton.setForeground(new Color(0, 0, 0));
 		btnNewButton.setBackground(new Color(255, 255, 255));
 		
 		JButton btnNewButton_1 = new JButton("Course");
 		btnNewButton_1.setBorder(null);
 		btnNewButton_1.setIconTextGap(35);
 		btnNewButton_1.setIcon(new ImageIcon(AdminDashboard.class.getResource("/image/online-learning.png")));
-		btnNewButton_1.setForeground(new Color(86, 78, 88));
+		btnNewButton_1.setForeground(new Color(0, 0, 0));
 		btnNewButton_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		btnNewButton_1.setBackground(new Color(255, 255, 255));
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -277,15 +319,16 @@ public class AdminDashboard{
 			}
 		});
 		
-		JButton btnNewButton_2 = new JButton("Setting ");
+		JButton btnNewButton_2 = new JButton("Student");
+		btnNewButton_2.setBorder(null);
 		btnNewButton_2.setIconTextGap(35);
 		btnNewButton_2.setIcon(new ImageIcon(AdminDashboard.class.getResource("/image/gear.png")));
-		btnNewButton_2.setForeground(new Color(86, 78, 88));
+		btnNewButton_2.setForeground(new Color(0, 0, 0));
 		btnNewButton_2.setFont(new Font("Perpetua", Font.PLAIN, 25));
-		btnNewButton_2.setBackground(new Color(191, 180, 143));
+		btnNewButton_2.setBackground(new Color(255, 255, 255));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cl_cardPanel.show(cardPanel,"name_659175453723500");
+				cl_cardPanel.show(cardPanel,"name_80093103572000");
 			}
 		});
 		
@@ -310,6 +353,7 @@ public class AdminDashboard{
 		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\sudan\\eclipse-workspace\\CourseManagementSystem\\src\\image\\user2.png"));
 		
 		JButton btnNewButton_1_1 = new JButton("Teacher");
+		btnNewButton_1_1.setBorder(null);
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_cardPanel.show(cardPanel,"name_219288303900400");
@@ -318,15 +362,16 @@ public class AdminDashboard{
 		});
 		btnNewButton_1_1.setIconTextGap(35);
 		btnNewButton_1_1.setIcon(new ImageIcon(AdminDashboard.class.getResource("/image/training.png")));
-		btnNewButton_1_1.setForeground(new Color(86, 78, 88));
+		btnNewButton_1_1.setForeground(new Color(0, 0, 0));
 		btnNewButton_1_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
-		btnNewButton_1_1.setBackground(new Color(191, 180, 143));
+		btnNewButton_1_1.setBackground(new Color(255, 255, 255));
 		
-		JButton btnNewButton_1_1_1 = new JButton("Student");
+		JButton btnNewButton_1_1_1 = new JButton("Report");
+		btnNewButton_1_1_1.setBorder(null);
 		btnNewButton_1_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_cardPanel.show(cardPanel,"name_1777422482600");
-				StudentModal.setRowCount(0);
+				SubmissionModal.setRowCount(0);
 				try {
 					getSubmssionData();
 				} catch (SQLException e1) {
@@ -336,13 +381,14 @@ public class AdminDashboard{
 				
 			}
 		});
-		btnNewButton_1_1_1.setIcon(new ImageIcon("C:\\Users\\sudan\\Downloads\\reading.png"));
+		btnNewButton_1_1_1.setIcon(new ImageIcon(AdminDashboard.class.getResource("/image/notepad.png")));
 		btnNewButton_1_1_1.setIconTextGap(35);
-		btnNewButton_1_1_1.setForeground(new Color(86, 78, 88));
+		btnNewButton_1_1_1.setForeground(new Color(0, 0, 0));
 		btnNewButton_1_1_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
-		btnNewButton_1_1_1.setBackground(new Color(191, 180, 143));
+		btnNewButton_1_1_1.setBackground(new Color(255, 255, 255));
 		
 		JButton btnNewButton_1_1_2 = new JButton("Module");
+		btnNewButton_1_1_2.setBorder(null);
 		btnNewButton_1_1_2.setIcon(new ImageIcon(AdminDashboard.class.getResource("/image/plus.png")));
 		btnNewButton_1_1_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -350,17 +396,16 @@ public class AdminDashboard{
 			}
 		});
 		btnNewButton_1_1_2.setIconTextGap(35);
-		btnNewButton_1_1_2.setForeground(new Color(86, 78, 88));
+		btnNewButton_1_1_2.setForeground(new Color(0, 0, 0));
 		btnNewButton_1_1_2.setFont(new Font("Perpetua", Font.PLAIN, 25));
-		btnNewButton_1_1_2.setBackground(new Color(191, 180, 143));
+		btnNewButton_1_1_2.setBackground(new Color(255, 255, 255));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addComponent(btnNewButton_3, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-						.addComponent(btnNewButton_2, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
 						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
 						.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE))
 					.addContainerGap())
@@ -377,17 +422,21 @@ public class AdminDashboard{
 					.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(78, Short.MAX_VALUE))
 				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(btnNewButton_1_1_1, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(btnNewButton_1_1_2, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnNewButton_2, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnNewButton_1_1_1, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
@@ -405,11 +454,11 @@ public class AdminDashboard{
 					.addComponent(btnNewButton_1_1_2, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(btnNewButton_1_1_1, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-					.addGap(42)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnNewButton_1_1_1, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
 					.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
@@ -516,7 +565,7 @@ public class AdminDashboard{
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		
 		JSplitPane splitPane_3 = new JSplitPane();
-		splitPane_3.setBorder(new MatteBorder(1, 0, 0, 0, (Color) new Color(0, 0, 0)));
+		splitPane_3.setBorder(null);
 		GroupLayout gl_dashboard = new GroupLayout(dashboard);
 		gl_dashboard.setHorizontalGroup(
 			gl_dashboard.createParallelGroup(Alignment.TRAILING)
@@ -545,6 +594,7 @@ public class AdminDashboard{
 		lblNewLabel_7.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(new Color(255, 255, 255));
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
@@ -566,6 +616,8 @@ public class AdminDashboard{
 		);
 		
 		Logtable = new JTable();
+		Logtable.setShowHorizontalLines(false);
+		Logtable.setShowVerticalLines(false);
 		Logtable.setBackground(new Color(255, 255, 255));
 		Logtable.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -625,6 +677,8 @@ public class AdminDashboard{
 		);
 		
 		table_1 = new JTable();
+		table_1.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		table_1.setShowGrid(false);
 		table_1.setModel(new DefaultTableModel(
 			new Object[][] {
 				{"Free Food chayo", "npcs54H432432", "Sakar Shrestha"},
@@ -657,13 +711,14 @@ public class AdminDashboard{
 		dashboard.setLayout(gl_dashboard);
 		
 		JPanel teacher = new JPanel();
-		teacher.setBackground(new Color(242, 239, 233));
+		teacher.setBackground(new Color(255, 255, 255));
 		cardPanel.add(teacher, "name_219288303900400");
 		
 		JLabel Teacher = new JLabel("Teacher Management");
 		Teacher.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBackground(new Color(255, 255, 255));
 		
 		JButton btnAddTeachers = new JButton("Add teacher");
 		btnAddTeachers.addActionListener(new ActionListener() {
@@ -690,11 +745,11 @@ public class AdminDashboard{
 							.addGap(378)
 							.addComponent(Teacher))
 						.addGroup(gl_teacher.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(scrollPane_2, GroupLayout.DEFAULT_SIZE, 991, Short.MAX_VALUE))
-						.addGroup(gl_teacher.createSequentialGroup()
 							.addGap(395)
-							.addComponent(btnAddTeachers, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(btnAddTeachers, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_teacher.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(scrollPane_2, GroupLayout.DEFAULT_SIZE, 991, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		gl_teacher.setVerticalGroup(
@@ -703,13 +758,14 @@ public class AdminDashboard{
 					.addGap(21)
 					.addComponent(Teacher)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane_2, GroupLayout.PREFERRED_SIZE, 266, GroupLayout.PREFERRED_SIZE)
-					.addGap(36)
+					.addComponent(scrollPane_2, GroupLayout.PREFERRED_SIZE, 292, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnAddTeachers, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(39, Short.MAX_VALUE))
 		);
 		
 		TeacherTable = new JTable();
+		TeacherTable.setBackground(new Color(255, 255, 255));
 		TeacherTable.addMouseListener(new MouseAdapter() {
 			private ResultSet tId;
 
@@ -773,7 +829,12 @@ public class AdminDashboard{
 								TeacherModal.setRowCount(0);
 								TeacherQuery.UpdateQuery(updateData);
 								form.setVisible(false);
-								getTeacherData();
+								try {
+									getTeacherData();
+								} catch (SQLException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 							}
 						});
 						
@@ -842,13 +903,15 @@ public class AdminDashboard{
 		teacher.setLayout(gl_teacher);
 		
 		JPanel courses = new JPanel();
-		courses.setBackground(new Color(242, 239, 233));
+		courses.setBackground(new Color(255, 255, 255));
 		cardPanel.add(courses, "name_654837823487100");
 		
 		JLabel lblNewLabel_8 = new JLabel("Course Management");
 		lblNewLabel_8.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBorder(null);
+		scrollPane_3.setBackground(new Color(255, 255, 255));
 		
 		JButton btnNewButton_2_1 = new JButton("Add Course");
 		btnNewButton_2_1.addActionListener(new ActionListener() {
@@ -863,8 +926,9 @@ public class AdminDashboard{
 						String Coursename = addCourse.getCoursetf().getText();
 						String CourseDes = addCourse.getCourseDestf().getText();
 						String NoOfModules = addCourse.getNomoduletf().getText();
-						String Status = addCourse.getStatustf().getText();
 						String Duration = addCourse.getDurationtf().getText();
+	
+						String Status = CourseForm.getStatus();
 						
 						addData.put("Coursename", Coursename);
 						addData.put("CourseDes", CourseDes);
@@ -886,9 +950,9 @@ public class AdminDashboard{
 		});
 		btnNewButton_2_1.setIcon(new ImageIcon("C:\\Users\\sudan\\Downloads\\plus.png"));
 		btnNewButton_2_1.setIconTextGap(15);
-		btnNewButton_2_1.setForeground(new Color(86, 78, 88));
+		btnNewButton_2_1.setForeground(new Color(255, 255, 255));
 		btnNewButton_2_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
-		btnNewButton_2_1.setBackground(new Color(208, 252, 179));
+		btnNewButton_2_1.setBackground(new Color(0, 0, 0));
 		GroupLayout gl_courses = new GroupLayout(courses);
 		gl_courses.setHorizontalGroup(
 			gl_courses.createParallelGroup(Alignment.LEADING)
@@ -918,6 +982,7 @@ public class AdminDashboard{
 		);
 		
 		CourseTable = new JTable();
+		CourseTable.setShowGrid(false);
 		CourseTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -932,6 +997,7 @@ public class AdminDashboard{
 					updateForm.setTitle("Update Course Form");
 					
 					for(int i=1;i<CourseTable.getColumnCount();i++) {
+						if (i != 4) {
 						String data =  CourseTable.getValueAt(selectedRow1, i).toString();
 						if(updateForm.getCoursetf().getText().isEmpty()) {
 							
@@ -945,16 +1011,12 @@ public class AdminDashboard{
 						}else if(updateForm.getNomoduletf().getText().isEmpty()) {
 							
 							updateForm.getNomoduletf().setText(data);
-							
-							
-						}else if(updateForm.getStatustf().getText().isEmpty()) {
-							updateForm.getStatustf().setText(data);
-							
 						}
 						else if(updateForm.getDurationtf().getText().isEmpty()) {
 							updateForm.getDurationtf().setText(data);
 							
 						}	
+						}
 			
 					}
 					JButton submit = updateForm.getBtnSubmit();
@@ -965,7 +1027,7 @@ public class AdminDashboard{
 							updateData.put("CourseName", updateForm.getCoursetf().getText());
 							updateData.put("CourseDes", updateForm.getCourseDestf().getText());
 							updateData.put("No of modules", updateForm.getNomoduletf().getText());
-							updateData.put("Status", updateForm.getStatustf().getText());
+							updateData.put("Status", CourseForm.getStatus());
 							updateData.put("Duration", updateForm.getDurationtf().getText());
 							CourseQuery.UpdateQuery(updateData);
 							CourseModal.setRowCount(0);
@@ -1005,111 +1067,15 @@ public class AdminDashboard{
 		scrollPane_3.setViewportView(CourseTable);
 		courses.setLayout(gl_courses);
 		
-		JPanel setting = new JPanel();
-		setting.setBackground(new Color(242, 239, 233));
-		cardPanel.add(setting, "name_659175453723500");
-		
-		JLabel lblNewLabel_9 = new JLabel("Setting");
-		lblNewLabel_9.setFont(new Font("Perpetua", Font.PLAIN, 30));
-		
-		JButton btnNewButton_4 = new JButton("Delete Database");
-		btnNewButton_4.setFont(new Font("Perpetua", Font.PLAIN, 25));
-		btnNewButton_4.setBackground(new Color(230, 57, 70));
-		
-		JLabel lblNewLabel_10 = new JLabel("UserName:");
-		lblNewLabel_10.setFont(new Font("Perpetua", Font.PLAIN, 22));
-		
-		JTextField textField = new JTextField();
-		textField.setBackground(new Color(242, 239, 233));
-		textField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		textField.setColumns(10);
-		
-		JButton btnNewButton_5 = new JButton("Change Username");
-		btnNewButton_5.setBackground(new Color(208, 252, 179));
-		btnNewButton_5.setFont(new Font("Perpetua", Font.PLAIN, 25));
-		
-		JLabel lblNewLabel_10_1 = new JLabel("Confirm Password");
-		lblNewLabel_10_1.setFont(new Font("Perpetua", Font.PLAIN, 22));
-		
-		JLabel lblNewLabel_10_1_1 = new JLabel("New Password");
-		lblNewLabel_10_1_1.setFont(new Font("Perpetua", Font.PLAIN, 22));
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		textField_1.setBackground(new Color(242, 239, 233));
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		textField_2.setBackground(new Color(242, 239, 233));
-		
-		JButton btnNewButton_5_1 = new JButton("Change Password");
-		btnNewButton_5_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
-		btnNewButton_5_1.setBackground(new Color(230, 57, 70));
-		GroupLayout gl_setting = new GroupLayout(setting);
-		gl_setting.setHorizontalGroup(
-			gl_setting.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_setting.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_setting.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_9, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_setting.createSequentialGroup()
-							.addComponent(lblNewLabel_10, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(btnNewButton_5, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblNewLabel_10_1, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_setting.createSequentialGroup()
-							.addGroup(gl_setting.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(lblNewLabel_10_1_1)
-								.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
-							.addGap(18)
-							.addComponent(btnNewButton_5_1, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
-							.addGap(357)
-							.addComponent(btnNewButton_4, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE)))
-					.addGap(20))
-		);
-		gl_setting.setVerticalGroup(
-			gl_setting.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_setting.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblNewLabel_9, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-					.addGroup(gl_setting.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_setting.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_setting.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnNewButton_5)))
-						.addGroup(gl_setting.createSequentialGroup()
-							.addGap(23)
-							.addComponent(lblNewLabel_10)))
-					.addGap(29)
-					.addGroup(gl_setting.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_setting.createSequentialGroup()
-							.addComponent(lblNewLabel_10_1, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-							.addGap(41)
-							.addComponent(lblNewLabel_10_1_1, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnNewButton_5_1, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
-					.addGap(40)
-					.addComponent(btnNewButton_4, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-					.addGap(66))
-		);
-		setting.setLayout(gl_setting);
-		
 		JPanel Module = new JPanel();
+		Module.setBackground(new Color(255, 255, 255));
 		cardPanel.add(Module, "name_745223977780800");
 		
 		JLabel lblNewLabel_11 = new JLabel("Module");
 		lblNewLabel_11.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
 		JScrollPane scrollPane_4 = new JScrollPane();
+		scrollPane_4.setBackground(new Color(255, 255, 255));
 		
 		JButton btnNewButton_2_1_1 = new JButton("Add Module");
 		btnNewButton_2_1_1.addActionListener(new ActionListener() {
@@ -1154,9 +1120,9 @@ public class AdminDashboard{
 			}
 		});
 		btnNewButton_2_1_1.setIconTextGap(15);
-		btnNewButton_2_1_1.setForeground(new Color(86, 78, 88));
+		btnNewButton_2_1_1.setForeground(new Color(255, 255, 255));
 		btnNewButton_2_1_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
-		btnNewButton_2_1_1.setBackground(new Color(208, 252, 179));
+		btnNewButton_2_1_1.setBackground(new Color(0, 0, 0));
 		GroupLayout gl_Module = new GroupLayout(Module);
 		gl_Module.setHorizontalGroup(
 			gl_Module.createParallelGroup(Alignment.TRAILING)
@@ -1283,29 +1249,31 @@ public class AdminDashboard{
 		ModuleTable.setModel(ModuleModal);
 		Module.setLayout(gl_Module);
 		
-		JPanel Student = new JPanel();
-		cardPanel.add(Student, "name_1777422482600");
+		JPanel Result = new JPanel();
+		Result.setBackground(new Color(255, 255, 255));
+		cardPanel.add(Result, "name_1777422482600");
 		
 		JLabel lblNewLabel_12 = new JLabel("Student Data");
 		lblNewLabel_12.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
 		JScrollPane scrollPane_5 = new JScrollPane();
-		GroupLayout gl_Student = new GroupLayout(Student);
-		gl_Student.setHorizontalGroup(
-			gl_Student.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_Student.createSequentialGroup()
-					.addGroup(gl_Student.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_Student.createSequentialGroup()
+		scrollPane_5.setBackground(new Color(255, 255, 255));
+		GroupLayout gl_Result = new GroupLayout(Result);
+		gl_Result.setHorizontalGroup(
+			gl_Result.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Result.createSequentialGroup()
+					.addGroup(gl_Result.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Result.createSequentialGroup()
 							.addGap(400)
 							.addComponent(lblNewLabel_12, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_Student.createSequentialGroup()
+						.addGroup(gl_Result.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(scrollPane_5, GroupLayout.DEFAULT_SIZE, 991, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
-		gl_Student.setVerticalGroup(
-			gl_Student.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_Student.createSequentialGroup()
+		gl_Result.setVerticalGroup(
+			gl_Result.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Result.createSequentialGroup()
 					.addGap(27)
 					.addComponent(lblNewLabel_12, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -1314,10 +1282,11 @@ public class AdminDashboard{
 		);
 		
 		Studenttable = new JTable();
+		Studenttable.setBackground(new Color(255, 255, 255));
 		Studenttable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Object[] Action= {"Publish Marks","UpdateStudent","DeleteStudent","Cancel"};
+				Object[] Action= {"Publish Marks","Cancel"};
 				int selectedAction=JOptionPane.showOptionDialog(null, "Are you sure you want to delete?", "Confirm",
 						JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,Action,Action[0]);
 				int selectedRow = Studenttable.getSelectedRow();
@@ -1325,7 +1294,7 @@ public class AdminDashboard{
 				if (selectedAction == 0) {
 					StudentID = Studenttable.getValueAt(selectedRow, 3).toString().trim();
 					SubmissionQuery.PublishQuery(StudentID);
-					StudentModal.setRowCount(0);
+					SubmissionModal.setRowCount(0);
 					try {
 						getSubmssionData();
 					} catch (SQLException e1) {
@@ -1336,14 +1305,153 @@ public class AdminDashboard{
 				}
 			}
 		});
-		Studenttable.setModel(StudentModal);
+		Studenttable.setModel(SubmissionModal);
 		scrollPane_5.setViewportView(Studenttable);
+		Result.setLayout(gl_Result);
+		
+		JPanel Student = new JPanel();
+		Student.setBackground(new Color(255, 255, 255));
+		cardPanel.add(Student, "name_80093103572000");
+		
+		JLabel lblNewLabel_9 = new JLabel("Student");
+		lblNewLabel_9.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		
+		JScrollPane scrollPane_6 = new JScrollPane();
+		scrollPane_6.setBackground(new Color(255, 255, 255));
+		GroupLayout gl_Student = new GroupLayout(Student);
+		gl_Student.setHorizontalGroup(
+			gl_Student.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Student.createSequentialGroup()
+					.addGroup(gl_Student.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Student.createSequentialGroup()
+							.addGap(396)
+							.addComponent(lblNewLabel_9))
+						.addGroup(gl_Student.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(scrollPane_6, GroupLayout.DEFAULT_SIZE, 991, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_Student.setVerticalGroup(
+			gl_Student.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Student.createSequentialGroup()
+					.addGap(34)
+					.addComponent(lblNewLabel_9)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane_6, GroupLayout.PREFERRED_SIZE, 326, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(44, Short.MAX_VALUE))
+		);
+		
+		StudentTable = new JTable();
+		StudentTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Object[] options= {"Update","Delete"};
+				int selecterOption=JOptionPane.showOptionDialog(null, "Do you want to update or delete?", "Update or delete teacher",
+						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
+				int selectedRow = StudentTable.getSelectedRow();
+				if (selecterOption == 0) {
+					HashMap<String , String> updateData = new HashMap<>();
+					StudentForm form = new StudentForm();
+					form.setVisible(true);
+					form.setTitle("Update Studnet Form");
+					
+					for(int i=8;i<StudentTable.getColumnCount();i++) {
+						String data =  StudentTable.getValueAt(selectedRow, i).toString();
+						if(form.getLeveltf().getText().isEmpty()) {
+							
+							form.getLeveltf().setText(data);
+							
+							
+						}else if(form.getSemesterTf().getText().isEmpty()) {
+							
+							form.getSemesterTf().setText(data);
+							
+						}
+						
+					}
+					JButton submit = form.getBtnNewButton();
+					submit.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							String StudentDetailsID = StudentTable.getValueAt(selectedRow,0).toString();
+							updateData.put("StudentDetailsID", StudentDetailsID);
+							updateData.put("Level", form.getLeveltf().getText());
+							updateData.put("Semester", form.getSemesterTf().getText());
+							StudentModal.setRowCount(0);
+							StudentQuery.UpdateQuery(updateData);
+							try {
+								getStudentData();
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							form.setVisible(false);
+							
+						}
+
+
+					});
+					
+
+					
+					
+					
+				} else if (selecterOption == 1 ) {
+					Object[] comfirm= {"Yes","No"};
+					int confirm=JOptionPane.showOptionDialog(null, "Are you sure you want to delete?", "Confirm",
+							JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,comfirm,comfirm[0]);
+					if(confirm ==0) {
+					
+					Statement statement = connector.getStatement();
+			
+
+					String StudentId = StudentTable.getValueAt(selectedRow,1).toString();
+					String StudentDetailsID = StudentTable.getValueAt(selectedRow,0).toString();
+					
+					String deleteQuery = "DELETE FROM `studentdetails` WHERE StudentDetailsID = '"+StudentDetailsID+"';";
+					try {
+						int deleteSuccess = statement.executeUpdate(deleteQuery);
+						if (deleteSuccess == 1) {
+							System.out.println("Deleted");
+						}else {
+							System.out.println("Not deleted");
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+		
+					String deleteQuery1 = "DELETE FROM `student` WHERE StudentID = '"+StudentId+"'";
+					int deleteSuccess;
+					try {
+						deleteSuccess = statement.executeUpdate(deleteQuery1);
+						if (deleteSuccess == 1) {
+							System.out.println("Deleted");
+						}else {
+							System.out.println("Not deleted");
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					StudentModal.removeRow(selectedRow);
+					}
+				}
+			}
+		});
+		StudentTable.setModel(StudentModal);
+		scrollPane_6.setViewportView(StudentTable);
 		Student.setLayout(gl_Student);
 		splitPane_1.setDividerLocation(100);
 		splitPane.setDividerLocation(200);
 		frmAdminPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAdminPanel.setVisible(true);
-		getTeacherData();
+		
+		try {
+			getTeacherData();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		try {
 			getCourseData();
 		} catch (SQLException e1) {
@@ -1353,6 +1461,12 @@ public class AdminDashboard{
 		
 		try {
 			getModuleData();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			getStudentData();
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

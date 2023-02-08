@@ -33,6 +33,8 @@ import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class Student {
 	private String StudentID;
@@ -153,16 +155,28 @@ public class Student {
 		);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(255, 255, 255));
 		splitPane.setLeftComponent(panel_1);
 		
 		JButton Homebtn = new JButton("Home");
+		Homebtn.setIcon(new ImageIcon(Student.class.getResource("/image/home.png")));
+		Homebtn.setBorder(null);
+		Homebtn.setBackground(new Color(255, 255, 255));
 		Homebtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_cardPanel.show(cardPanel,"name_4213068297000");
 			}
 		});
 		
-		JButton btnNewButton_1 = new JButton("New button");
+		JButton btnNewButton_1 = new JButton("LogOut");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				Login login = new Login();
+			}
+		});
+		btnNewButton_1.setBackground(new Color(0, 0, 0));
+		btnNewButton_1.setForeground(new Color(255, 255, 255));
 		JLabel lblNewLabel = new JLabel("Student");
 		lblNewLabel.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
@@ -186,6 +200,7 @@ public class Student {
 		);
 		
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(255, 255, 255));
 		splitPane_1.setLeftComponent(panel_3);
 		
 		JLabel lblNewLabel_3 = new JLabel("Ai assignment updated");
@@ -212,9 +227,11 @@ public class Student {
 		cardPanel.setLayout(cl_cardPanel);
 		
 		JPanel AssignmentSubmission = new JPanel();
+		AssignmentSubmission.setBackground(new Color(255, 255, 255));
 		cardPanel.add(AssignmentSubmission, "name_4213068297000");
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(new Color(255, 255, 255));
 		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		GroupLayout gl_AssignmentSubmission = new GroupLayout(AssignmentSubmission);
 		gl_AssignmentSubmission.setHorizontalGroup(
@@ -245,63 +262,72 @@ public class Student {
 //					HashMap<String, String> checkdata = new HashMap <> ();
 //					checkdata.put("AssignmentID",AssignmentID);
 //					checkdata.put("StudentID", StudentID);
-//					ResultSet resultSet= SubmissionQuery.CheckQuery(checkdata);
-//					while (subData.next()) {
-//						String Db_AssignmentID = subData.getString("AssignmentID");
-//						String Db_StudentID = subData.getString("Question");
-//					
+//				
+//					String Db_AssignmentID = "";
+//					String Db_StudentID = "";
+//					ResultSet result= SubmissionQuery.CheckQuery(checkdata);
+//					try {
+//						while (result.next()) {
+////							Db_AssignmentID = result.getString("AssignmentID");
+//							Db_StudentID = result.getString("StudentID");
+//						}
+//					} catch (SQLException e2) {
+//						// TODO Auto-generated catch block
+//						e2.printStackTrace();
 //					}
-					
-					
-					
-					String ID = SubTable.getValueAt(selectedRow, 0).toString();
-					ResultSet resultSet = SubmissionQuery.getQuestion(ID);
-					String question = "";
-					String marks = "";
-					
-					try {
-						while (resultSet.next()) {
-							question = resultSet.getString("Question");
-						}
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-					SubmissionForm.setQuestion(question);
-					SubmissionForm form = new SubmissionForm();
-					form.setVisible(true);
-					JButton submitbtn = form.getSubmitbtn();
-					submitbtn.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							HashMap<String, String> submitData = new HashMap<>();
-							String StudentName = "";
-							ResultSet result = StudentQuery.getStudentName(StudentID);
-							try {
-								while (result.next()) {
-									StudentName = result.getString("Name");
-								}
-							} catch (SQLException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+//					System.out.println(Db_StudentID);
+////					System.out.println(Db_AssignmentID);
+//					if (Db_AssignmentID.equals(AssignmentID) && Db_StudentID.equals(StudentID)) {
+//						System.out.println("Already Submitted");
+//					}else {
+						String ID = SubTable.getValueAt(selectedRow, 0).toString();
+						ResultSet resultSet = SubmissionQuery.getQuestion(ID);
+						String question = "";
+						String marks = "";
+						
+						try {
+							while (resultSet.next()) {
+								question = resultSet.getString("Question");
 							}
-							String Answer = form.getAnswertf().getText();
-							submitData.put("Question",SubTable.getValueAt(selectedRow,1).toString());
-							submitData.put("AssignmentID", SubTable.getValueAt(selectedRow,0).toString() );
-							submitData.put("Module", SubTable.getValueAt(selectedRow,2).toString() );
-							submitData.put("StudentID", StudentID);
-							submitData.put("UniID", UniID);
-							submitData.put("StudentName", StudentName);
-							submitData.put("Answer", Answer);
-							submitData.put("Marks", marks);
-							
-							SubmissionQuery.InsertQuery(submitData);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
-					});
-					
-					
-					
-					
+						
+						SubmissionForm.setQuestion(question);
+						SubmissionForm form = new SubmissionForm();
+						form.setVisible(true);
+						JButton submitbtn = form.getSubmitbtn();
+						submitbtn.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								HashMap<String, String> submitData = new HashMap<>();
+								String StudentName = "";
+								ResultSet result = StudentQuery.getStudentName(StudentID);
+								try {
+									while (result.next()) {
+										StudentName = result.getString("Name");
+									}
+								} catch (SQLException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								String Answer = form.getAnswertf().getText();
+								submitData.put("Question",SubTable.getValueAt(selectedRow,1).toString());
+								submitData.put("AssignmentID", SubTable.getValueAt(selectedRow,0).toString() );
+								submitData.put("Module", SubTable.getValueAt(selectedRow,2).toString() );
+								submitData.put("StudentID", StudentID);
+								submitData.put("UniID", UniID);
+								submitData.put("StudentName", StudentName);
+								submitData.put("Answer", Answer);
+								submitData.put("Marks", marks);
+								
+								SubmissionQuery.InsertQuery(submitData);
+							}
+						});
+						
+						
+						
+//						}
 				}
 			}
 		});
@@ -309,12 +335,15 @@ public class Student {
 		scrollPane.setViewportView(SubTable);
 		
 		JPanel Result = new JPanel();
+		Result.setBackground(new Color(255, 255, 255));
 		cardPanel.add(Result, "name_4274684947099");
 		
 		JLabel lblNewLabel_2 = new JLabel("Result ");
 		lblNewLabel_2.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
 		JButton btnNewButton = new JButton("OOP");
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setBackground(new Color(0, 0, 0));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Object[] options= {"View Report"};
@@ -364,9 +393,22 @@ public class Student {
 					if (Published.equals("true")) {
 						ReportForm report = new ReportForm();
 						report.setVisible(true);
+						JButton cancel = report.getBtnNewButton();
+						cancel.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								report.setVisible(false);
+							}
+						});
 					}else {
 						NotPublished window = new NotPublished();
 						window.setVisible(true);
+						JButton btnNewButton = window.getBtnNewButton();
+						btnNewButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							window.setVisible(false);
+						}
+					});
+						
 					}
 					
 					
@@ -375,12 +417,16 @@ public class Student {
 		});
 		
 		JButton btnConceptAnTechnology = new JButton("Concept an Technology of AI");
+		btnConceptAnTechnology.setForeground(new Color(255, 255, 255));
+		btnConceptAnTechnology.setBackground(new Color(0, 0, 0));
 		btnConceptAnTechnology.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		
 		JButton btnNmc = new JButton("NMC");
+		btnNmc.setForeground(new Color(255, 255, 255));
+		btnNmc.setBackground(new Color(0, 0, 0));
 		GroupLayout gl_Result = new GroupLayout(Result);
 		gl_Result.setHorizontalGroup(
 			gl_Result.createParallelGroup(Alignment.LEADING)
@@ -410,13 +456,14 @@ public class Student {
 					.addContainerGap(120, Short.MAX_VALUE))
 		);
 		JButton btnResult = new JButton("Result");
+		btnResult.setIcon(new ImageIcon(Student.class.getResource("/image/notepad.png")));
+		btnResult.setBorder(null);
+		btnResult.setBackground(new Color(255, 255, 255));
 		btnResult.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_cardPanel.show(cardPanel,"name_4274684947099");
 			}
 		});
-		
-		JButton btnNewButton_2_1 = new JButton("New button");
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -427,7 +474,6 @@ public class Student {
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addGap(46)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnNewButton_2_1, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnResult, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
 						.addComponent(Homebtn, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE))
@@ -442,9 +488,7 @@ public class Student {
 					.addComponent(Homebtn, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(btnResult, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(btnNewButton_2_1, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
 					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);

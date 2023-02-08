@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JSplitPane;
@@ -18,6 +21,7 @@ import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
@@ -31,6 +35,7 @@ import java.awt.Color;
 import java.awt.CardLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.border.EmptyBorder;
 
 public class Teacher {
 
@@ -150,6 +155,7 @@ public class Teacher {
 		);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(255, 255, 255));
 		splitPane.setLeftComponent(panel_1);
 		
 		JLabel lblNewLabel = new JLabel("");
@@ -158,10 +164,9 @@ public class Teacher {
 		JLabel lblNewLabel_1 = new JLabel("Teacher");
 		lblNewLabel_1.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
-		JButton btnSetting = new JButton("Setting");
-		btnSetting.setFont(new Font("Perpetua", Font.PLAIN, 25));
-		
 		JButton btnHome = new JButton("Home");
+		btnHome.setBackground(new Color(255, 255, 255));
+		btnHome.setBorder(null);
 		btnHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_CardPanel.show(cardPanel,"name_774669064080200");
@@ -170,6 +175,8 @@ public class Teacher {
 		btnHome.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		 
 		JButton btnSetting_1_1 = new JButton("Assignment");
+		btnSetting_1_1.setBorder(null);
+		btnSetting_1_1.setBackground(new Color(255, 255, 255));
 		btnSetting_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl_CardPanel.show(cardPanel,"name_774932147097300");
@@ -178,6 +185,12 @@ public class Teacher {
 		btnSetting_1_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JButton btnLogout = new JButton("LogOut");
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				Login login = new Login();
+			}
+		});
 		btnLogout.setForeground(new Color(255, 255, 255));
 		btnLogout.setBackground(new Color(0, 0, 0));
 		btnLogout.setFont(new Font("Perpetua", Font.PLAIN, 25));
@@ -191,9 +204,6 @@ public class Teacher {
 							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblNewLabel)))
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(btnSetting, GroupLayout.PREFERRED_SIZE, 229, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(btnHome, GroupLayout.PREFERRED_SIZE, 229, GroupLayout.PREFERRED_SIZE))
@@ -216,9 +226,7 @@ public class Teacher {
 					.addComponent(btnHome, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(btnSetting_1_1, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 307, Short.MAX_VALUE)
-					.addComponent(btnSetting, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addPreferredGap(ComponentPlacement.RELATED, 364, Short.MAX_VALUE)
 					.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 					.addGap(18))
 		);
@@ -240,6 +248,7 @@ public class Teacher {
 		);
 		
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(255, 255, 255));
 		panel_3.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		splitPane_1.setLeftComponent(panel_3);
 		
@@ -284,12 +293,14 @@ public class Teacher {
 		cardPanel.setLayout(cl_CardPanel);
 		
 		JPanel Home = new JPanel();
+		Home.setBackground(new Color(255, 255, 255));
 		cardPanel.add(Home, "name_774669064080200");
 		
 		JLabel lblNewLabel_2 = new JLabel("Student Submission Log");
 		lblNewLabel_2.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(new Color(255, 255, 255));
 		GroupLayout gl_Home = new GroupLayout(Home);
 		gl_Home.setHorizontalGroup(
 			gl_Home.createParallelGroup(Alignment.LEADING)
@@ -363,14 +374,18 @@ public class Teacher {
 		Home.setLayout(gl_Home);
 		
 		JPanel Assignment = new JPanel();
+		Assignment.setBackground(new Color(255, 255, 255));
 		cardPanel.add(Assignment, "name_774932147097300");
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Assignment");
 		lblNewLabel_2_1.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
 		JButton btnNewButton = new JButton("Add Assignment");
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setBackground(new Color(0, 0, 0));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AssignmentForm form = new AssignmentForm();
@@ -379,8 +394,17 @@ public class Teacher {
 				submit.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						String Question = form.getQuestiontf().getText();
-						String Module = form.getModuletf().getText();
+						String Module = null;
+						ButtonGroup buttonGroup = AssignmentForm.getButtonGroup();
+						for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
+							AbstractButton button = buttons.nextElement();
+
+							if (button.isSelected()) {
+								Module = button.getText().trim(); 
+							}
+						}
 						
+						System.out.println(Module);
 						HashMap<String,String> addData = new HashMap<>();
 						
 						

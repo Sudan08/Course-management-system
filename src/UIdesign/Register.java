@@ -37,6 +37,7 @@ import javax.swing.ButtonGroup;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.Color;
+import javax.swing.border.MatteBorder;
 
 public class Register extends JFrame {
 
@@ -173,21 +174,26 @@ public class Register extends JFrame {
 		);
 		
 		JPanel imagePanel = new JPanel();
+		imagePanel.setBackground(new Color(0, 0, 0));
 		splitPane.setLeftComponent(imagePanel);
 		
 		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setBackground(new Color(255, 255, 255));
 		lblNewLabel_3.setIcon(new ImageIcon(Register.class.getResource("/image/Hidden person-pana.png")));
 		GroupLayout gl_imagePanel = new GroupLayout(imagePanel);
 		gl_imagePanel.setHorizontalGroup(
 			gl_imagePanel.createParallelGroup(Alignment.TRAILING)
-				.addComponent(lblNewLabel_3, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 449, Short.MAX_VALUE)
+				.addGroup(Alignment.LEADING, gl_imagePanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 449, Short.MAX_VALUE)
+					.addGap(18))
 		);
 		gl_imagePanel.setVerticalGroup(
 			gl_imagePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_imagePanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 690, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(12, Short.MAX_VALUE))
+					.addGap(174)
+					.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 333, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(205, Short.MAX_VALUE))
 		);
 		imagePanel.setLayout(gl_imagePanel);
 		
@@ -196,6 +202,7 @@ public class Register extends JFrame {
 		panel_2.setLayout(cl_cardPanel);
 		
 		JPanel first = new JPanel();
+		first.setBackground(new Color(255, 255, 255));
 		panel_2.add(first, "name_181732992991200");
 		
 		JLabel lblNewLabel = new JLabel("Registration for Student");
@@ -217,20 +224,27 @@ public class Register extends JFrame {
 		lblName_1_2_1.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
 		NametextField = new JTextField();
+		NametextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		NametextField.setColumns(10);
 		
 		PhoneNotextField_2 = new JTextField();
+		PhoneNotextField_2.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		PhoneNotextField_2.setColumns(10);
 		
 		EmailtextField = new JTextField();
+		EmailtextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		EmailtextField.setColumns(10);
 		
 		AddresstextField = new JTextField();
+		AddresstextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		AddresstextField.setColumns(10);
 		
 		dateChooser = new JDateChooser();
+		dateChooser.setBorder(null);
 		
 		JButton btnNewButton = new JButton("Proceed");
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setBackground(new Color(0, 0, 0));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Name = NametextField.getText().trim();
@@ -242,9 +256,6 @@ public class Register extends JFrame {
 			}
 		});
 		btnNewButton.setFont(new Font("Perpetua", Font.PLAIN, 25));
-		
-		JLabel lblNewLabel_2 = new JLabel("New label");
-		lblNewLabel_2.setForeground(new Color(255, 0, 0));
 		GroupLayout gl_first = new GroupLayout(first);
 		gl_first.setHorizontalGroup(
 			gl_first.createParallelGroup(Alignment.LEADING)
@@ -254,13 +265,13 @@ public class Register extends JFrame {
 						.addGroup(gl_first.createSequentialGroup()
 							.addComponent(AddresstextField, GroupLayout.PREFERRED_SIZE, 375, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap())
-						.addGroup(gl_first.createParallelGroup(Alignment.LEADING)
-							.addGroup(Alignment.TRAILING, gl_first.createSequentialGroup()
+						.addGroup(gl_first.createParallelGroup(Alignment.TRAILING)
+							.addGroup(Alignment.LEADING, gl_first.createSequentialGroup()
 								.addComponent(lblName_1_2_1, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED, 458, Short.MAX_VALUE)
+								.addPreferredGap(ComponentPlacement.RELATED, 405, Short.MAX_VALUE)
 								.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
-								.addGap(41))
-							.addGroup(Alignment.TRAILING, gl_first.createSequentialGroup()
+								.addGap(94))
+							.addGroup(gl_first.createSequentialGroup()
 								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 530, GroupLayout.PREFERRED_SIZE)
 								.addContainerGap())
 							.addGroup(gl_first.createSequentialGroup()
@@ -285,9 +296,7 @@ public class Register extends JFrame {
 								.addComponent(lblName)
 								.addContainerGap(766, Short.MAX_VALUE))
 							.addGroup(gl_first.createSequentialGroup()
-								.addGroup(gl_first.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(lblNewLabel_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(NametextField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE))
+								.addComponent(NametextField, GroupLayout.PREFERRED_SIZE, 379, GroupLayout.PREFERRED_SIZE)
 								.addContainerGap(468, Short.MAX_VALUE)))))
 		);
 		gl_first.setVerticalGroup(
@@ -298,9 +307,7 @@ public class Register extends JFrame {
 					.addComponent(lblName, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(NametextField, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblNewLabel_2)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(25)
 					.addComponent(lblDob, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
@@ -314,15 +321,19 @@ public class Register extends JFrame {
 					.addComponent(EmailtextField, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
 					.addGap(22)
 					.addGroup(gl_first.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnNewButton)
-						.addComponent(lblName_1_2_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addComponent(AddresstextField, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-					.addGap(41))
+						.addGroup(gl_first.createSequentialGroup()
+							.addComponent(lblName_1_2_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(AddresstextField, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+							.addGap(41))
+						.addGroup(gl_first.createSequentialGroup()
+							.addComponent(btnNewButton)
+							.addContainerGap())))
 		);
 		first.setLayout(gl_first);
 		
 		JPanel third = new JPanel();
+		third.setBackground(new Color(255, 255, 255));
 		panel_2.add(third, "name_183512565776100");
 		
 		JLabel lblNewLabel_1 = new JLabel("Registration for Student");
@@ -332,15 +343,18 @@ public class Register extends JFrame {
 		lblName_1_1_1.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
 		uniIDtextField = new JTextField();
+		uniIDtextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		uniIDtextField.setColumns(10);
 		
 		JLabel lblName_1_1_1_1 = new JLabel("Username:");
 		lblName_1_1_1_1.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
 		userNametextField = new JTextField();
+		userNametextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		userNametextField.setColumns(10);
 		
 		passwordTextField = new JTextField();
+		passwordTextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		passwordTextField.setColumns(10);
 		
 		JLabel lblName_1_1_1_1_1 = new JLabel("Password:");
@@ -350,9 +364,12 @@ public class Register extends JFrame {
 		lblName_1_1_1_1_1_1.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
 		CpasswordTextField = new JTextField();
+		CpasswordTextField.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		CpasswordTextField.setColumns(10);
 		
 		JButton btnNewButton_1 = new JButton("Submit");
+		btnNewButton_1.setForeground(new Color(255, 255, 255));
+		btnNewButton_1.setBackground(new Color(0, 0, 0));
 		btnNewButton_1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -374,14 +391,14 @@ public class Register extends JFrame {
 				.addGroup(gl_third.createSequentialGroup()
 					.addGap(20)
 					.addGroup(gl_third.createParallelGroup(Alignment.LEADING)
+						.addComponent(CpasswordTextField, GroupLayout.PREFERRED_SIZE, 375, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_third.createSequentialGroup()
-							.addComponent(CpasswordTextField, GroupLayout.PREFERRED_SIZE, 375, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 234, Short.MAX_VALUE)
+							.addComponent(lblName_1_1_1_1_1, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 336, Short.MAX_VALUE)
 							.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
-							.addGap(63))
+							.addGap(137))
 						.addGroup(gl_third.createSequentialGroup()
 							.addGroup(gl_third.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblName_1_1_1_1_1, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE)
 								.addComponent(passwordTextField, GroupLayout.PREFERRED_SIZE, 375, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblName_1_1_1, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE)
 								.addComponent(uniIDtextField, GroupLayout.PREFERRED_SIZE, 375, GroupLayout.PREFERRED_SIZE)
@@ -396,28 +413,32 @@ public class Register extends JFrame {
 					.addGap(34)
 					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-					.addComponent(lblName_1_1_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(uniIDtextField, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblName_1_1_1_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(userNametextField, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addGap(54)
-					.addComponent(lblName_1_1_1_1_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(passwordTextField, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(lblName_1_1_1_1_1_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_third.createParallelGroup(Alignment.BASELINE)
-						.addComponent(CpasswordTextField, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-					.addGap(46))
+					.addGroup(gl_third.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_third.createSequentialGroup()
+							.addComponent(lblName_1_1_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(uniIDtextField, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblName_1_1_1_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(userNametextField, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+							.addGap(54)
+							.addComponent(lblName_1_1_1_1_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(passwordTextField, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lblName_1_1_1_1_1_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(CpasswordTextField, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+							.addGap(46))
+						.addGroup(Alignment.TRAILING, gl_third.createSequentialGroup()
+							.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+							.addGap(241))))
 		);
 		third.setLayout(gl_third);
 		
 		JPanel second = new JPanel();
+		second.setBackground(new Color(255, 255, 255));
 		panel_2.add(second, "name_247153338358800");
 		
 		JLabel lblName_1_1_1_2 = new JLabel("Gender :");
@@ -433,26 +454,32 @@ public class Register extends JFrame {
 		lblName_1_1_1_2_2.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Male");
+		rdbtnNewRadioButton.setBackground(new Color(255, 255, 255));
 		buttonGroup.add(rdbtnNewRadioButton);
 		rdbtnNewRadioButton.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JRadioButton rdbtnFemale = new JRadioButton("Female");
+		rdbtnFemale.setBackground(new Color(255, 255, 255));
 		buttonGroup.add(rdbtnFemale);
 		rdbtnFemale.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JRadioButton rdbtnOther = new JRadioButton("Other");
+		rdbtnOther.setBackground(new Color(255, 255, 255));
 		buttonGroup.add(rdbtnOther);
 		rdbtnOther.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JRadioButton level4rdbtnNewRadioButton_1 = new JRadioButton("4");
+		level4rdbtnNewRadioButton_1.setBackground(new Color(255, 255, 255));
 		buttonGroup_1.add(level4rdbtnNewRadioButton_1);
 		level4rdbtnNewRadioButton_1.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JRadioButton Level5rdbtn = new JRadioButton("5");
+		Level5rdbtn.setBackground(new Color(255, 255, 255));
 		buttonGroup_1.add(Level5rdbtn);
 		Level5rdbtn.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		
 		JRadioButton Level6rdbtn = new JRadioButton("6");
+		Level6rdbtn.setBackground(new Color(255, 255, 255));
 		buttonGroup_1.add(Level6rdbtn);
 		Level6rdbtn.setFont(new Font("Perpetua", Font.PLAIN, 25));
 		

@@ -13,12 +13,14 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class NotPublished extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblNewLabel;
 	static NotPublished dialog = new NotPublished();
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -33,19 +35,26 @@ public class NotPublished extends JDialog {
 		}
 	}
 
+	public JButton getBtnNewButton() {
+		return btnNewButton;
+	}
+
 	/**
 	 * Create the dialog.
 	 */
 	public NotPublished() {
 		setBounds(100, 100, 902, 493);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(new Color(255, 255, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		{
 			lblNewLabel = new JLabel("Not Published");
 			lblNewLabel.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		}
-		JButton btnNewButton = new JButton("Ok");
+		btnNewButton = new JButton("Ok");
+		btnNewButton.setBackground(new Color(0, 0, 0));
+		btnNewButton.setForeground(new Color(255, 255, 255));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dialog.setVisible(false);
