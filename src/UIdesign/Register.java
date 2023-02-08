@@ -115,7 +115,7 @@ public class Register extends JFrame {
 	public int getId() {
 		return Id;
 	}
-
+	static Register frame = new Register();
 
 	
 
@@ -127,7 +127,7 @@ public class Register extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Register frame = new Register();
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -377,7 +377,7 @@ public class Register extends JFrame {
 				UserName = userNametextField.getText().trim();
 				Password = passwordTextField.getText().trim();
 				
-				
+				frame.setVisible(false);
 			}
 		});
 		btnNewButton_1.setFont(new Font("Perpetua", Font.PLAIN, 25));

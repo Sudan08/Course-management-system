@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 
+import javax.swing.JOptionPane;
+
 public class AssignmentQuery {
 	static Statement statement = connector.getStatement(); 
 
@@ -59,24 +61,27 @@ public class AssignmentQuery {
 		}
 	}
 	
-	public static void DeleteQuery(HashMap<String , String> deleteData) {
+	public static int DeleteQuery(String deleteID) {
 		
-		String Id = deleteData.get("ID");
 		
-		String deleteQuery = "DELETE FROM `module` WHERE ModuleID = '"+Id+"'";
+		String deleteQuery = "DELETE FROM `assigment` WHERE AssignmentID = '"+deleteID+"'";
 		
 
 		try {
 			int deleteSuccess = statement.executeUpdate(deleteQuery);
 			if (deleteSuccess == 1) {
 				System.out.println("Deleted in module");
+				return deleteSuccess;
 			}else {
 				System.out.println("Not deleted in module");
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			Object[] options= {"Cancel"};
+			int selecterOption=JOptionPane.showOptionDialog(null, "Cant delete Student have submitted", null,
+					JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
 		}
+		return 0;
 		
 	}
 

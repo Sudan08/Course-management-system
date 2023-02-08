@@ -140,7 +140,7 @@ public class TeacherForm extends JDialog {
 		JLabel lblEmailaddress = new JLabel("EmailAddress");
 		lblEmailaddress.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JLabel Courselbl = new JLabel("Course");
+		JLabel Courselbl = new JLabel("Module");
 		Courselbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel lblQualification = new JLabel("Qualification");

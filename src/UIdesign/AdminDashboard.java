@@ -63,7 +63,7 @@ public class AdminDashboard{
 	private static DefaultTableModel TeacherModal= new DefaultTableModel(
 			new Object[][] {},
 			new String[] {
-				"TeacherID", "Name", "DOB", "PhoneNumber", "Address", "Email Address", "Course", "Qualification", "Position", "Gender"
+				"TeacherID", "Name", "DOB", "PhoneNumber", "Address", "Email Address", "Module", "Qualification", "Position", "Gender"
 			}
 		);
 
@@ -248,7 +248,7 @@ public class AdminDashboard{
 				String PhoneNumber = resultSet.getString("PhoneNumber");
 				String Address = resultSet.getString("Address");
 				String EmailAddress = resultSet.getString("EmailAddress");
-				String Course = resultSet.getString("Course");
+				String Module = resultSet.getString("Module");
 				String Qualification = resultSet.getString("Qualification");
 				String Position = resultSet.getString("Position");
 				String Gender = resultSet.getString("Gender");
@@ -259,7 +259,7 @@ public class AdminDashboard{
 						PhoneNumber,
 						Address,
 						EmailAddress,
-						Course,
+						Module,
 						Qualification,
 						Position,
 						Gender,
@@ -822,7 +822,7 @@ public class AdminDashboard{
 								updateData.put("PhoneNumber", form.getPhonetf().getText());
 								updateData.put("Address", form.getAddresstf().getText());
 								updateData.put("EmailAddress", form.getEmailtf().getText());
-								updateData.put("Course", form.getCoursetf().getText());
+								updateData.put("Module", form.getCoursetf().getText());
 								updateData.put("Qualification", form.getQualificationtf().getText());
 								updateData.put("Position", form.getPositiontf().getText());
 								updateData.put("Gender", form.getGendertf().getText());

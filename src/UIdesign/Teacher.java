@@ -461,10 +461,18 @@ public class Teacher {
 		AssignmentTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Object[] options= {"Update"};
+				Object[] options= {"Delete"};
 				int selecterOption=JOptionPane.showOptionDialog(null, "Do you want to update Marks?", "Update Marks",
 						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
 				int selectedRow = AssignmentTable.getSelectedRow();
+				if (selecterOption == 0) {
+					String ID = AssignmentTable.getValueAt(selectedRow, 0).toString();
+					int result = AssignmentQuery.DeleteQuery(ID);
+					if (result == 1) {
+						AssignmentModel.removeRow(AssignmentTable.getSelectedRow());
+					}
+					
+				}
 			}
 		});
 		scrollPane_1.setViewportView(AssignmentTable);

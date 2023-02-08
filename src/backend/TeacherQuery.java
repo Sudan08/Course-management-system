@@ -44,7 +44,7 @@ public class TeacherQuery {
 	}
 	
 	public static void UpdateQuery(HashMap<String , String> updateData) {
-		String updatequery = "UPDATE `teacherdetails` SET `Name`='"+updateData.get("Name")+"',`DOB`='"+updateData.get("DOB")+"',`Phonenumber`='"+updateData.get("PhoneNumber")+"',`Address`='"+updateData.get("Address")+"',`EmailAddress`='"+updateData.get("EmailAddress")+"',`Course`='"+updateData.get("Course")+"',`Qualification`='"+updateData.get("Qualification")+"',`Position`='"+updateData.get("Position")+"',`Gender`='"+updateData.get("Gender")+"' WHERE TeacherID = '"+updateData.get("TeacherId")+"'";
+		String updatequery = "UPDATE `teacherdetails` SET `Name`='"+updateData.get("Name")+"',`DOB`='"+updateData.get("DOB")+"',`Phonenumber`='"+updateData.get("PhoneNumber")+"',`Address`='"+updateData.get("Address")+"',`EmailAddress`='"+updateData.get("EmailAddress")+"',`Module`='"+updateData.get("Module")+"',`Qualification`='"+updateData.get("Qualification")+"',`Position`='"+updateData.get("Position")+"',`Gender`='"+updateData.get("Gender")+"' WHERE TeacherID = '"+updateData.get("TeacherId")+"'";
 		
 		
 		try {

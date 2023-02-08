@@ -258,28 +258,6 @@ public class Student {
 						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
 				int selectedRow = SubTable.getSelectedRow();
 				if (selecterOption == 0) {
-//					String AssignmentID = SubTable.getValueAt(selectedRow,0).toString().trim();
-//					HashMap<String, String> checkdata = new HashMap <> ();
-//					checkdata.put("AssignmentID",AssignmentID);
-//					checkdata.put("StudentID", StudentID);
-//				
-//					String Db_AssignmentID = "";
-//					String Db_StudentID = "";
-//					ResultSet result= SubmissionQuery.CheckQuery(checkdata);
-//					try {
-//						while (result.next()) {
-////							Db_AssignmentID = result.getString("AssignmentID");
-//							Db_StudentID = result.getString("StudentID");
-//						}
-//					} catch (SQLException e2) {
-//						// TODO Auto-generated catch block
-//						e2.printStackTrace();
-//					}
-//					System.out.println(Db_StudentID);
-////					System.out.println(Db_AssignmentID);
-//					if (Db_AssignmentID.equals(AssignmentID) && Db_StudentID.equals(StudentID)) {
-//						System.out.println("Already Submitted");
-//					}else {
 						String ID = SubTable.getValueAt(selectedRow, 0).toString();
 						ResultSet resultSet = SubmissionQuery.getQuestion(ID);
 						String question = "";
@@ -421,10 +399,145 @@ public class Student {
 		btnConceptAnTechnology.setBackground(new Color(0, 0, 0));
 		btnConceptAnTechnology.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Object[] options= {"View Report"};
+				int selecterOption=JOptionPane.showOptionDialog(null, "Do you want to View Marks?", "View marks",
+						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
+				if (selecterOption == 0) {
+					String Module = "AI";
+					HashMap <String , String > viewData = new HashMap <>();
+					viewData.put("StudentID",StudentID);
+					viewData.put("Module",Module);
+					ResultSet reportData = ReportQuery.SelectQuery(viewData);
+					int assignmentCounter = 0;
+					int overallMarks = 0;
+					String overallStatus = "passed";
+					String Name = null;
+					String Published ="false";
+					try {
+						while (reportData.next()) {
+							Name = reportData.getString("StudentName").trim();
+							int Marks = reportData.getInt("Marks");
+							String Status = reportData.getString("Status").trim();
+							Published = reportData.getString("Published").trim();
+							assignmentCounter += 1;
+							if (Published.equals("true")) {
+								overallMarks += Marks;	
+								if (Status == "failed") {
+									overallStatus = "failed";
+								}
+							} else {
+								Published = "false";
+							}
+							
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					if (StudentID != null) {
+						overallMarks = overallMarks / assignmentCounter;
+					}
+					
+					ReportForm.setMarks(overallMarks);
+					ReportForm.setStudentIDlb(StudentID);
+					ReportForm.setModulelb(Module);
+					ReportForm.setStatus(overallStatus);
+					ReportForm.setS_Name(Name);
+					if (Published.equals("true")) {
+						ReportForm report = new ReportForm();
+						report.setVisible(true);
+						JButton cancel = report.getBtnNewButton();
+						cancel.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								report.setVisible(false);
+							}
+						});
+					}else {
+						NotPublished window = new NotPublished();
+						window.setVisible(true);
+						JButton btnNewButton = window.getBtnNewButton();
+						btnNewButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							window.setVisible(false);
+						}
+					});
+						
+					}			
+				}
 			}
 		});
 		
+		
 		JButton btnNmc = new JButton("NMC");
+		btnNmc.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[] options= {"View Report"};
+				int selecterOption=JOptionPane.showOptionDialog(null, "Do you want to View Marks?", "View marks",
+						JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
+				if (selecterOption == 0) {
+					String Module = "NMC";
+					HashMap <String , String > viewData = new HashMap <>();
+					viewData.put("StudentID",StudentID);
+					viewData.put("Module",Module);
+					ResultSet reportData = ReportQuery.SelectQuery(viewData);
+					int assignmentCounter = 0;
+					int overallMarks = 0;
+					String overallStatus = "passed";
+					String Name = null;
+					String Published ="false";
+					try {
+						while (reportData.next()) {
+							Name = reportData.getString("StudentName").trim();
+							int Marks = reportData.getInt("Marks");
+							String Status = reportData.getString("Status").trim();
+							Published = reportData.getString("Published").trim();
+							assignmentCounter += 1;
+							if (Published.equals("true")) {
+								overallMarks += Marks;	
+								if (Status.equals("failed")) {
+									overallStatus = "failed";
+								}
+							} else {
+								Published = "false";
+							}
+							
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					if (StudentID != null) {
+						overallMarks = overallMarks / assignmentCounter;
+					}
+					
+					ReportForm.setMarks(overallMarks);
+					ReportForm.setStudentIDlb(StudentID);
+					ReportForm.setModulelb(Module);
+					ReportForm.setStatus(overallStatus);
+					ReportForm.setS_Name(Name);
+					if (Published.equals("true")) {
+						ReportForm report = new ReportForm();
+						report.setVisible(true);
+						JButton cancel = report.getBtnNewButton();
+						cancel.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								report.setVisible(false);
+							}
+						});
+					}else {
+						NotPublished window = new NotPublished();
+						window.setVisible(true);
+						JButton btnNewButton = window.getBtnNewButton();
+						btnNewButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							window.setVisible(false);
+						}
+					});
+						
+					}			
+				}
+			}
+		});
 		btnNmc.setForeground(new Color(255, 255, 255));
 		btnNmc.setBackground(new Color(0, 0, 0));
 		GroupLayout gl_Result = new GroupLayout(Result);
