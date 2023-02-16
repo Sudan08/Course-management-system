@@ -61,6 +61,8 @@ public class StudentForm extends JDialog {
 		SemesterTf.setColumns(10);
 		
 		btnNewButton = new JButton("Update");
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setBackground(new Color(0, 0, 0));
 		btnNewButton.setFont(new Font("Perpetua", Font.PLAIN, 30));
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(

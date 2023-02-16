@@ -1111,6 +1111,7 @@ public class AdminDashboard{
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+						insertForm.setVisible(false);
 						
 						
 					}
@@ -1285,7 +1286,7 @@ public class AdminDashboard{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Object[] Action= {"Publish Marks","Cancel"};
-				int selectedAction=JOptionPane.showOptionDialog(null, "Are you sure you want to delete?", "Confirm",
+				int selectedAction=JOptionPane.showOptionDialog(null, "Are you sure you want to publish?", "Confirm",
 						JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE,null,Action,Action[0]);
 				int selectedRow = Studenttable.getSelectedRow();
 				String StudentID = null;

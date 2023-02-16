@@ -423,9 +423,9 @@ public class Register extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				frame.setVisible(false);
 				Login login = new Login();
+				frame.dispose();
+				frame.setVisible(false);
 			}
 		});
 		btnNewButton_1.setFont(new Font("Perpetua", Font.PLAIN, 25));

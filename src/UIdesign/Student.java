@@ -300,6 +300,8 @@ public class Student {
 								submitData.put("Marks", marks);
 								
 								SubmissionQuery.InsertQuery(submitData);
+								form.setVisible(false);
+								
 							}
 						});
 						
